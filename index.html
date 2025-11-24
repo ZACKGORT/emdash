@@ -1,0 +1,217 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>emdash.click — Single-Click Copy</title>
+    <!-- Google Fonts: Playfair Display for elegance, Montserrat for utility -->
+    <link href="https://fonts.googleapis.com/css2?family=Playfair+Display:wght@400;700&family=Montserrat:wght@400;700&display=swap" rel="stylesheet">
+    
+    <style>
+        /* General Layout and Aesthetics */
+        body {
+            margin: 0;
+            padding: 0;
+            min-height: 100vh;
+            display: flex;
+            flex-direction: column;
+            justify-content: center;
+            align-items: center;
+            font-family: 'Playfair Display', serif;
+            background-color: #000000; /* Deep Black Background */
+            color: #ffd700; /* Gold Text */
+            overflow: hidden;
+            text-align: center;
+        }
+
+        .container {
+            max-width: 900px;
+            padding: 2rem;
+        }
+
+        /* Main Heading and Sentence Styling */
+        .title {
+            font-size: clamp(2.5rem, 5vw, 4rem);
+            font-weight: 700;
+            margin-bottom: 2rem;
+            text-shadow: 0 0 15px rgba(255, 215, 0, 0.4); /* Subtle glow for the title */
+        }
+
+        .interactive-sentence {
+            font-size: clamp(1.5rem, 3vw, 2.5rem);
+            line-height: 1.5;
+            padding: 1rem;
+            cursor: default;
+            user-select: none;
+            position: relative;
+        }
+        
+        /* Interactive Dash/Tilde Element */
+        .dash-char {
+            display: inline-block;
+            cursor: pointer;
+            font-weight: 700;
+            font-family: 'Montserrat', sans-serif; /* Use a clear monospace-like font for the characters */
+            padding: 0 0.25em;
+            position: relative;
+            opacity: 0.3; /* Default faded state */
+            transition: opacity 0.3s ease, transform 0.1s ease, text-shadow 0.3s ease;
+        }
+
+        /* Fading Effect on Hover (CSS Trick) */
+        .interactive-sentence:hover .dash-char {
+            opacity: 0.3; /* Fade all siblings when container is hovered */
+        }
+
+        .dash-char:hover {
+            opacity: 1.0 !important; /* Bring the hovered item to full opacity */
+            transform: scale(1.1); /* Slight bump on hover */
+            text-shadow: 0 0 25px #ffd700; /* Intense glow on hover */
+        }
+
+        /* Tooltip Styling */
+        .dash-char::before {
+            content: attr(data-tooltip);
+            position: absolute;
+            top: -100%;
+            left: 50%;
+            transform: translateX(-50%);
+            background: #ffd700;
+            color: #fff;
+            padding: 0.25rem 0.5rem;
+            border-radius: 4px;
+            font-size: 0.9rem;
+            font-family: 'Montserrat', sans-serif;
+            white-space: nowrap;
+            opacity: 0;
+            pointer-events: none;
+            transition: opacity 0.2s ease, top 0.2s ease;
+            z-index: 10;
+        }
+
+        .dash-char:hover::before {
+            opacity: 1;
+            top: -120%;
+        }
+
+        /* Copy Confirmation Message */
+        #copy-message {
+            position: fixed;
+            top: 1rem;
+            left: 50%;
+            transform: translateX(-50%) translateY(-150%);
+            z-index: 150;
+            opacity: 0;
+            transition: opacity 0.3s ease-in-out, transform 0.3s ease-out;
+            pointer-events: none;
+        }
+        #copy-message.show {
+            opacity: 1;
+            transform: translateX(-50%) translateY(0);
+        }
+        
+        .copy-box {
+            background: #ffd700;
+            color: #121212;
+            font-weight: 700;
+            padding: 0.5rem 1rem;
+            border-radius: 8px;
+            box-shadow: 0 5px 15px rgba(255, 215, 0, 0.6);
+            font-family: 'Montserrat', sans-serif;
+        }
+    </style>
+</head>
+<body>
+    <!-- Copy Confirmation Message -->
+    <div id="copy-message">
+        <div class="copy-box">
+            Copied <span id="copied-char" style="font-size: 1.25rem; margin-left: 0.5rem;"></span>
+        </div>
+    </div>
+
+    <div class="container">
+        <h1 class="title">re—claim—ed</h1>
+        
+        <div class="interactive-sentence" id="sentence-container">
+            PSA: The 
+            <span class="dash-char" data-char="—" data-tooltip="Em Dash">Em Dash —</span> 
+            commands a bold, unapologetic pause; the 
+            <span class="dash-char" data-char="–" data-tooltip="En Dash">En Dash –</span> 
+            defines the scope of a boundary (1990–2025); the 
+            <span class="dash-char" data-char="-" data-tooltip="Hyphen">Hyphen -</span> 
+            is merely a routine bridge-builder; and the 
+            <span class="dash-char" data-char="——" data-tooltip="Double Em Dash">Double Em ——</span> 
+            signals a sophisticated omission.
+        </div>
+        
+        <p style="font-family: 'Montserrat', sans-serif; color: #bbb; font-size: 1rem; margin-top: 3rem;">
+            Click any character above to copy it instantly.<br><br> 
+            <span style="color: #ffd700; font-weight: 700;">Anyway, I say we use <span class="dash-char" data-char="~" data-tooltip="Tilde">the tilde {~}</span> for all em—tensive purposes </span>
+        </p>
+    </div>
+
+    <script>
+        // --- Global Copy Logic ---
+
+        function copyToClipboard(text) {
+            // Use the reliable document.execCommand('copy') method
+            const tempInput = document.createElement('textarea');
+            tempInput.value = text;
+            // Hide the input completely
+            tempInput.style.position = 'fixed'; 
+            tempInput.style.opacity = '0';
+            document.body.appendChild(tempInput);
+            
+            tempInput.select();
+            tempInput.setSelectionRange(0, 99999); 
+            
+            let success = false;
+            try {
+                success = document.execCommand('copy');
+            } catch (err) {
+                console.error('Copy failed:', err);
+            }
+            
+            document.body.removeChild(tempInput);
+            return success;
+        }
+
+        const copyMessage = document.getElementById('copy-message');
+        const copiedCharDisplay = document.getElementById('copied-char');
+        let timeoutId = null;
+
+        function showCopyMessage(char) {
+            copiedCharDisplay.textContent = char;
+            
+            // Show the message
+            copyMessage.classList.add('show');
+
+            // Clear any existing timeout
+            if (timeoutId) {
+                clearTimeout(timeoutId);
+            }
+
+            // Hide the message after 2 seconds
+            timeoutId = setTimeout(() => {
+                copyMessage.classList.remove('show');
+            }, 2000);
+        }
+
+        // --- Event Listener for Clicks ---
+
+        document.addEventListener('DOMContentLoaded', () => {
+            document.getElementById('sentence-container').addEventListener('click', (event) => {
+                const target = event.target.closest('.dash-char');
+                if (target) {
+                    const charToCopy = target.getAttribute('data-char');
+                    if (charToCopy && copyToClipboard(charToCopy)) {
+                        showCopyMessage(charToCopy);
+                    } else {
+                        console.error('Failed to copy character:', charToCopy);
+                    }
+                }
+            });
+        });
+    </script>
+</body>
+</html>
