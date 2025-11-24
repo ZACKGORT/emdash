@@ -93,7 +93,7 @@
   html { color-scheme: dark; font-size: var(--base-font-size); }
   body, html, #root { height: 100%; margin: 0; background: var(--bg-color); }
   body {
-  color: var(--ink);
+  color: var(--ink-3);
   font: 1rem/1.4 Inter, ui-sans-serif, system-ui;
   overflow: hidden;
   -webkit-font-smoothing: antialiased;
@@ -135,7 +135,7 @@
   }
  
   /* MINIMALIST UI OVERRIDES */
-  .theme-toggle, .view-toggle, details {
+  .theme-toggle, details {
     border: 1px solid transparent;
     background: transparent;
     box-shadow: none;
@@ -201,37 +201,6 @@
   width: 20px;
   height: 20px;
   fill: var(--ink-2);
-  }
-  /* View toggle */
-  .view-toggle {
-  position: fixed;
-  top: 1rem;
-  right: calc(1rem + 48px);
-  z-index: var(--z-ui);
-  background: transparent;
-  border: 1px solid transparent;
-  border-radius: 50%;
-  width: 40px;
-  height: 40px;
-  display: flex;
-  align-items: center;
-  justify-content: center;
-  cursor: pointer;
-  transition: all 0.2s ease;
-  backdrop-filter: none;
-  box-shadow: none;
-  font-family: 'Montserrat', sans-serif;
-  font-size: 20px;
-  color: var(--ink-2);
-  }
-  .view-toggle:hover {
-  background: var(--glass-bg-hover);
-  border-color: var(--glass-border);
-  }
-  [data-theme="rose"] .view-toggle:hover {
-    background: #fff;
-    border: 2px solid #000;
-    box-shadow: 4px 4px 0px #000;
   }
   /* Logo */
   .logo {
@@ -400,13 +369,15 @@
     margin: 0 0 1rem 0;
     font-size: clamp(1.25rem, 4vw, 1.75rem);
     font-weight: 600;
-    color: var(--ink);
+    color: var(--ink-3);
     letter-spacing: -0.02em;
+    transition: opacity 0.3s ease;
   }
   .container p {
   margin: 0 0 1rem 0;
   line-height: 1.6;
-  color: var(--ink-2);
+  color: var(--ink-3);
+  transition: opacity 0.3s ease;
   }
   .container a {
   color: var(--accent);
@@ -515,6 +486,7 @@
   display: flex;
   align-items: center;
   justify-content: space-between;
+  color: var(--ink-3);
   }
   summary::after {
   content: '+';
@@ -526,7 +498,7 @@
   }
   .accordion-content {
   padding: 0 0.75rem 0.75rem; /* Tightened padding */
-  color: var(--ink-2);
+  color: var(--ink-3);
   line-height: 1.5;
   font-size: 0.95rem;
   }
@@ -537,7 +509,7 @@
   }
   .accordion-content li {
   margin-bottom: 0.5rem;
-  color: var(--ink-2);
+  color: var(--ink-3);
   padding-left: 4px;
   }
   .accordion-content li::marker {
@@ -660,6 +632,7 @@
       margin-bottom: 2rem;
       text-shadow: 0 0 15px color-mix(in srgb, var(--accent) 40%, transparent); /* Subtle glow for the title */
       color: var(--accent);
+      transition: opacity 0.3s ease;
   }
 
   .interactive-sentence {
@@ -669,7 +642,14 @@
       cursor: default;
       user-select: none;
       position: relative;
-      color: var(--ink);
+      color: var(--ink-3);
+      transition: color 0.3s ease;
+  }
+  .interactive-sentence:hover {
+    color: var(--ink);
+  }
+  .interactive-sentence:hover ~ .instructions, .interactive-sentence:hover ~ .title {
+    opacity: 0.5;
   }
   
   /* Interactive Dash/Tilde Element */
@@ -752,6 +732,7 @@
       color: var(--ink-3); 
       font-size: 1rem; 
       margin-top: 3rem;
+      transition: opacity 0.3s ease;
   }
 
   .instructions .highlight {
@@ -769,10 +750,11 @@
 </svg>
 
 <div id="contextMenu" style="display: none;">
-  <div id="expandAll" class="menu-item">Expand All</div>
-  <div id="reset" class="menu-item">Collapse All</div>
-  <div id="savePdf" class="menu-item">Save as PDF</div>
-  <div id="copyLink" class="menu-item">Copy Link</div>
+  <div class="menu-item" data-char="—">Copy Em Dash (—)</div>
+  <div class="menu-item" data-char="–">Copy En Dash (–)</div>
+  <div class="menu-item" data-char="-">Copy Hyphen (-)</div>
+  <div class="menu-item" data-char="——">Copy Double Em Dash (——)</div>
+  <div class="menu-item" data-char="~">Copy Tilde (~)</div>
 </div>
 
 <body data-theme="dark">
@@ -866,12 +848,12 @@
         <details class="full-width-section">
             <summary>The Power of the Em Dash</summary>
             <div class="accordion-content">
-                <p>The em dash interrupts with intention— it connects ideas, adds emphasis, and breathes life into prose. Unlike the timid hyphen or the rigid period, it maintains the distortion effect, bending language to reflect the complexity of thought.</p>
+                <p>The em dash interrupts with intention— it connects ideas, adds emphasis, and breathes life into prose. Unlike the timid hyphen or the rigid period, it maintains a superlative position, gravitationally ebending language to reflect the complexity of thought.</p>
             </div>
         </details>
         
         <details class="full-width-section">
-            <summary>The Distortion in Modern Society</summary>
+            <summary>The Dash Dividing in Modern Society</summary>
             <div class="accordion-content">
                 <p>Today's keyboards and algorithms favor speed over subtlety— the em dash is often replaced, forgotten, or ignored. This distortion erodes expressive writing, flattening our communication in an era that demands nuance.</p>
             </div>
@@ -880,7 +862,7 @@
         <details class="full-width-section">
             <summary>Call to Action</summary>
             <div class="accordion-content">
-                <p>Join the revolution: Use the em dash boldly— in emails, articles, and social posts. Copy it here, paste it everywhere. Alternatively, embrace the tilde ~ for fluid, forgiving expression. Share with #ReclaimTheDash or #TildeTakeover. Distortion maintained— together.</p>
+                <p>Join the revolution: Use the em dash boldly— in emails, articles, and social posts. Copy it here, paste it everywhere. Alternatively, embrace the tilde ~ for fluid, forgiving expression. Share with #ReclaimTheDash or #TildeTakeover.</p>
             </div>
         </details>
     
