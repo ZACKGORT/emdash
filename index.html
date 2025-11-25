@@ -500,6 +500,8 @@
   <div id="contextMenu">
     <div class="menu-item" data-copy="—"><span>Em Dash —</span><span class="shortcut">Alt+Shift+-</span></div>
     <div class="menu-item" data-copy="–"><span>En Dash –</span><span class="shortcut">Alt+-</span></div>
+    <div class="menu-item" data-copy="-"><span>Hyphen -</span><span class="shortcut">-</span></div>
+    <div class="menu-item" data-copy="——"><span>Double Em ——</span><span class="shortcut">2x Em</span></div>
     <div class="menu-item" data-copy="~"><span>Tilde ~</span><span class="shortcut">Shift+`</span></div>
     <hr style="border:0; border-top:1px solid var(--glass-border); margin:4px 0;">
     <div class="menu-item" id="ctxCopyLink"><span>Copy Link</span></div>
@@ -541,7 +543,7 @@ const content = {
     merely builds routine bridges.
   `,
   instructions: `
-    <p>We must reclaim the em dash from the machines. Copy it. Paste it gratuitously. Be em—phatic about it.</p>
+    <p>Copy that <span class="dash-char" data-char="—" data-tooltip="Em Dash">em—effer</span>. Paste it gratuitously. Be <span class="dash-char" data-char="—" data-tooltip="Em Dash">em—phatic</span> about it.</p>
     <p><strong>Click any character above to copy instantly.</strong></p>
   `
 },
@@ -553,7 +555,7 @@ const content = {
       <span class="dash-char" data-char="~" data-tooltip="Tilde">~ but they'll never take our Tilde!</span>
     `,
     instructions: `
-      <p>~ the tilde takeover starts with you ~ </p>
+      <p>Normally, I would lead by example, but should you feel compelled to carry this torch, more will follow in your light <span class="dash-char" data-char="~" style="font-size:0.8em">~</span> I am absolutely sure of it! <span class="dash-char" data-char="~" style="font-size:0.8em">#TheTildeTakeover</span> </p>
       <p><strong>Click to reclaim the squiggle.</strong></p>
     `
   }
