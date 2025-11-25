@@ -508,6 +508,11 @@
         <path d="M12 1v2M12 21v2M4.22 4.22l1.42 1.42M18.36 18.36l1.42 1.42M1 12h2M21 12h2M4.22 19.78l1.42-1.42M18.36 5.64l1.42-1.42"></path>
       </svg>
     </button>
+    <button class="icon-btn" id="bookmarkBtn" aria-label="Bookmark this page">
+      <svg width="20" height="20" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" aria-hidden="true">
+        <path d="M5 3h14a2 2 0 0 1 2 2v16l-9-5-9 5V5a2 2 0 0 1 2-2z"/>
+      </svg>
+    </button>
   </div>
 
   <div class="layout-wrapper">
@@ -659,6 +664,7 @@
     <div class="menu-item" data-copy="——" role="menuitem" tabindex="0"><span>Double Em ——</span><span class="shortcut">2x Em</span></div>
     <div class="menu-item" data-copy="~" role="menuitem" tabindex="0"><span>Tilde ~</span><span class="shortcut">Shift+`</span></div>
     <hr style="border:0; border-top:1px solid var(--glass-border); margin:4px 0;" aria-hidden="true">
+    <div class="menu-item" id="ctxBookmark" role="menuitem" tabindex="0"><span>Bookmark me!</span><span class="shortcut">Ctrl+D</span></div>
     <div class="menu-item" id="ctxCopyLink" role="menuitem" tabindex="0"><span>Copy Link</span></div>
   </div>
 
@@ -683,7 +689,9 @@ const elements = {
   bgOverlay: document.getElementById('overlayBg'),
   toast: document.getElementById('toast'),
   toastChar: document.getElementById('toastChar'),
-  ctxMenu: document.getElementById('contextMenu')
+  ctxMenu: document.getElementById('contextMenu'),
+  bookmarkBtn: document.getElementById('bookmarkBtn'),
+  ctxBookmark: document.getElementById('ctxBookmark')
 };
 
 /* --- CONTENT DATA --- */
@@ -794,6 +802,20 @@ function copyText(text) {
   });
 }
 
+function handleBookmark() {
+  navigator.clipboard.writeText(window.location.href).then(() => {
+    const originalHTML = elements.toast.innerHTML;
+    elements.toast.innerHTML = '<span id="toastIcon">⭐</span> <span>URL Copied! Press Ctrl+D (Cmd+D on Mac) to bookmark.</span>';
+    elements.toast.classList.add('show');
+    clearTimeout(toastTimeout);
+    toastTimeout = setTimeout(() => {
+      elements.toast.classList.remove('show');
+      elements.toast.innerHTML = originalHTML;
+      elements.toastChar = document.getElementById('toastChar');
+    }, 3000);
+  });
+}
+
 /* --- 3D TILT LOGIC --- */
 const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
 const isFinePointer = window.matchMedia('(pointer: fine)').matches;
@@ -869,6 +891,12 @@ document.querySelectorAll('.menu-item[data-copy]').forEach(item => {
 
 document.getElementById('ctxCopyLink').addEventListener('click', () => {
   copyText(window.location.href);
+  elements.ctxMenu.style.display = 'none';
+});
+
+elements.bookmarkBtn.addEventListener('click', handleBookmark);
+elements.ctxBookmark.addEventListener('click', () => {
+  handleBookmark();
   elements.ctxMenu.style.display = 'none';
 });
 
