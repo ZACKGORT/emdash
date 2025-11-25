@@ -71,7 +71,6 @@
     background: var(--bg-color); 
     color: var(--ink);
     font-family: 'Inter', system-ui, sans-serif;
-    overflow: hidden;
     transition: background-color 0.4s ease, color 0.4s ease;
     -webkit-font-smoothing: antialiased;
   }
@@ -149,7 +148,8 @@
     transform: translateZ(0);
   }
 
-  .dash-char:hover {
+  .dash-char:hover,
+  .dash-char:focus {
     /* --- FIX: Ensure the element is pulled forward on hover to guarantee mouse capture --- */
     transform: translateZ(20px) scale(1.2) rotate(-2deg);
     z-index: 10;
@@ -167,7 +167,6 @@
     padding: 4px 8px;
     border-radius: 4px;
     font-size: 1rem;
-    letter-spacing: 0.2rem;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     opacity: 0;
@@ -177,7 +176,8 @@
     box-shadow: 0 4px 12px rgba(0,0,0,0.2);
   }
 
-  .dash-char:hover::after {
+  .dash-char:hover::after,
+  .dash-char:focus::after {
     opacity: 1;
     transform: translateX(-50%) translateY(0);
   }
@@ -553,33 +553,32 @@ const elements = {
   ctxMenu: document.getElementById('contextMenu')
 };
 
-
 /* --- CONTENT DATA --- */
 const content = {
   dash: {
-    title: 'ah<span class="dash-char" data-char="—" data-tooltip="click me!">—</span>em',
+    title: 'ah<span class="dash-char" data-char="—" data-tooltip="click me!" role="button" tabindex="0" aria-label="Copy —">—</span>em',
     viewIcon: '~',
     sentence: `
-      The <span class="dash-char" data-char="—" data-tooltip="Em Dash">Em Dash —</span> 
-      commands a bold, unapologetic pause; the <span class="dash-char" data-char="–" data-tooltip="En Dash">En Dash –</span> 
-      defines the scope of a boundary ('24–25); the <span class="dash-char" data-char="-" data-tooltip="Hyphen">Hyphen -</span> 
-      is merely a routine bridge-builder; and the <span class="dash-char" data-char="——" data-tooltip="Double Em Dash">Double Em ——</span> 
+      The <span class="dash-char" data-char="—" data-tooltip="Em Dash" role="button" tabindex="0" aria-label="Copy Em Dash">Em Dash —</span> 
+      commands a bold, unapologetic pause; the <span class="dash-char" data-char="–" data-tooltip="En Dash" role="button" tabindex="0" aria-label="Copy En Dash">En Dash –</span> 
+      defines the scope of a boundary ('24–25); the <span class="dash-char" data-char="-" data-tooltip="Hyphen" role="button" tabindex="0" aria-label="Copy Hyphen">Hyphen -</span> 
+      is merely a routine bridge-builder; and the <span class="dash-char" data-char="——" data-tooltip="Double Em Dash" role="button" tabindex="0" aria-label="Copy Double Em Dash">Double Em ——</span> 
       signals a sophisticated omission.
     `,
   instructions: `
-    <p>Copy that <span class="dash-char" data-char="—" data-tooltip="Em Dash">em—effer</span>. Paste it gratuitously. Be <span class="dash-char" data-char="—" data-tooltip="Em Dash">em—phatic</span> about it.</p>
+    <p>Copy that <span class="dash-char" data-char="—" data-tooltip="Em Dash" role="button" tabindex="0" aria-label="Copy Em Dash">em—effer</span>. Paste it gratuitously. Be <span class="dash-char" data-char="—" data-tooltip="Em Dash" role="button" tabindex="0" aria-label="Copy Em Dash">em—phatic</span> about it.</p>
     <p><strong>Click any character above to copy instantly.</strong></p>
   `
 },
-  tilde: {
+tilde: {
     title: 'ah<span class="dash-char" data-char="~" data-tooltip="~" style="font-size:0.8em">~</span>ha',
     viewIcon: '—',
     sentence: `
       The machines may take take our dashes 
-      <span class="dash-char" data-char="~" data-tooltip="#TildeTakeover">~ but they'll never take our Tilde!</span>
+      <span class="dash-char" data-char="~" data-tooltip="Tilde">~ but they'll never take our Tilde!</span>
     `,
     instructions: `
-      <p>Normally, I would lead by example, but should you feel compelled to carry this torch, more will follow in your light <span class="dash-char" data-char="~"  data-tooltip="~"style="font-size:0.8em"><span class="dash-char" data-char="~" style="font-size:1.2em">~ fight the good fight, folks!</span></p>
+      <p>Normally, I would lead by example, but should you feel compelled to carry this torch, more will follow in your light <span class="dash-char" data-char="~" data-tooltip="#TildeTakeover" style="font-size:0.8em">~ fight the good fight, fellow word warriors!</span></p>
       <p><strong>Click to reclaim the squiggle.</strong></p>
     `
   }
