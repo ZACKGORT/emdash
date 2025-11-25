@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0" name="viewport">
-<title>EmDash.Click — </title>
+<title>Em—Dash</title>
 <link href="https://fonts.googleapis.com" rel="preconnect" crossorigin>
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -416,6 +416,15 @@
   [data-theme="rose"] .menu-item:hover { background: #000; color: #fff; }
   .shortcut { opacity: 0.5; font-size: 0.8em; }
 
+  /* --- 3D TILT EFFECT (INTEGRATED FROM testcv.html) --- */
+  .curved {
+    /* 3D Perspective Logic */
+    transform-style: preserve-3d;
+    /* Initial state, updated via JS */
+    transform: perspective(2000px) rotateX(0deg) rotateY(0deg);
+    will-change: transform; /* Perf optimization */
+  }
+
 </style>
 </head>
 <body data-theme="dark" data-view="dash">
@@ -435,7 +444,7 @@
   </div>
 
   <div class="layout-wrapper">
-    <main class="content-center">
+    <main class="content-center curved">
       <h1 class="title" id="mainTitle">ah—em</h1>
       
       <div class="interactive-sentence" id="sentenceContainer">
@@ -684,6 +693,25 @@ elements.mainTitle.innerHTML = content[state.view].title;
 elements.sentence.innerHTML = content[state.view].sentence;
 elements.instructions.innerHTML = content[state.view].instructions;
 elements.viewIcon.innerText = content[state.view].viewIcon;
+
+/* --- 3D TILT EFFECT (INTEGRATED FROM testcv.html) --- */
+const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
+const isFinePointer = window.matchMedia('(pointer: fine)').matches;
+const shouldRunAdvancedEffects = isFinePointer && !prefersReducedMotion;
+const tiltContainers = document.querySelectorAll('.curved');
+if (tiltContainers.length > 0 && shouldRunAdvancedEffects) {
+  window.addEventListener('mousemove', (e) => {
+    const { clientX, clientY } = e;
+    const { innerWidth, innerHeight } = window;
+    const xRot = ((clientY / innerHeight) - 0.5) * 3;
+    const yRot = ((clientX / innerWidth) - 0.5) * 3;
+    tiltContainers.forEach(container => {
+      if (container.style.display !== 'none') {
+        container.style.transform = `perspective(2000px) rotateX(${xRot}deg) rotateY(${-yRot}deg)`;
+      }
+    });
+  }, { passive: true });
+}
 
 </script>
 </body>
