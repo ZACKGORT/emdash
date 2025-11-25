@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta content="width=device-width,initial-scale=1,viewport-fit=cover,user-scalable=no,maximum-scale=1.0,minimum-scale=1.0" name="viewport">
-<title>Em—Dash</title>
+<title>emdash.click — The Human Pause</title>
 <link href="https://fonts.googleapis.com" rel="preconnect" crossorigin>
 <link href="https://fonts.gstatic.com" rel="preconnect" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600&family=Montserrat:wght@400;700;900&family=Playfair+Display:ital,wght@0,400;0,700;1,400&display=swap" rel="stylesheet">
@@ -129,7 +129,7 @@
 
   .interactive-sentence {
     font-family: 'Playfair Display', serif;
-    font-size: clamp(1.2rem, 3vw, 2.4rem);
+    font-size: clamp(1.5rem, 3vw, 2.25rem);
     line-height: 1.5;
     color: var(--ink);
     font-weight: 400;
@@ -163,7 +163,7 @@
     color: var(--bg-color);
     padding: 4px 8px;
     border-radius: 4px;
-    font-size: 1rem;
+    font-size: 0.75rem;
     font-family: 'Inter', sans-serif;
     font-weight: 600;
     opacity: 0;
@@ -259,7 +259,7 @@
     -webkit-backdrop-filter: blur(var(--glass-blur));
     display: flex; align-items: center; justify-content: center;
     
-    /* FIX: Explicitly set color to ensure visibility in all themes */
+    /* COLOR FIX: Ensure icon is visible in dark/light modes */
     color: var(--ink); 
     
     cursor: pointer;
@@ -379,7 +379,7 @@
     opacity: 0;
     pointer-events: none;
     transition: all 0.3s cubic-bezier(0.175, 0.885, 0.32, 1.275);
-    z-index: 300;
+    z-index: 3000;
     display: flex; align-items: center; gap: 8px;
   }
   #toast.show {
@@ -401,7 +401,7 @@
     border: 1px solid var(--glass-border);
     border-radius: 8px;
     padding: 8px 0;
-    width: 200px;
+    width: 220px;
     z-index: 400;
     display: none;
     box-shadow: 0 10px 30px rgba(0,0,0,0.2);
@@ -415,15 +415,6 @@
   .menu-item:hover { background: var(--glass-bg-hover); color: var(--accent); }
   [data-theme="rose"] .menu-item:hover { background: #000; color: #fff; }
   .shortcut { opacity: 0.5; font-size: 0.8em; }
-
-  /* --- 3D TILT EFFECT (INTEGRATED FROM testcv.html) --- */
-  .curved {
-    /* 3D Perspective Logic */
-    transform-style: preserve-3d;
-    /* Initial state, updated via JS */
-    transform: perspective(2000px) rotateX(0deg) rotateY(0deg);
-    will-change: transform; /* Perf optimization */
-  }
 
 </style>
 </head>
@@ -444,7 +435,7 @@
   </div>
 
   <div class="layout-wrapper">
-    <main class="content-center curved">
+    <main class="content-center">
       <h1 class="title" id="mainTitle">ah—em</h1>
       
       <div class="interactive-sentence" id="sentenceContainer">
@@ -475,9 +466,9 @@
       <div class="sheet-content manifesto">
         <h2>The Human Friction</h2>
         
-        <p>The em dash has become the Turing Test of punctuation. It used to be the mark of a thoughtful writer—someone who understood the rhythm of a sentence well enough to break it. Now? It is a statistical tell for AI bloat.</p>
+        <p>The em dash has become the Turing Test of punctuation. It used to be the mark of a thoughtful writer—someone who understood the rhythm of a sentence well enough to break it. Now? It is a statistical tell for AI generation.</p>
         
-        <p>Large Language Models are obsessed with the em dash. They use it to simulate "conversational flow," but in doing so, they have flattened it into a algorithmic tic. When we see an em dash now, we don't hear a pause for the content, but in fear of entering uncanny valley.</p>
+        <p>Large Language Models are obsessed with the em dash. They use it to simulate "conversational flow," but in doing so, they have flattened it into a algorithmic tic. When I see an em dash now, I don't hear a pause; I see a server farm.</p>
 
         <details open>
           <summary>Conveyance over Convenience</summary>
@@ -486,7 +477,7 @@
 
         <details>
           <summary>The Ritual of Disruption</summary>
-          <p>This disruption is the point. By forcing a break in my physical workflow, I earn the break in the sentence. It is a deliberate act of friction in a frictionless world — but that workflow doesn't fly with most folks. </p>
+          <p>This disruption is the point. By forcing a break in my physical workflow, I earn the break in the sentence. It is a deliberate act of friction in a frictionless world.</p>
         </details>
         
         <details>
@@ -548,15 +539,16 @@ const content = {
     sentence: `
       The <span class="dash-char" data-char="—" data-tooltip="Em Dash">Em Dash —</span> 
       commands a bold, unapologetic pause; the <span class="dash-char" data-char="–" data-tooltip="En Dash">En Dash –</span> 
-      defines the scope of a boundary ('24–25); the <span class="dash-char" data-char="-" data-tooltip="Hyphen">Hyphen -</span> 
+      defines the scope of a boundary (1990–2025); the <span class="dash-char" data-char="-" data-tooltip="Hyphen">Hyphen -</span> 
       is merely a routine bridge-builder; and the <span class="dash-char" data-char="——" data-tooltip="Double Em Dash">Double Em ——</span> 
       signals a sophisticated omission.
     `,
-  instructions: `
-    <p>Copy that <span class="dash-char" data-char="—" data-tooltip="Em Dash">em—effer</span>. Paste it gratuitously. Be <span class="dash-char" data-char="—" data-tooltip="Em Dash">em—phatic</span> about it.</p>
-    <p><strong>Click any character above to copy instantly.</strong></p>
-  `
-},
+    instructions: `
+      <p>The robots have ruined the dash. To use it now is to risk looking like a machine. 
+      But we do it anyway—for the love of the pause.</p>
+      <p><strong>Click any character above to copy it instantly.</strong></p>
+    `
+  },
   tilde: {
     title: 'ah<span class="dash-char" data-char="~" style="font-size:0.8em">~</span>ha',
     viewIcon: '—',
@@ -565,7 +557,7 @@ const content = {
       <span class="dash-char" data-char="~" data-tooltip="Tilde">~ but they'll never take our Tilde!</span>
     `,
     instructions: `
-      <p>Normally, I would lead by example, but should you feel compelled to carry this torch, more will follow in your light <span class="dash-char" data-char="~" style="font-size:0.8em">~</span> I am absolutely sure of it! <span class="dash-char" data-char="~" style="font-size:0.8em">#TheTildeTakeover</span> </p>
+      <p>~ the tilde takeover starts with you ~ </p>
       <p><strong>Click to reclaim the squiggle.</strong></p>
     `
   }
@@ -693,25 +685,6 @@ elements.mainTitle.innerHTML = content[state.view].title;
 elements.sentence.innerHTML = content[state.view].sentence;
 elements.instructions.innerHTML = content[state.view].instructions;
 elements.viewIcon.innerText = content[state.view].viewIcon;
-
-/* --- 3D TILT EFFECT (INTEGRATED FROM testcv.html) --- */
-const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)').matches;
-const isFinePointer = window.matchMedia('(pointer: fine)').matches;
-const shouldRunAdvancedEffects = isFinePointer && !prefersReducedMotion;
-const tiltContainers = document.querySelectorAll('.curved');
-if (tiltContainers.length > 0 && shouldRunAdvancedEffects) {
-  window.addEventListener('mousemove', (e) => {
-    const { clientX, clientY } = e;
-    const { innerWidth, innerHeight } = window;
-    const xRot = ((clientY / innerHeight) - 0.5) * 3;
-    const yRot = ((clientX / innerWidth) - 0.5) * 3;
-    tiltContainers.forEach(container => {
-      if (container.style.display !== 'none') {
-        container.style.transform = `perspective(2000px) rotateX(${xRot}deg) rotateY(${-yRot}deg)`;
-      }
-    });
-  }, { passive: true });
-}
 
 </script>
 </body>
