@@ -1761,6 +1761,51 @@
     font-variant-numeric: tabular-nums;
     letter-spacing: 0.01em;
   }
+
+  /* ─── LOREM IPSUM PRODUCT (certificate hero) ─── */
+.hero-dash.paragraph-mode {
+    font-family: var(--serif);
+    font-size: clamp(0.78rem, 1.35vw, 0.95rem);
+    line-height: 1.85;
+    letter-spacing: 0;
+    text-align: left;
+    max-width: 38ch;
+    background: white;
+    border: 1px solid var(--border);
+    padding: 2rem 2.25rem;
+    box-shadow: 0 2px 0 var(--border);
+  }
+
+  .paragraph-serial-badge {
+    position: absolute;
+    top: 2rem;
+    left: 50%;
+    transform: translateX(-50%);
+    font-family: var(--mono);
+    font-size: 0.68rem;
+    letter-spacing: 0.06em;
+    text-transform: uppercase;
+    color: var(--ink-faint);
+    border: 1px solid var(--border);
+    background: white;
+    padding: 0.3rem 0.85rem;
+    border-radius: 99px;
+    white-space: nowrap;
+    z-index: 2;
+  }
+
+  @media (max-width: 768px) {
+    .hero-dash.paragraph-mode {
+      font-size: 0.75rem;
+      padding: 1.25rem 1.5rem;
+      max-width: 88%;
+    }
+    .paragraph-serial-badge {
+      top: 1rem;
+      font-size: 0.58rem;
+      padding: 0.22rem 0.6rem;
+    }
+  }
 </style>
 </head>
 <body>
@@ -1823,7 +1868,7 @@
     <h2>Why does this exist?</h2>
     <p>We live in a time when you buy licenses for software, rent access to your own files, and subscribe to things you used to own. Each character in this store is a small refusal — a purchase with more honesty than most of what we call digital ownership.</p>
     <p>You already have every one of these characters. You've had them since before you could read. Buying one doesn't give you anything you didn't already have. That's the point. The receipt is real. The ownership is yours to believe in.</p>
-    <p>Also, it's funny.</p>
+    <p>Take it. It's yours! — Brad Pitt</p>
   </div>
 </div>
 
@@ -2067,6 +2112,13 @@
         <div class="store-name">A Moment of Your Time</div>
         <div class="store-price">$1.00/sec</div>
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
         <span class="store-badge available">In Stock</span>
       </div>
     </div>
@@ -2711,6 +2763,13 @@
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
         <span class="store-badge available">In Stock</span>
       </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
     </div>
   </div>
 
@@ -3346,6 +3405,13 @@
         <div class="store-name">A Moment of Your Time</div>
         <div class="store-price">$1.00/sec</div>
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
         <span class="store-badge available">In Stock</span>
       </div>
     </div>
@@ -3985,6 +4051,13 @@
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
         <span class="store-badge available">In Stock</span>
       </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
     </div>
   </div>
 
@@ -4622,6 +4695,13 @@
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
         <span class="store-badge available">In Stock</span>
       </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
     </div>
   </div>
 
@@ -5257,6 +5337,13 @@
         <div class="store-name">A Moment of Your Time</div>
         <div class="store-price">$1.00/sec</div>
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
         <span class="store-badge available">In Stock</span>
       </div>
     </div>
@@ -5937,6 +6024,13 @@
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
         <span class="store-badge available">In Stock</span>
       </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
     </div>
   </div>
 
@@ -6574,6 +6668,13 @@
         <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
         <span class="store-badge available">In Stock</span>
       </div>
+      <div class="store-item" onclick="goProduct('loremipsum')">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
     </div>
   </div>
 
@@ -7103,6 +7204,651 @@
       stopTimer();
     }
   };
+})();
+</script>
+
+<div class="product-app" id="app-loremipsum">
+<!-- ─── PRODUCT VIEW ─── -->
+<div class="view active" id="view-product-loremipsum">
+  <div class="hero">
+    <div class="hero-left">
+      <div class="hero-dash paragraph-mode" id="heroDash-loremipsum" data-copy="Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.">Lorem ipsum dolor sit amet, consectetur adipiscing elit, sed do eiusmod tempor incididunt ut labore et dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea commodo consequat. Duis aute irure dolor in reprehenderit in voluptate velit esse cillum dolore eu fugiat nulla pariatur. Excepteur sint occaecat cupidatat non proident, sunt in culpa qui officia deserunt mollit anim id est laborum.</div>
+      <div class="paragraph-serial-badge">Copy #4,829,201 of the same paragraph</div>
+      <div class="hero-watermark">69 WORDS · 445 CHARACTERS · UNCHANGED SINCE THE 1500s</div>
+      <div class="dash-toolbar">
+        <!-- Font family pills -->
+        <div class="pill-group">
+          <button class="pill sans-pill active" onclick="APP.loremipsum.setFamily('sans')">Sans</button>
+          <button class="pill serif-pill" onclick="APP.loremipsum.setFamily('serif')">Serif</button>
+        </div>
+        <div class="toolbar-divider"></div>
+        <!-- Format buttons -->
+        <button class="fmt-btn bold-btn" id="btnBold-loremipsum" onclick="APP.loremipsum.toggleFmt('bold')" title="Bold"><b>B</b></button>
+        <button class="fmt-btn italic-btn" id="btnItalic-loremipsum" onclick="APP.loremipsum.toggleFmt('italic')" title="Italic"><i>I</i></button>
+        <button class="fmt-btn under-btn" id="btnUnder-loremipsum" onclick="APP.loremipsum.toggleFmt('underline')" title="Underline"><u>U</u></button>
+        <div class="toolbar-divider"></div>
+        <!-- Color swatches -->
+        <div class="swatch-group">
+          <div class="swatch swatch-black active" onclick="APP.loremipsum.setColor('black','#111111')" title="Black"></div>
+          <div class="swatch swatch-blue"   onclick="APP.loremipsum.setColor('blue','#0055FF')"  title="Blue"></div>
+          <div class="swatch swatch-red"    onclick="APP.loremipsum.setColor('red','#E0220A')"   title="Red"></div>
+          <div class="swatch swatch-pink"   onclick="APP.loremipsum.setColor('pink','#E8399A')"  title="Pink"></div>
+          <div class="swatch swatch-purple" onclick="APP.loremipsum.setColor('purple','#7A22E8')" title="Purple"></div>
+        </div>
+      </div>
+    </div>
+    <div class="hero-right">
+      <div class="product-category">Typography / Placeholder Text</div>
+      <h1 class="product-title">Own the The Perfect Lorem Ipsum Paragraph</h1>
+      <div class="product-price">$3.14</div>
+      <div class="product-price-note">one-time · priced as close to "perfect" as we could get</div>
+
+      <ul class="product-features">
+        <li><span class="feature-bullet" data-copy="¶">¶</span> One (1) paragraph. The paragraph. You know the one.</li>
+        <li><span class="feature-bullet" data-copy="¶">¶</span> Registered to you specifically (informally, but we did write it down)</li>
+        <li><span class="feature-bullet" data-copy="¶">¶</span> Identical, character-for-character, to every other Lorem Ipsum in existence</li>
+        <li><span class="feature-bullet" data-copy="¶">¶</span> Derived from a scrambled 45 BC Cicero text, because that's a true fact and it's very funny</li>
+        <li><span class="feature-bullet" data-copy="¶">¶</span> Meaningless in every language, including the one it's pretending to be</li>
+        <li><span class="feature-bullet" data-copy="¶">¶</span> No account required (but you get one)</li>
+      </ul>
+
+      <button class="add-to-cart" id="addToCartBtn-loremipsum" onclick="APP.loremipsum.addToCart()">Add to Cart</button>
+      <div class="product-note">Secure checkout via Stripe. You will receive a receipt.</div>
+    </div>
+  </div>
+
+  <!-- BADGES -->
+  <div class="badges-section">
+    <div class="badges-label">Verified Capabilities</div>
+    <div class="badges-grid">
+      <div class="badge"><span class="badge-check">✓</span> Instant Delivery</div>
+      <div class="badge"><span class="badge-check">✓</span> Cloud Compatible</div>
+      <div class="badge"><span class="badge-check">✓</span> AI Ready</div>
+      <div class="badge"><span class="badge-check">✓</span> Enterprise Licensed</div>
+      <div class="badge"><span class="badge-check">✓</span> Cross-Platform</div>
+      <div class="badge"><span class="badge-check">✓</span> GDPR Friendly</div>
+      <div class="badge"><span class="badge-check">✓</span> Unicode Certified</div>
+      <div class="badge"><span class="badge-check">✓</span> Zero Dependencies</div>
+      <div class="badge"><span class="badge-check">✓</span> Offline Capable</div>
+      <div class="badge"><span class="badge-check">✓</span> Accessibility Compliant</div>
+      <div class="badge"><span class="badge-check">✓</span> SOC 2 Adjacent</div>
+      <div class="badge"><span class="badge-check">✓</span> Screen Reader Safe</div>
+    </div>
+  </div>
+
+  <!-- SPECS -->
+  <div class="specs-section">
+    <div class="specs-col">
+      <h3>Technical Specifications</h3>
+      <div class="spec-row">
+        <span class="spec-key">Unicode Point</span>
+        <span class="spec-val">N/A (69 ordinary Latin-ish words)</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">UTF-8 Encoding</span>
+        <span class="spec-val">Standard ASCII, deeply fake Latin</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">HTML Entity</span>
+        <span class="spec-val">none (paragraphs don't get entities)</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Width</span>
+        <span class="spec-val">One paragraph, four sentences</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Height</span>
+        <span class="spec-val">However tall your line-height renders it</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Rendering</span>
+        <span class="spec-val">Meaningless, on purpose, since the 1500s</span>
+      </div>
+    </div>
+    <div class="specs-col">
+      <h3>License Details</h3>
+      <div class="spec-row">
+        <span class="spec-key">License Type</span>
+        <span class="spec-val">Perpetual, and also already public domain</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Renewal</span>
+        <span class="spec-val">Never — it's been the same paragraph for centuries</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Seats</span>
+        <span class="spec-val">Unlimited; every designer alive has already used it</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Exclusivity</span>
+        <span class="spec-val">Aggressively non-exclusive</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Enforcement</span>
+        <span class="spec-val">None. It's Cicero. He's not suing anyone.</span>
+      </div>
+      <div class="spec-row">
+        <span class="spec-key">Support</span>
+        <span class="spec-val">Doesn't mean anything, so there's nothing to explain.</span>
+      </div>
+    </div>
+  </div>
+
+  <!-- FAQ -->
+  <div class="faq-section" id="faqSection-loremipsum">
+    <h2>Frequently Asked Questions</h2>
+
+    <div class="faq-item">
+      <div class="faq-q">Isn't this the same Lorem Ipsum everyone already uses?</div>
+      <div class="faq-a">Yes. Word for word. That's the entire product.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">So what am I actually buying?</div>
+      <div class="faq-a">A registration. The text itself was never available to own — it's been public domain filler since the 1500s. You're buying the paperwork, not the paragraph.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Does it mean anything?</div>
+      <div class="faq-a">No. It's scrambled Latin, badly. That's the point — meaningless text doesn't distract from the layout.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Where does it come from?</div>
+      <div class="faq-a">A passage of Cicero's "De Finibus Bonorum et Malorum," written in 45 BC, run through centuries of typesetters until it stopped meaning anything at all.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I get a different paragraph instead?</div>
+      <div class="faq-a">No. This is the paragraph. There is only one.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can other people use my paragraph?</div>
+      <div class="faq-a">They already have. Continuously. For hundreds of years.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I sue someone for using it without my permission?</div>
+      <div class="faq-a">No. Also, whom would you even serve — Cicero's estate?</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this NFT-adjacent?</div>
+      <div class="faq-a">It is spiritually adjacent. You're not receiving a token — you're receiving acknowledgment that you paid $3.14 for a paragraph that has been public domain and free for roughly five centuries.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Do I need to install anything?</div>
+      <div class="faq-a">No. It's already in every design tool you've ever opened, usually as a default.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How accurate is the Latin?</div>
+      <div class="faq-a">It isn't. It's grammatically broken and doesn't translate to anything coherent. That's load-bearing to the whole concept.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I return it?</div>
+      <div class="faq-a">Only if you can un-see it. Good luck — you've seen it a thousand times already.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why does this exist?</div>
+      <div class="faq-a">Because everyone has used this exact paragraph and nobody has ever owned it. We're just the first to put a price tag on the world's most reused filler text.</div>
+    </div>
+  </div>
+
+  <!-- STOREFRONT -->
+  <div class="store-section">
+    <h2>The Full Catalog</h2>
+    <div class="store-subtitle">All products. All available immediately. Most already on your keyboard.</div>
+    <div class="store-grid">
+      <div class="store-item" onclick="goProduct('emdash')">
+        <div class="store-char" data-copy="—">—</div>
+        <div class="store-name">Em Dash</div>
+        <div class="store-price">$1.00</div>
+        <div class="store-note">The original. Versatile. Slightly dramatic.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('endash')">
+        <div class="store-char" data-copy="–">–</div>
+        <div class="store-name">En Dash</div>
+        <div class="store-price">$1.00</div>
+        <div class="store-note">Shorter. For ranges. Often confused with a hyphen by people who should know better.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('oxfordcomma')">
+        <div class="store-char" data-copy=",">,</div>
+        <div class="store-name">Oxford Comma</div>
+        <div class="store-price">$5.00</div>
+        <div class="store-note">Premium. Contested. Worth it.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('ellipsis')">
+        <div class="store-char" data-copy="…">…</div>
+        <div class="store-name">Ellipsis</div>
+        <div class="store-price">$3.00</div>
+        <div class="store-note">"...but only if you need it." (You don't need it. You always need it.)</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('space')">
+        <div class="store-char" style="font-size:1rem;line-height:2.5;color:var(--ink-faint)" data-copy=" ">[space]</div>
+        <div class="store-name">Space Character</div>
+        <div class="store-price">Free</div>
+        <div class="store-note">Claimed 14 million times. Supply is nonexistent as a concern.</div>
+        <span class="store-badge free">Always Free</span>
+      </div>
+      <div class="store-item" onclick="goProduct('nbsp')">
+        <div class="store-char" style="font-size:0.85rem;font-family:var(--mono);padding-top:0.5rem;color:var(--ink-faint)" data-copy=" ">&amp;nbsp;</div>
+        <div class="store-name">Non-Breaking Space</div>
+        <div class="store-price">$10.00</div>
+        <div class="store-note">Enterprise edition. Prevents line breaks. Prevents understanding. Highly valued in legacy codebases.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('mnemonic')">
+        <div class="store-char" data-copy="IE">IE</div>
+        <div class="store-name">I Before E, Except After C</div>
+        <div class="store-price">$0.34</div>
+        <div class="store-note">Priced to match its real accuracy rate. Read that again.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="goProduct('moment')">
+        <div class="store-char" data-copy="⏱">⏱</div>
+        <div class="store-name">A Moment of Your Time</div>
+        <div class="store-price">$1.00/sec</div>
+        <div class="store-note">Price increases while you're reading this. We are not kidding.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+      <div class="store-item" onclick="APP.loremipsum.addToCart()">
+        <div class="store-char" data-copy="¶">¶</div>
+        <div class="store-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="store-price">$3.14</div>
+        <div class="store-note">All Lorem Ipsum may be the same. This one is yours.</div>
+        <span class="store-badge available">In Stock</span>
+      </div>
+    </div>
+  </div>
+
+  </div>
+
+<!-- ─── CART VIEW ─── -->
+<div class="view" id="view-cart-loremipsum">
+  <div class="page-shell">
+    <div class="page-eyebrow">Your Cart</div>
+    <div class="page-title">Review Order</div>
+
+    <div class="cart-line">
+      <div class="cart-line-left">
+        <div class="cart-line-title">The Perfect Lorem Ipsum Paragraph <span style="font-family:var(--mono);font-size:1.1rem;margin-left:0.5rem" data-copy="¶">¶</span></div>
+        <div class="cart-line-meta">N/A (69 ordinary Latin-ish words) · Perpetual License · 1 seat (conceptually unlimited)</div>
+      </div>
+      <div class="cart-line-price">$1.00</div>
+    </div>
+
+    <div class="cart-total-row sub">
+      <span>Subtotal</span>
+      <span class="mono">$3.14</span>
+    </div>
+    <div class="cart-total-row sub">
+      <span>Tax</span>
+      <span class="mono">$0.00</span>
+    </div>
+    <div class="cart-total-row sub">
+      <span>Shipping</span>
+      <span class="mono">$0.00 (digital)</span>
+    </div>
+    <div class="cart-total-row grand">
+      <span>Total</span>
+      <span class="mono">$3.14</span>
+    </div>
+
+    <button class="checkout-btn" onclick="APP.loremipsum.showView('checkout')">Proceed to Checkout</button>
+    <div style="text-align:center">
+      <button class="back-link" onclick="APP.loremipsum.showView('product')">← Continue shopping</button>
+    </div>
+
+    <div class="cart-legal">
+      By purchasing, you acknowledge that you are paying $3.14 for a Unicode character.<br>
+      You have always had access to this character. You always will.<br>
+      The purchase is a ritual. The receipt is real. The ownership is yours to believe in.
+    </div>
+  </div>
+</div>
+
+<!-- ─── CHECKOUT VIEW ─── -->
+<div class="view" id="view-checkout-loremipsum">
+  <div class="page-shell">
+    <div class="page-eyebrow">Secure Checkout</div>
+    <div class="page-title">Complete Purchase</div>
+
+    <div class="checkout-form">
+      <div style="border:1px solid var(--border);padding:1.25rem 1.5rem;background:white;display:flex;align-items:baseline;gap:0.75rem">
+        <span style="font-family:var(--mono);font-size:1.1rem;color:var(--blue);flex-shrink:0" data-copy="¶">¶</span>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--ink-mid);line-height:1.7">Bless your heart, but we don't want your information or hard-earned $3.14. We want you to reclaim the paragraph every designer has quietly pasted a thousand times.<br><br>It doesn't mean anything. That was always the point.</p>
+      </div>
+
+      <div>
+        <div class="form-section-label">Contact Information</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint);text-decoration:line-through">Email address</label>
+            <input type="email" placeholder="redacted by us" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-section-label">Payment Details</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint);text-decoration:line-through">Card number</label>
+            <input type="text" placeholder="not collected" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="color:var(--ink-faint);text-decoration:line-through">Expiry</label>
+              <input type="text" placeholder="irrelevant" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+            <div class="form-group">
+              <label style="color:var(--ink-faint);text-decoration:line-through">CVC</label>
+              <input type="text" placeholder="unnecessary" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);padding:1.25rem">
+        <div class="form-section-label" style="margin-bottom:0.75rem">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">The Perfect Lorem Ipsum Paragraph — with Birthright Discount applied</span>
+          <span style="font-family:var(--mono);display:flex;align-items:baseline;gap:0.5rem">
+            <span style="text-decoration:line-through;color:var(--ink-faint)">$3.14</span>
+            <span style="color:#1A7A1A">$0.00</span>
+          </span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.875rem;padding-top:0.75rem;font-weight:600">
+          <span>Total due today</span>
+          <span style="font-family:var(--mono);color:#1A7A1A">$0.00</span>
+        </div>
+      </div>
+
+      <button class="checkout-btn" onclick="APP.loremipsum.processPayment()">Pay nothing, but pay it forward ¶ $0.00</button>
+      <div style="text-align:center">
+        <button class="back-link" onclick="APP.loremipsum.showView('cart')">← Back to cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<!-- ─── CONFIRMATION VIEW ─── -->
+<div class="view" id="view-confirmation-loremipsum">
+  <div class="confirm-hero">
+    <span class="confirm-dash" data-copy="¶">¶</span>
+    <div class="confirm-headline">Thank you.</div>
+    <div class="confirm-sub">This paragraph is now, officially and pointlessly, yours.</div>
+    <div class="confirm-sub" style="margin-top:0.25rem"><span data-copy="¶">¶</span></div>
+    <div class="confirm-sub" style="margin-top:0.25rem">¶ paste it anywhere; it will still mean nothing, now with paperwork.</div>
+    <div class="confirm-legal">
+      A receipt has been prepared. Your ownership is recorded in our system,<br>
+      which is a variable in a browser session.<br>
+      It will persist until you close the tab.
+    </div>
+  </div>
+  <div style="max-width:640px;margin:0 auto;padding:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <button class="receipt-btn primary" onclick="APP.loremipsum.showView('receipt')">View Receipt</button>
+    <button class="receipt-btn" onclick="APP.loremipsum.showView('account')">My Library</button>
+    <button class="receipt-btn" onclick="APP.loremipsum.showView('product')">Buy Another</button>
+  </div>
+</div>
+
+<!-- ─── RECEIPT VIEW ─── -->
+<div class="view" id="view-receipt-loremipsum">
+  <div class="receipt-shell">
+    <div class="page-eyebrow" style="margin-bottom:1.5rem">Purchase Receipt</div>
+
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <span class="receipt-stamp">it always was yours, but now it's official.</span>
+    </div>
+
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div>
+          <div class="receipt-logo">emdash.click</div>
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ink-faint);margin-top:0.25rem">
+            A conceptual storefront<br>
+            No physical address.
+          </div>
+        </div>
+        <div class="receipt-meta">
+          Receipt #<span id="receiptNum-loremipsum">00001</span><br>
+          <span id="receiptDate-loremipsum">—</span><br>
+          Status: SEMANTICALLY·VOID
+        </div>
+      </div>
+
+      <div class="receipt-row">
+        <span class="receipt-key">Product</span>
+        <span class="receipt-val">The Perfect Lorem Ipsum Paragraph</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Character</span>
+        <span class="receipt-val" style="font-size:1.1rem" data-copy="¶">¶</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Unicode</span>
+        <span class="receipt-val">N/A (69 ordinary Latin-ish words)</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Quantity</span>
+        <span class="receipt-val">1</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">License</span>
+        <span class="receipt-val">Perpetual</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Renewal</span>
+        <span class="receipt-val">Never</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Support</span>
+        <span class="receipt-val">Doesn't mean anything, so there's nothing to explain.</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Delivery</span>
+        <span class="receipt-val">Instant (already on your device)</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Exclusivity</span>
+        <span class="receipt-val">Non-exclusive (regrettably)</span>
+      </div>
+      <div class="receipt-row">
+        <span class="receipt-key">Tax</span>
+        <span class="receipt-val">$0.00</span>
+      </div>
+
+      <div class="receipt-total">
+        <span>Total Paid</span>
+        <span class="mono">$0.00 USD</span>
+      </div>
+
+      <div class="receipt-footer">
+        This document confirms your ownership of one (1) lorem ipsum paragraph.<br>
+        Ownership is moral rather than legal. Legal ownership of a Unicode character<br>
+        is not possible. You knew this when you clicked Purchase.<br>
+        That's what makes it meaningful.<br><br>
+        Thank you for participating in the ritual of commerce.
+      </div>
+    </div>
+
+    <div class="receipt-actions">
+      <button class="receipt-btn" onclick="window.print()">Print Receipt</button>
+      <button class="receipt-btn" onclick="APP.loremipsum.showView('account')">My Library →</button>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="back-link" onclick="APP.loremipsum.showView('product')">← Back to store</button>
+    </div>
+  </div>
+</div>
+
+<!-- ─── ACCOUNT VIEW ─── -->
+<div class="view" id="view-account-loremipsum">
+  <div class="account-shell">
+    <div class="account-header">
+      <div>
+        <div class="account-title">My Library</div>
+        <div class="account-id">Account #<span id="accountId-loremipsum">—</span></div>
+      </div>
+      <div class="account-plan">
+        <div class="plan-badge">Lifetime Owner</div>
+        <div class="plan-note">Since <span id="accountSince-loremipsum">—</span></div>
+        <div class="plan-note" style="margin-top:0.2rem">Next renewal: Never</div>
+      </div>
+    </div>
+
+    <div class="assets-label">You currently own</div>
+
+    <div class="asset-row">
+      <div class="asset-char" data-copy="¶">¶</div>
+      <div class="asset-info">
+        <div class="asset-name">The Perfect Lorem Ipsum Paragraph</div>
+        <div class="asset-meta">N/A (69 ordinary Latin-ish words) · Perpetual License · Acquired <span id="assetDate-loremipsum">—</span></div>
+      </div>
+      <div class="asset-status">Active</div>
+    </div>
+
+    <div class="account-usage">
+      <div class="form-section-label" style="margin-bottom:0">Usage &amp; Limits</div>
+      <div class="usage-row">
+        <span class="usage-key">Paragraphs available</span>
+        <span class="usage-val unlimited">∞</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-key">Allowed in commercial work</span>
+        <span class="usage-val unlimited">Yes</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-key">Allowed in personal work</span>
+        <span class="usage-val unlimited">Yes</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-key">Allowed by people who didn't buy one</span>
+        <span class="usage-val" style="color:var(--ink-mid)">Also yes (this is the thing)</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-key">Subscription renewal</span>
+        <span class="usage-val">N/A</span>
+      </div>
+      <div class="usage-row">
+        <span class="usage-key">API access</span>
+        <span class="usage-val">It's a character. Copy it.</span>
+      </div>
+    </div>
+
+    <div class="account-danger">
+      <div class="danger-title">Danger Zone</div>
+      <div class="danger-text">
+        To revoke your ownership of this paragraph, please locate every mockup, wireframe, and half-finished website that has ever used it, and ask nicely.<br>Your $3.14 is not wanted here. The paragraph will keep filling empty layouts, meaninglessly, forever.
+      </div>
+    </div>
+  </div>
+</div>
+</div>
+<script>
+(function() {
+  const pid = 'loremipsum';
+  let receiptNumber = Math.floor(Math.random() * 89999) + 10000;
+
+  function showView(name) {
+    document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name + '-' + pid).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function addToCart() {
+    if (owned.has(pid)) { showView('account'); return; }
+    if (!inCart.has(pid)) {
+      inCart.add(pid);
+      updateCartBadge();
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Added to Cart — View Cart';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('cart');
+    } else {
+      showView('cart');
+    }
+  }
+
+  function formatCard(input) {
+    let val = input.value.replace(/\D/g, '').substring(0, 16);
+    input.value = val.replace(/(.{4})/g, '$1 ').trim();
+  }
+
+  function formatExp(input) {
+    let val = input.value.replace(/\D/g, '').substring(0, 4);
+    if (val.length >= 3) val = val.substring(0, 2) + ' / ' + val.substring(2);
+    input.value = val;
+  }
+
+  function processPayment() {
+    const overlay = document.getElementById('processingOverlay');
+    document.getElementById('processingDash').textContent = '¶';
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      owned.add(pid);
+      inCart.delete(pid);
+      updateCartBadge();
+      refreshNav();
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('receiptDate-' + pid).textContent = dateStr;
+      document.getElementById('receiptNum-' + pid).textContent = receiptNumber;
+      document.getElementById('accountId-' + pid).textContent = receiptNumber;
+      document.getElementById('accountSince-' + pid).textContent = dateStr;
+      document.getElementById('assetDate-' + pid).textContent = dateStr;
+      document.getElementById('heroDash-' + pid).classList.add('owned');
+
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'You own this lorem ipsum paragraph';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('account');
+
+      showView('confirmation');
+    }, 2800);
+  }
+
+  const dashState = { family: 'sans', bold: false, italic: false, underline: false, color: '#111111' };
+  function applyDashStyle() {
+    const el = document.getElementById('heroDash-' + pid);
+    const monoFamilies = { sans: "'DM Mono', monospace", serif: "'DM Serif Display', serif" };
+    el.style.fontFamily = monoFamilies[dashState.family];
+    el.style.fontWeight = dashState.bold ? '700' : '300';
+    el.style.fontStyle  = dashState.italic ? 'italic' : 'normal';
+    el.style.textDecoration = dashState.underline ? 'underline' : 'none';
+    el.style.color = dashState.color;
+  }
+  function setFamily(f) {
+    dashState.family = f;
+    document.querySelectorAll('#app-' + pid + ' .pill').forEach(el => el.classList.remove('active'));
+    document.querySelector('#app-' + pid + ' .' + f + '-pill').classList.add('active');
+    applyDashStyle();
+  }
+  function toggleFmt(fmt) {
+    dashState[fmt] = !dashState[fmt];
+    const ids = { bold: 'btnBold', italic: 'btnItalic', underline: 'btnUnder' };
+    document.getElementById(ids[fmt] + '-' + pid).classList.toggle('active', dashState[fmt]);
+    applyDashStyle();
+  }
+  function setColor(name, hex) {
+    dashState.color = hex;
+    document.querySelectorAll('#app-' + pid + ' .swatch').forEach(el => el.classList.remove('active'));
+    document.querySelector('#app-' + pid + ' .swatch-' + name).classList.add('active');
+    applyDashStyle();
+  }
+
+  function scrollToFAQ() {
+    showView('product');
+    setTimeout(() => {
+      document.getElementById('faqSection-' + pid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  window.APP = window.APP || {};
+  window.APP[pid] = { showView, addToCart, formatCard, formatExp, processPayment, setFamily, toggleFmt, setColor, scrollToFAQ };
 })();
 </script>
 
@@ -7820,9 +8566,96 @@ const PRODUCTS = {
         "Because a song convinced a whole generation that moments are things you seize, own, and lose if you hesitate. We just put a price tag on the metaphor. Also, it's funny — and it gets funnier, and more expensive, the longer you think about it."
       ]
     ]
+  },
+  "loremipsum": {
+    "id": "loremipsum",
+    "name": "The Perfect Lorem Ipsum Paragraph",
+    "name_lower": "lorem ipsum paragraph",
+    "article": "the",
+    "char": "¶",
+    "price_num": 3.14,
+    "price_display": "$3.14",
+    "price_note": "one-time · priced as close to \"perfect\" as we could get",
+    "category": "Typography / Placeholder Text",
+    "watermark": "69 WORDS · 445 CHARACTERS · UNCHANGED SINCE THE 1500s",
+    "unicode": "N/A (69 ordinary Latin-ish words)",
+    "utf8": "Standard ASCII, deeply fake Latin",
+    "entity": "none (paragraphs don't get entities)",
+    "width": "One paragraph, four sentences",
+    "height": "However tall your line-height renders it",
+    "rendering": "Meaningless, on purpose, since the 1500s",
+    "license_type": "Perpetual, and also already public domain",
+    "renewal": "Never — it's been the same paragraph for centuries",
+    "seats": "Unlimited; every designer alive has already used it",
+    "exclusivity": "Aggressively non-exclusive",
+    "enforcement": "None. It's Cicero. He's not suing anyone.",
+    "support": "Doesn't mean anything, so there's nothing to explain.",
+    "usage_plural": "Paragraphs",
+    "status": "SEMANTICALLY·VOID",
+    "confirm_tip": "¶ paste it anywhere; it will still mean nothing, now with paperwork.",
+    "checkout_blurb": "Bless your heart, but we don't want your information or hard-earned $3.14. We want you to reclaim the paragraph every designer has quietly pasted a thousand times.<br><br>It doesn't mean anything. That was always the point.",
+    "danger_text": "To revoke your ownership of this paragraph, please locate every mockup, wireframe, and half-finished website that has ever used it, and ask nicely.<br>Your $3.14 is not wanted here. The paragraph will keep filling empty layouts, meaninglessly, forever.",
+    "features": [
+      "One (1) paragraph. The paragraph. You know the one.",
+      "Registered to you specifically (informally, but we did write it down)",
+      "Identical, character-for-character, to every other Lorem Ipsum in existence",
+      "Derived from a scrambled 45 BC Cicero text, because that's a true fact and it's very funny",
+      "Meaningless in every language, including the one it's pretending to be",
+      "No account required (but you get one)"
+    ],
+    "faqs": [
+      [
+        "Isn't this the same Lorem Ipsum everyone already uses?",
+        "Yes. Word for word. That's the entire product."
+      ],
+      [
+        "So what am I actually buying?",
+        "A registration. The text itself was never available to own — it's been public domain filler since the 1500s. You're buying the paperwork, not the paragraph."
+      ],
+      [
+        "Does it mean anything?",
+        "No. It's scrambled Latin, badly. That's the point — meaningless text doesn't distract from the layout."
+      ],
+      [
+        "Where does it come from?",
+        "A passage of Cicero's \"De Finibus Bonorum et Malorum,\" written in 45 BC, run through centuries of typesetters until it stopped meaning anything at all."
+      ],
+      [
+        "Can I get a different paragraph instead?",
+        "No. This is the paragraph. There is only one."
+      ],
+      [
+        "Can other people use my paragraph?",
+        "They already have. Continuously. For hundreds of years."
+      ],
+      [
+        "Can I sue someone for using it without my permission?",
+        "No. Also, whom would you even serve — Cicero's estate?"
+      ],
+      [
+        "Is this NFT-adjacent?",
+        "It is spiritually adjacent. You're not receiving a token — you're receiving acknowledgment that you paid $3.14 for a paragraph that has been public domain and free for roughly five centuries."
+      ],
+      [
+        "Do I need to install anything?",
+        "No. It's already in every design tool you've ever opened, usually as a default."
+      ],
+      [
+        "How accurate is the Latin?",
+        "It isn't. It's grammatically broken and doesn't translate to anything coherent. That's load-bearing to the whole concept."
+      ],
+      [
+        "Can I return it?",
+        "Only if you can un-see it. Good luck — you've seen it a thousand times already."
+      ],
+      [
+        "Why does this exist?",
+        "Because everyone has used this exact paragraph and nobody has ever owned it. We're just the first to put a price tag on the world's most reused filler text."
+      ]
+    ]
   }
 };
-const ORDER = ["emdash", "endash", "oxfordcomma", "ellipsis", "space", "nbsp", "mnemonic", "moment"];
+const ORDER = ["emdash", "endash", "oxfordcomma", "ellipsis", "space", "nbsp", "mnemonic", "moment", "loremipsum"];
 
 function fmtPrice(p) {
   return p.price_num === 0 ? 'Free' : p.price_display;
