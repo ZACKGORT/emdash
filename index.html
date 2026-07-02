@@ -1475,13 +1475,30 @@
     aspect-ratio: 1 / 1;
     margin: 0 auto;
   }
+  /* ─── MERCH IMAGE ZOOM ─── */
+  .merch-zoom-wrap {
+    position: absolute;
+    inset: 0;
+    overflow: hidden;
+    cursor: zoom-in;
+  }
+
   .merch-product-image {
     position: absolute;
-    top: 0; left: 0; right: 0; bottom: 0;
+    inset: 0;
     width: 100%;
     height: 100%;
-    object-fit: cover;
+    object-fit: contain;
     object-position: center;
+    transform-origin: var(--mx, 50%) var(--my, 50%);
+    transform: scale(1);
+    transition: transform 0.25s ease;
+    pointer-events: none;
+    will-change: transform;
+  }
+
+  .merch-zoom-wrap:hover .merch-product-image {
+    transform: scale(2.4);
   }
   .icon-ring { position: absolute; border-radius: 50%; background: #111111; box-sizing: border-box; }
   .icon-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: var(--panel-bg, #FAFAF9); box-sizing: border-box; }
@@ -7978,6 +7995,7 @@
 <div class="view active" id="view-product-tape">
   <div class="hero">
     <div class="hero-left" id="heroLeft-tape" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <div class="merch-zoom-wrap" id="zoomWrap-tape">
       <img src="https://i.ibb.co/7N1PCxkC/emdashtape.png" alt="Official Em Dash™ Roll" class="merch-product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
       <div class="merch-icon-frame" style="display:none"><div class="merch-icon">
   <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
@@ -7985,6 +8003,7 @@
   </div>
   <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
 </div></div>
+      </div><!-- /merch-zoom-wrap -->
       <div class="hero-watermark">137 EM DASHES · LASER-MEASURED · KERNING CALIBRATED</div>
     </div>
     <div class="hero-right">
@@ -8421,6 +8440,7 @@
 <div class="view active" id="view-product-toiletpaper">
   <div class="hero">
     <div class="hero-left" id="heroLeft-toiletpaper" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1D1D1D;--panel-bg:#1D1D1D">
+      <div class="merch-zoom-wrap" id="zoomWrap-toiletpaper">
       <img src="https://i.ibb.co/5XS5rb6j/toiletpaperblack.png" alt="Em Dash Bathroom Edition — black" class="merch-product-image" id="imgBlack-toiletpaper" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['toiletpaper'] && window.APP['toiletpaper'].updateVisual();">
       <img src="https://i.ibb.co/Gf5kVb9s/toiletpaper-white.png" alt="Em Dash Bathroom Edition — white" class="merch-product-image" id="imgWhite-toiletpaper" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['toiletpaper'] && window.APP['toiletpaper'].updateVisual();">
       <div class="merch-icon-frame" id="iconFallback-toiletpaper" style="display:none"><div class="merch-icon">
@@ -8429,6 +8449,7 @@
   </div>
   <div class="icon-tail-v" style="width:2.6%;height:32%;top:58.2%;left:74.2%"></div>
 </div></div>
+      </div><!-- /merch-zoom-wrap -->
       <div class="hero-watermark">EVERY THIRD SHEET · EDITORIAL-GRADE PERFORATION · FADE-RESISTANT BLACK</div>
     </div>
     <div class="hero-right">
@@ -8905,6 +8926,7 @@
 <div class="view active" id="view-product-skateboard">
   <div class="hero">
     <div class="hero-left" id="heroLeft-skateboard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1D1D1D;--panel-bg:#1D1D1D">
+      <div class="merch-zoom-wrap" id="zoomWrap-skateboard">
       <img src="https://i.ibb.co/fzb8HWX5/skateboard-black.png" alt="The Em Dash Skateboard™ — black" class="merch-product-image" id="imgBlack-skateboard" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['skateboard'] && window.APP['skateboard'].updateVisual();">
       <img src="https://i.ibb.co/6cNvrJgw/skateboard-white.png" alt="The Em Dash Skateboard™ — white" class="merch-product-image" id="imgWhite-skateboard" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['skateboard'] && window.APP['skateboard'].updateVisual();">
       <div class="merch-icon-frame" id="iconFallback-skateboard" style="display:none"><div class="merch-icon">
@@ -8912,6 +8934,7 @@
   <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
   <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
 </div></div>
+      </div><!-- /merch-zoom-wrap -->
       <div class="hero-watermark">ONE CONTINUOUS LINE FROM THE SIDE · NEAR-INVISIBLE FROM THE NOSE</div>
     </div>
     <div class="hero-right">
@@ -9390,12 +9413,14 @@
 <div class="view active" id="view-product-subwaytile">
   <div class="hero">
     <div class="hero-left" id="heroLeft-subwaytile" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#111111;--panel-bg:#111111">
+      <div class="merch-zoom-wrap" id="zoomWrap-subwaytile">
       <img src="https://i.ibb.co/0pNBgQMb/vintage-subway-tile-emdash.png" alt="Em Dash Vintage Subway Tile — matte black" class="merch-product-image" id="imgMain-subwaytile" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['subwaytile'] && window.APP['subwaytile'].updateVisual();">
       <div class="merch-icon-frame" id="iconFallback-subwaytile" style="display:none">
         <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111;border:1px solid #2a2a2a">
           <span style="font-family:'DM Serif Display',serif;font-size:4rem;color:#fff;line-height:1">—</span>
         </div>
       </div>
+      </div><!-- /merch-zoom-wrap -->
       <div class="hero-watermark">FIRED CERAMIC · MATTE BLACK GLAZE · 3×6 INCHES · MADE TO LAST</div>
     </div>
     <div class="hero-right">
@@ -10819,6 +10844,21 @@ document.addEventListener('click', function(e) {
     tipTimer = setTimeout(() => copyTip.classList.remove('show'), 1400);
   });
 }, true);
+</script>
+
+<!-- ─── MERCH ZOOM: cursor-anchored transform-origin ─── -->
+<script>
+document.querySelectorAll('.merch-zoom-wrap').forEach(function(wrap) {
+  wrap.addEventListener('mousemove', function(e) {
+    const r = wrap.getBoundingClientRect();
+    const x = ((e.clientX - r.left) / r.width  * 100).toFixed(2) + '%';
+    const y = ((e.clientY - r.top)  / r.height * 100).toFixed(2) + '%';
+    wrap.querySelectorAll('.merch-product-image').forEach(function(img) {
+      img.style.setProperty('--mx', x);
+      img.style.setProperty('--my', y);
+    });
+  });
+});
 </script>
 
 </body>
