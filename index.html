@@ -1463,7 +1463,8 @@
   @media (min-width: 769px) {
     #app-tape .hero,
     #app-toiletpaper .hero,
-    #app-skateboard .hero {
+    #app-skateboard .hero,
+    #app-subwaytile .hero {
       grid-template-columns: 3fr 2fr;
     }
   }
@@ -1990,6 +1991,18 @@
         <div class="browse-card-note">One continuous line from the side. Disappears from the nose.</div>
         <div class="browse-card-footer">
           <span class="browse-card-price">$248.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('subwaytile')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center;border:1px solid #2a2a2a">
+          <span style="font-family:'DM Serif Display',serif;font-size:2.6rem;color:#fff;line-height:1;letter-spacing:-0.01em">—</span>
+        </div>
+        <div class="browse-card-name">Vintage Subway Tile</div>
+        <div class="browse-card-unicode">$18.00 + shipping</div>
+        <div class="browse-card-note">Fired ceramic. Matte black glaze. One em dash, set in relief. Install it. Live with it.</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$18.00</span>
           <span class="browse-card-cta">View product →</span>
         </div>
       </a>
@@ -9371,6 +9384,493 @@
 })();
 </script>
 
+
+<!-- ─── SUBWAY TILE PRODUCT ─── -->
+<div class="product-app" id="app-subwaytile">
+<div class="view active" id="view-product-subwaytile">
+  <div class="hero">
+    <div class="hero-left" id="heroLeft-subwaytile" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#111111;--panel-bg:#111111">
+      <img src="https://i.ibb.co/0pNBgQMb/vintage-subway-tile-emdash.png" alt="Em Dash Vintage Subway Tile — matte black" class="merch-product-image" id="imgMain-subwaytile" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['subwaytile'] && window.APP['subwaytile'].updateVisual();">
+      <div class="merch-icon-frame" id="iconFallback-subwaytile" style="display:none">
+        <div style="width:100%;height:100%;display:flex;align-items:center;justify-content:center;background:#111;border:1px solid #2a2a2a">
+          <span style="font-family:'DM Serif Display',serif;font-size:4rem;color:#fff;line-height:1">—</span>
+        </div>
+      </div>
+      <div class="hero-watermark">FIRED CERAMIC · MATTE BLACK GLAZE · 3×6 INCHES · MADE TO LAST</div>
+    </div>
+    <div class="hero-right">
+      <div class="product-category">Merch / Architectural Punctuation</div>
+      <h1 class="product-title">Vintage Subway Tile</h1>
+      <div class="product-price">$18.00</div>
+      <div class="product-price-note">per tile · + shipping · ships in 3–5 business days</div>
+
+      <div class="variant-section">
+        <div class="variant-label">Quantity — <span id="variantQty-subwaytile">1 tile</span></div>
+        <div class="variant-swatch-group" style="gap:0.5rem">
+          <button class="variant-swatch active" id="qty1-subwaytile" onclick="APP.subwaytile.setQty(1)" style="width:auto;border-radius:2px;padding:0 0.75rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;height:2rem" aria-label="1 tile">1</button>
+          <button class="variant-swatch" id="qty3-subwaytile" onclick="APP.subwaytile.setQty(3)" style="width:auto;border-radius:2px;padding:0 0.75rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;height:2rem" aria-label="3 tiles">3</button>
+          <button class="variant-swatch" id="qty6-subwaytile" onclick="APP.subwaytile.setQty(6)" style="width:auto;border-radius:2px;padding:0 0.75rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;height:2rem" aria-label="6 tiles">6</button>
+          <button class="variant-swatch" id="qty12-subwaytile" onclick="APP.subwaytile.setQty(12)" style="width:auto;border-radius:2px;padding:0 0.75rem;font-family:var(--mono);font-size:0.72rem;letter-spacing:0.04em;height:2rem" aria-label="12 tiles">12</button>
+        </div>
+      </div>
+
+      <ul class="product-features">
+        <li><span class="feature-bullet">—</span> Fired ceramic body, matte black glaze, 3×6 inches</li>
+        <li><span class="feature-bullet">—</span> Em dash set in low relief — legible at a glance, invisible from across the room</li>
+        <li><span class="feature-bullet">—</span> Standard subway tile format: installs with any thinset mortar, any grout</li>
+        <li><span class="feature-bullet">—</span> Kitchen backsplash, bathroom, shower surround, accent wall — your call</li>
+        <li><span class="feature-bullet">—</span> No one will know what it says until they're close enough to care</li>
+      </ul>
+
+      <button class="add-to-cart" id="addToCartBtn-subwaytile" onclick="APP.subwaytile.addToCart()">Add to Cart</button>
+      <div class="product-note">A 3×6 inch matte black ceramic tile with an em dash pressed into its face. It reads as architectural until it doesn't. Buy one for the backsplash. Buy twelve to make your point.</div>
+    </div>
+  </div>
+
+  <div class="badges-section">
+    <div class="badges-label">Verified Attributes</div>
+    <div class="badges-grid">
+      <div class="badge"><span class="badge-check">✓</span> Fired Ceramic</div>
+      <div class="badge"><span class="badge-check">✓</span> Matte Black Glaze</div>
+      <div class="badge"><span class="badge-check">✓</span> Standard 3×6 Format</div>
+      <div class="badge"><span class="badge-check">✓</span> Relief-Pressed Glyph</div>
+      <div class="badge"><span class="badge-check">✓</span> Thinset Compatible</div>
+      <div class="badge"><span class="badge-check">✓</span> Grout Agnostic</div>
+      <div class="badge"><span class="badge-check">✓</span> Moisture Resistant</div>
+      <div class="badge"><span class="badge-check">✓</span> Dishwasher Safe*</div>
+      <div class="badge"><span class="badge-check">✓</span> Small Batch</div>
+      <div class="badge"><span class="badge-check">✓</span> Concept Approved</div>
+      <div class="badge"><span class="badge-check">✓</span> Typographically Accurate</div>
+      <div class="badge"><span class="badge-check">✓</span> Architecturally Plausible</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint);margin-top:1rem">* We mean: wipe it down. Do not run ceramic tile through your dishwasher. Please.</div>
+  </div>
+
+  <div class="specs-section">
+    <div class="specs-col">
+      <h3>Specifications</h3>
+      <div class="spec-row"><span class="spec-key">Dimensions</span><span class="spec-val">3 × 6 inches (standard subway format)</span></div>
+      <div class="spec-row"><span class="spec-key">Body</span><span class="spec-val">Fired ceramic, medium duty</span></div>
+      <div class="spec-row"><span class="spec-key">Glaze</span><span class="spec-val">Matte black, single-fire</span></div>
+      <div class="spec-row"><span class="spec-key">Glyph</span><span class="spec-val">Em dash, low relief, centered</span></div>
+      <div class="spec-row"><span class="spec-key">Thickness</span><span class="spec-val">~3/8 inch</span></div>
+      <div class="spec-row"><span class="spec-key">Finish</span><span class="spec-val">Non-glossy · shows no fingerprints</span></div>
+    </div>
+    <div class="specs-col">
+      <h3>Shipping &amp; Returns</h3>
+      <div class="spec-row"><span class="spec-key">Ships From</span><span class="spec-val">The same undisclosed warehouse, now with more tissue paper</span></div>
+      <div class="spec-row"><span class="spec-key">Ships In</span><span class="spec-val">3–5 business days</span></div>
+      <div class="spec-row"><span class="spec-key">Shipping Cost</span><span class="spec-val">Calculated at checkout (ceramic is heavy)</span></div>
+      <div class="spec-row"><span class="spec-key">Installation</span><span class="spec-val">Standard thinset mortar. You know how tile works.</span></div>
+      <div class="spec-row"><span class="spec-key">Returns</span><span class="spec-val">Within 30 days, uninstalled, in original condition</span></div>
+      <div class="spec-row"><span class="spec-key">Warranty</span><span class="spec-val">Ceramic does not expire. Neither does the em dash.</span></div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faqSection-subwaytile">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">Will anyone actually notice the em dash?</div>
+      <div class="faq-a">Eventually. That's the entire point. It's there when they're ready.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I use it as a backsplash?</div>
+      <div class="faq-a">Yes. That is the intended use. Pair with white grout for contrast, dark grout for subtlety.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">How many tiles do I need?</div>
+      <div class="faq-a">One makes a statement. Six makes a backsplash. Twelve makes a thesis.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is the em dash actually readable on the tile, or is it decorative?</div>
+      <div class="faq-a">It is both. From a distance, it reads as texture. Up close, it reads as punctuation. This is intentional and, we think, very elegant.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What if someone in my house doesn't know what an em dash is?</div>
+      <div class="faq-a">Now they live with one. Education via backsplash. You're welcome.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I mix it with regular subway tiles?</div>
+      <div class="faq-a">Yes. The glyph tile is designed to integrate with standard 3×6 field tiles. Use it as an accent, or as a statement. It works either way.</div>
+    </div>
+  </div>
+
+  <div class="store-section">
+    <h2>More From the Merch Wing</h2>
+    <div class="browse-subtitle">Every product should become its punctuation mark.</div>
+    <div class="browse-grid">
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('tape')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
+    <div class="icon-hole" style="width:55%;height:55%"></div>
+  </div>
+  <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
+</div></div>
+        <div class="browse-card-name">Official Em Dash™ Roll</div>
+        <div class="browse-card-unicode">$14.00 + shipping</div>
+        <div class="browse-card-note">137 perfectly proportioned em dashes. Tear. Apply. Continue writing.</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$14.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('skateboard')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-deck" style="width:78%;height:15%;top:34.6%;left:11%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
+</div></div>
+        <div class="browse-card-name">The Em Dash Skateboard™</div>
+        <div class="browse-card-unicode">$248.00 · free shipping</div>
+        <div class="browse-card-note">One continuous line from the side. Disappears from the nose.</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$248.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <button class="back-link" onclick="goBrowse()">← Back to the full catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-cart-subwaytile">
+  <div class="page-shell">
+    <div class="page-eyebrow">Your Cart</div>
+    <div class="page-title">Review Order</div>
+
+    <div class="cart-line">
+      <div class="cart-line-left">
+        <div class="cart-line-title">Vintage Subway Tile</div>
+        <div class="cart-line-meta"><span id="cartMeta-subwaytile">1 tile · matte black · em dash in relief</span> · <span class="back-link" style="margin:0" onclick="APP.subwaytile.removeFromCart()">remove</span></div>
+      </div>
+      <div class="cart-line-price" id="cartPrice-subwaytile">$18.00</div>
+    </div>
+
+    <div class="cart-total-row sub"><span>Subtotal</span><span class="mono" id="cartSubtotal-subwaytile">$18.00</span></div>
+    <div class="cart-total-row sub"><span>Shipping</span><span class="mono">Calculated at checkout</span></div>
+    <div class="cart-total-row sub"><span>Tax</span><span class="mono">Calculated at checkout</span></div>
+    <div class="cart-total-row grand"><span>Total</span><span class="mono" id="cartTotal-subwaytile">$18.00</span></div>
+
+    <button class="checkout-btn" onclick="APP.subwaytile.showView('checkout')">Proceed to Checkout</button>
+    <div style="text-align:center">
+      <button class="back-link" onclick="APP.subwaytile.showView('product')">← Continue shopping</button>
+    </div>
+
+    <div class="cart-legal">
+      This is a real physical product. Placing this order will result in an actual fired ceramic object being shipped to an address you provide below.<br>
+      Unlike everything else on this site, this one was kiln-fired for you specifically.
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-checkout-subwaytile">
+  <div class="page-shell">
+    <div class="page-eyebrow">Secure Checkout</div>
+    <div class="page-title">Complete Purchase</div>
+
+    <div class="checkout-form">
+      <div style="border:1px solid var(--border);padding:1.25rem 1.5rem;background:white;display:flex;align-items:baseline;gap:0.75rem">
+        <span style="font-family:var(--mono);font-size:1.1rem;color:var(--blue);flex-shrink:0">—</span>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--ink-mid);line-height:1.7">This is a real, physical object that will be fired, packaged in tissue paper, and shipped to a real address. Please provide accurate shipping information.<br><br>(We are still not going to ask for your actual card number. This is a demo. The ceramic, however, is conceptually very real.)</p>
+      </div>
+
+      <div>
+        <div class="form-section-label">Shipping Address</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Full name</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Street address</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-section-label">Payment Details</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Card number</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">Expiry</label>
+              <input type="text" placeholder="MM / YY" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">CVC</label>
+              <input type="text" placeholder="•••" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);padding:1.25rem">
+        <div class="form-section-label" style="margin-bottom:0.75rem">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Vintage Subway Tile (<span id="checkoutQtyLabel-subwaytile">1 tile</span>)</span>
+          <span style="font-family:var(--mono)" id="checkoutPrice-subwaytile">$18.00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Shipping</span>
+          <span style="font-family:var(--mono)">Calculated</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.875rem;padding-top:0.75rem;font-weight:600">
+          <span>Total due today</span>
+          <span style="font-family:var(--mono)" id="checkoutTotal-subwaytile">$18.00</span>
+        </div>
+      </div>
+
+      <button class="checkout-btn" id="checkoutBtn-subwaytile" onclick="APP.subwaytile.processPayment()">Place Order — $18.00</button>
+      <div style="text-align:center">
+        <button class="back-link" onclick="APP.subwaytile.showView('cart')">← Back to cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-confirmation-subwaytile">
+  <div class="confirm-hero">
+    <span class="confirm-dash">—</span>
+    <div class="confirm-headline">Order placed.</div>
+    <div class="confirm-sub">One em dash, in ceramic form, is now in production.</div>
+    <div class="confirm-sub" style="margin-top:0.25rem">Estimated ship date: 3–5 business days. Handle with some care.</div>
+    <div class="confirm-legal">
+      An order confirmation has been prepared. It is recorded in our system,<br>
+      which is a variable in a browser session.<br>
+      It will persist until you close the tab. The tile, however, will persist considerably longer.
+    </div>
+  </div>
+  <div style="max-width:640px;margin:0 auto;padding:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <button class="receipt-btn primary" onclick="APP.subwaytile.showView('receipt')">View Receipt</button>
+    <button class="receipt-btn" onclick="APP.subwaytile.showView('account')">My Orders</button>
+    <button class="receipt-btn" onclick="goBrowse()">Back to Catalog</button>
+  </div>
+</div>
+
+<div class="view" id="view-receipt-subwaytile">
+  <div class="receipt-shell">
+    <div class="page-eyebrow" style="margin-bottom:1.5rem">Order Receipt</div>
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <span class="receipt-stamp">a real object, fired because of a punctuation mark.</span>
+    </div>
+
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div>
+          <div class="receipt-logo">emdash.click</div>
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ink-faint);margin-top:0.25rem">
+            The Merch Wing<br>
+            Physical goods, actually shipped.
+          </div>
+        </div>
+        <div class="receipt-meta">
+          Order #<span id="receiptNum-subwaytile">00001</span><br>
+          <span id="receiptDate-subwaytile">—</span><br>
+          Status: Processing
+        </div>
+      </div>
+
+      <div class="receipt-row"><span class="receipt-key">Product</span><span class="receipt-val">Vintage Subway Tile — Matte Black</span></div>
+      <div class="receipt-row"><span class="receipt-key">Quantity</span><span class="receipt-val" id="receiptQty-subwaytile">1 tile</span></div>
+      <div class="receipt-row"><span class="receipt-key">Item Price</span><span class="receipt-val" id="receiptPrice-subwaytile">$18.00</span></div>
+      <div class="receipt-row"><span class="receipt-key">Shipping</span><span class="receipt-val">Calculated · ceramic ships heavy</span></div>
+      <div class="receipt-row"><span class="receipt-key">Estimated Delivery</span><span class="receipt-val">3–5 business days. Handle with some care.</span></div>
+
+      <div class="receipt-total">
+        <span>Total Paid</span>
+        <span class="mono" id="receiptTotal-subwaytile">$18.00 USD</span>
+      </div>
+
+      <div class="receipt-footer">
+        This document confirms an order for fired ceramic tile(s), described above,<br>
+        which will be manufactured and shipped to the address you would have provided<br>
+        had this been a real store and not a demonstration of what happens when<br>
+        a punctuation joke finds its way into a kiln.<br><br>
+        Thank you for participating in the ritual of commerce. This part was real.
+      </div>
+    </div>
+
+    <div class="receipt-actions">
+      <button class="receipt-btn" onclick="window.print()">Print Receipt</button>
+      <button class="receipt-btn" onclick="APP.subwaytile.showView('account')">My Orders →</button>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="back-link" onclick="goBrowse()">← Back to catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-account-subwaytile">
+  <div class="account-shell">
+    <div class="account-header">
+      <div>
+        <div class="account-title">My Orders</div>
+        <div class="account-id">Order #<span id="accountId-subwaytile">—</span></div>
+      </div>
+      <div class="account-plan">
+        <div class="plan-badge">Physical Goods Customer</div>
+        <div class="plan-note">Ordered <span id="accountSince-subwaytile">—</span></div>
+        <div class="plan-note" style="margin-top:0.2rem">Status: Processing</div>
+      </div>
+    </div>
+
+    <div class="assets-label">You've ordered</div>
+    <div class="asset-row">
+      <div class="asset-char" style="width:60px;height:60px;flex-shrink:0;background:#111;display:flex;align-items:center;justify-content:center">
+        <span style="font-family:'DM Serif Display',serif;font-size:1.8rem;color:#fff;line-height:1">—</span>
+      </div>
+      <div class="asset-info">
+        <div class="asset-name">Vintage Subway Tile — Matte Black</div>
+        <div class="asset-meta"><span id="assetQty-subwaytile">1 tile</span> · em dash in relief · Ordered <span id="assetDate-subwaytile">—</span></div>
+      </div>
+      <div class="asset-status">Processing</div>
+    </div>
+
+    <div class="account-usage">
+      <div class="form-section-label" style="margin-bottom:0">Order Details</div>
+      <div class="usage-row"><span class="usage-key">Tiles on this order</span><span class="usage-val" id="accountQty-subwaytile">1</span></div>
+      <div class="usage-row"><span class="usage-key">Total paid</span><span class="usage-val" id="accountTotal-subwaytile">$18.00</span></div>
+      <div class="usage-row"><span class="usage-key">Ships to</span><span class="usage-val" style="color:var(--ink-mid)">Wherever you would have told us</span></div>
+      <div class="usage-row"><span class="usage-key">Tracking number</span><span class="usage-val">Assigned closer to ship date</span></div>
+    </div>
+
+    <div class="account-danger">
+      <div class="danger-title">Cancel Order</div>
+      <div class="danger-text">To cancel this order, please catch it before it enters the kiln. Once fired, ceramic cannot be unordered. The em dash, as ever, is permanent.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function() {
+  const pid = 'subwaytile';
+  let orderNumber = Math.floor(Math.random() * 89999) + 10000;
+  let selectedQty = 1;
+  const priceEach = 18;
+
+  function setQty(n) {
+    selectedQty = n;
+    [1,3,6,12].forEach(q => {
+      const btn = document.getElementById('qty' + q + '-' + pid);
+      if (btn) btn.classList.toggle('active', q === n);
+    });
+    const label = n === 1 ? '1 tile' : n + ' tiles';
+    document.getElementById('variantQty-' + pid).textContent = label;
+    const total = priceEach * n;
+    const totalStr = '$' + total.toFixed(2);
+    const el = (id) => document.getElementById(id);
+    el('cartMeta-' + pid).textContent = label + ' · matte black · em dash in relief';
+    el('cartPrice-' + pid).textContent = totalStr;
+    el('cartSubtotal-' + pid).textContent = totalStr;
+    el('cartTotal-' + pid).textContent = totalStr;
+    el('checkoutQtyLabel-' + pid).textContent = label;
+    el('checkoutPrice-' + pid).textContent = totalStr;
+    el('checkoutTotal-' + pid).textContent = totalStr;
+    el('checkoutBtn-' + pid).textContent = 'Place Order — ' + totalStr;
+  }
+
+  function updateVisual() {
+    const img = document.getElementById('imgMain-' + pid);
+    const fallback = document.getElementById('iconFallback-' + pid);
+    if (img.dataset.failed === '1') {
+      img.style.display = 'none';
+      fallback.style.display = 'flex';
+    } else {
+      img.style.display = 'block';
+      fallback.style.display = 'none';
+    }
+  }
+
+  updateVisual();
+
+  function showView(name) {
+    document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name + '-' + pid).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function addToCart() {
+    if (owned.has(pid)) { showView('account'); return; }
+    if (!inCart.has(pid)) {
+      inCart.add(pid);
+      updateCartBadge();
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Added to Cart — View Cart';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('cart');
+      setQty(selectedQty);
+    } else {
+      showView('cart');
+    }
+  }
+
+  function removeFromCart() {
+    inCart.delete(pid);
+    updateCartBadge();
+    const btn = document.getElementById('addToCartBtn-' + pid);
+    btn.textContent = 'Add to Cart';
+    btn.classList.remove('in-cart');
+    btn.onclick = () => addToCart();
+    showView('product');
+  }
+
+  function processPayment() {
+    const overlay = document.getElementById('processingOverlay');
+    document.getElementById('processingDash').textContent = '—';
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      owned.add(pid);
+      inCart.delete(pid);
+      updateCartBadge();
+      refreshNav();
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      const total = '$' + (priceEach * selectedQty).toFixed(2);
+      const qtyLabel = selectedQty === 1 ? '1 tile' : selectedQty + ' tiles';
+
+      document.getElementById('receiptDate-' + pid).textContent = dateStr;
+      document.getElementById('receiptNum-' + pid).textContent = orderNumber;
+      document.getElementById('receiptQty-' + pid).textContent = qtyLabel;
+      document.getElementById('receiptPrice-' + pid).textContent = total;
+      document.getElementById('receiptTotal-' + pid).textContent = total + ' USD';
+      document.getElementById('accountId-' + pid).textContent = orderNumber;
+      document.getElementById('accountSince-' + pid).textContent = dateStr;
+      document.getElementById('assetDate-' + pid).textContent = dateStr;
+      document.getElementById('assetQty-' + pid).textContent = qtyLabel;
+      document.getElementById('accountQty-' + pid).textContent = selectedQty;
+      document.getElementById('accountTotal-' + pid).textContent = total;
+
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Order placed — ' + total;
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('account');
+
+      showView('confirmation');
+    }, 2800);
+  }
+
+  function scrollToFAQ() {
+    showView('product');
+    setTimeout(() => {
+      document.getElementById('faqSection-' + pid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  window.APP = window.APP || {};
+  window.APP[pid] = { showView, addToCart, removeFromCart, processPayment, scrollToFAQ, setQty, updateVisual };
+})();
+</script>
 
 <!-- ─── SHARED FOOTER ─── -->
 <footer>
