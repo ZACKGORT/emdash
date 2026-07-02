@@ -1457,6 +1457,83 @@
   .product-app { display: none; }
   .product-app.active { display: block; }
 
+  /* ─── MERCH ICONS (pure CSS shapes) ─── */
+
+  /* Merch product pages: wider image column, narrower detail column (desktop only) */
+  @media (min-width: 769px) {
+    #app-tape .hero,
+    #app-toiletpaper .hero,
+    #app-skateboard .hero {
+      grid-template-columns: 3fr 2fr;
+    }
+  }
+
+  .merch-icon { position: relative; width: 100%; height: 100%; }
+  .merch-icon-frame {
+    width: clamp(11rem, 24vw, 15rem);
+    aspect-ratio: 1 / 1;
+    margin: 0 auto;
+  }
+  .merch-product-image {
+    position: absolute;
+    top: 0; left: 0; right: 0; bottom: 0;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    object-position: center;
+  }
+  .icon-ring { position: absolute; border-radius: 50%; background: #111111; box-sizing: border-box; }
+  .icon-hole { position: absolute; top: 50%; left: 50%; transform: translate(-50%, -50%); border-radius: 50%; background: var(--panel-bg, #FAFAF9); box-sizing: border-box; }
+  .icon-tail-h { position: absolute; background: #111111; box-sizing: border-box; }
+  .icon-tail-v { position: absolute; background: #111111; box-sizing: border-box; }
+  .icon-deck { position: absolute; border-radius: 999px; background: #111111; box-sizing: border-box; }
+  .icon-wheel { position: absolute; border-radius: 50%; background: #111111; box-sizing: border-box; }
+
+  /* white variant: outline treatment so it stays visible against the light page bg */
+  .merch-icon.variant-white .icon-ring,
+  .merch-icon.variant-white .icon-tail-h,
+  .merch-icon.variant-white .icon-tail-v,
+  .merch-icon.variant-white .icon-deck,
+  .merch-icon.variant-white .icon-wheel {
+    background: var(--panel-bg, #FAFAF9);
+    border: 2.5px solid #111111;
+  }
+  .merch-icon.variant-white .icon-hole {
+    background: var(--panel-bg, #FAFAF9);
+    border: 2.5px solid #111111;
+  }
+
+  @media (max-width: 768px) {
+    .merch-icon-frame { width: clamp(9rem, 40vw, 12rem); }
+  }
+
+  /* ─── PRODUCT COLOR VARIANT SELECTOR ─── */
+  .variant-section { margin: 0.25rem 0 1.25rem; }
+  .variant-label {
+    font-family: var(--mono);
+    font-size: 0.75rem;
+    color: var(--ink-mid);
+    margin-bottom: 0.6rem;
+    letter-spacing: 0.02em;
+  }
+  .variant-swatch-group { display: flex; gap: 0.6rem; }
+  .variant-swatch {
+    width: 34px;
+    height: 34px;
+    border-radius: 50%;
+    border: 1px solid var(--border);
+    cursor: pointer;
+    padding: 0;
+    box-shadow: 0 0 0 0 transparent;
+    transition: box-shadow 0.15s, transform 0.15s;
+  }
+  .variant-swatch:hover { transform: scale(1.08); }
+  .variant-swatch.active {
+    box-shadow: 0 0 0 2px var(--bg), 0 0 0 4px var(--ink);
+  }
+  .variant-black { background: #111111; }
+  .variant-white { background: #FAFAF9; }
+
   /* ─── MNEMONIC PRODUCT (phrase hero + data table) ─── */
 .hero-dash.phrase-mode {
     font-family: var(--serif);
@@ -1818,6 +1895,7 @@
   <span class="nav-logo" onclick="goBrowse()"><span data-copy="—">— </span>emdash.click</span>
   <div class="nav-right">
     <span class="nav-link" onclick="goBrowse()">Catalog</span>
+    <span class="nav-link" onclick="navMerch()">Merch</span>
     <span class="nav-link" onclick="navFAQ()">FAQ</span>
     <span class="nav-link" onclick="navLibrary()" id="account-nav" style="display:none">My Library</span>
     <a href="https://account.venmo.com/u/whereiswolfgang" target="_blank" rel="noopener" class="coffee-btn">buy me a coffee <span data-copy="—">—</span></a>
@@ -1850,8 +1928,8 @@
 
   <!-- STATS -->
   <div class="landing-stats">
-    <div class="landing-stat"><div class="landing-stat-num">6</div><div class="landing-stat-label">Characters for sale</div></div>
-    <div class="landing-stat"><div class="landing-stat-num">$0 – $10</div><div class="landing-stat-label">Price range</div></div>
+    <div class="landing-stat"><div class="landing-stat-num">9</div><div class="landing-stat-label">Digital products for sale</div></div>
+    <div class="landing-stat"><div class="landing-stat-num">$0 – $10</div><div class="landing-stat-label">Digital price range</div></div>
     <div class="landing-stat"><div class="landing-stat-num">0</div><div class="landing-stat-label">Lawyers consulted</div></div>
     <div class="landing-stat"><div class="landing-stat-num">∞</div><div class="landing-stat-label">Supply remaining</div></div>
   </div>
@@ -1863,12 +1941,70 @@
     <div class="browse-grid" id="browseGrid"></div>
   </div>
 
+  <!-- MERCH -->
+  <div class="browse-section" id="merch" style="border-top:1px solid var(--border);background:#F5F5F4">
+    <h2>The Merch Wing</h2>
+    <div class="browse-subtitle" style="max-width:640px">
+      Everything above is conceptual. These three are not — they are real, physical objects that will be manufactured and shipped to your actual address.
+      We don't sell office supplies decorated with punctuation. We sell objects engineered around the premise that the em dash deserves its own industrial design language.
+    </div>
+    <div class="browse-grid">
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('tape')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
+    <div class="icon-hole" style="width:55%;height:55%"></div>
+  </div>
+  <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
+</div></div>
+        <div class="browse-card-name">Official Em Dash™ Roll</div>
+        <div class="browse-card-unicode">$14.00 + shipping</div>
+        <div class="browse-card-note">137 perfectly proportioned em dashes. Tear. Apply. Continue writing.</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$14.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('toiletpaper')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:21.1%;left:21%">
+    <div class="icon-hole" style="width:33%;height:33%"></div>
+  </div>
+  <div class="icon-tail-v" style="width:2.6%;height:32%;top:58.2%;left:74.2%"></div>
+</div></div>
+        <div class="browse-card-name">Em Dash Bathroom Edition</div>
+        <div class="browse-card-unicode">$9.00 + shipping</div>
+        <div class="browse-card-note">Every third sheet, precision engineered to pause.</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$9.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('skateboard')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-deck" style="width:78%;height:15%;top:34.6%;left:11%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
+</div></div>
+        <div class="browse-card-name">The Em Dash Skateboard™</div>
+        <div class="browse-card-unicode">$248.00 · free shipping</div>
+        <div class="browse-card-note">One continuous line from the side. Disappears from the nose.</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$248.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.7rem;color:var(--ink-faint);margin-top:2rem">
+      More coming: Oxford Comma Emergency Kit · Semicolon Repair Kit · Parentheses (sold individually)
+    </div>
+  </div>
+
   <!-- MANIFESTO -->
   <div class="manifesto-section" id="manifesto">
     <h2>Why does this exist?</h2>
     <p>We live in a time when you buy licenses for software, rent access to your own files, and subscribe to things you used to own. Everything in this store — a punctuation mark, a spelling rule, a paragraph, a second of your own life — is a small refusal: a purchase with more honesty than most of what we call digital ownership.</p>
     <p>You already have all of it. You've had it since before you could read, before you could tell time, before you'd ever heard of Cicero. Buying it doesn't give you anything you didn't already have. That's the point. The receipt is real. The ownership is yours to believe in.</p>
-
+    <p>Also, it's funny.</p>
     <p>"Take it. It's yours!" — Brad Pitt</p>
   </div>
 </div>
@@ -1915,7 +2051,6 @@
         <li><span class="feature-bullet" data-copy="—">—</span> Unlimited personal and commercial use</li>
         <li><span class="feature-bullet" data-copy="—">—</span> Perpetual license. No seat limits.</li>
         <li><span class="feature-bullet" data-copy="—">—</span> Transferable through the honor system</li>
-        <li><span class="feature-bullet" data-copy="—">—</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-emdash" onclick="APP.emdash.addToCart()">Add to Cart</button>
@@ -2560,7 +2695,6 @@
         <li><span class="feature-bullet" data-copy="–">–</span> Unlimited use in ranges (2020–2024), scores (3–1), and connections (New York–London)</li>
         <li><span class="feature-bullet" data-copy="–">–</span> Shorter than an em dash, longer than a hyphen — legally distinct from both</li>
         <li><span class="feature-bullet" data-copy="–">–</span> Transferable through the honor system</li>
-        <li><span class="feature-bullet" data-copy="–">–</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-endash" onclick="APP.endash.addToCart()">Add to Cart</button>
@@ -3204,7 +3338,6 @@
         <li><span class="feature-bullet" data-copy=",">,</span> Prevents you from inviting your parents, JFK, and Stalin</li>
         <li><span class="feature-bullet" data-copy=",">,</span> Endorsed by the Chicago Manual of Style, disputed by the AP</li>
         <li><span class="feature-bullet" data-copy=",">,</span> Premium tier — the most expensive punctuation mark in the shop</li>
-        <li><span class="feature-bullet" data-copy=",">,</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-oxfordcomma" onclick="APP.oxfordcomma.addToCart()">Add to Cart</button>
@@ -3844,7 +3977,6 @@
         <li><span class="feature-bullet" data-copy="…">…</span> Unlimited use for suspense, trailing thoughts, and unfinished business</li>
         <li><span class="feature-bullet" data-copy="…">…</span> Fully weaponizable in passive-aggressive text messages</li>
         <li><span class="feature-bullet" data-copy="…">…</span> Perpetual license. No seat limits.</li>
-        <li><span class="feature-bullet" data-copy="…">…</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-ellipsis" onclick="APP.ellipsis.addToCart()">Add to Cart</button>
@@ -4484,7 +4616,6 @@
         <li><span class="feature-bullet" data-copy=" "> </span> Unlimited personal and commercial use</li>
         <li><span class="feature-bullet" data-copy=" "> </span> Already present in every document you have ever written</li>
         <li><span class="feature-bullet" data-copy=" "> </span> Claimed 14 million times. Supply is nonexistent as a concern.</li>
-        <li><span class="feature-bullet" data-copy=" "> </span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-space" onclick="APP.space.addToCart()">Add to Cart</button>
@@ -5773,7 +5904,6 @@
         <li><span class="feature-bullet" data-copy="IE">IE</span> Statistically outperformed by a coin flip</li>
         <li><span class="feature-bullet" data-copy="IE">IE</span> Breaks on 2,100 of 3,160 tested words — a 66.5% failure rate</li>
         <li><span class="feature-bullet" data-copy="IE">IE</span> Still taught to children as fact, worldwide</li>
-        <li><span class="feature-bullet" data-copy="IE">IE</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-mnemonic" onclick="APP.mnemonic.addToCart()">Add to Cart</button>
@@ -6457,7 +6587,6 @@
         <li><span class="feature-bullet" data-copy="⏱">⏱</span> Once purchased, this exact moment is frozen and yours forever</li>
         <li><span class="feature-bullet" data-copy="⏱">⏱</span> Inspired by a certain early-2000s song about seizing your shot (you know the one)</li>
         <li><span class="feature-bullet" data-copy="⏱">⏱</span> No do-overs. No refunds on time already spent</li>
-        <li><span class="feature-bullet" data-copy="⏱">⏱</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-moment" onclick="APP.moment.addToCart()">Add to Cart</button>
@@ -7234,7 +7363,6 @@
         <li><span class="feature-bullet" data-copy="¶">¶</span> Identical, character-for-character, to every other Lorem Ipsum in existence</li>
         <li><span class="feature-bullet" data-copy="¶">¶</span> Derived from a scrambled 45 BC Cicero text, because that's a true fact and it's very funny</li>
         <li><span class="feature-bullet" data-copy="¶">¶</span> Meaningless in every language, including the one it's pretending to be</li>
-        <li><span class="feature-bullet" data-copy="¶">¶</span> No account required (but you get one)</li>
       </ul>
 
       <button class="add-to-cart" id="addToCartBtn-loremipsum" onclick="APP.loremipsum.addToCart()">Add to Cart</button>
@@ -7833,6 +7961,1416 @@
 })();
 </script>
 
+<div class="product-app" id="app-tape">
+<div class="view active" id="view-product-tape">
+  <div class="hero">
+    <div class="hero-left" id="heroLeft-tape" style="display:flex;flex-direction:column;align-items:center;justify-content:center">
+      <img src="https://i.ibb.co/7N1PCxkC/emdashtape.png" alt="Official Em Dash™ Roll" class="merch-product-image" onerror="this.style.display='none'; this.nextElementSibling.style.display='block';">
+      <div class="merch-icon-frame" style="display:none"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
+    <div class="icon-hole" style="width:55%;height:55%"></div>
+  </div>
+  <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
+</div></div>
+      <div class="hero-watermark">137 EM DASHES · LASER-MEASURED · KERNING CALIBRATED</div>
+    </div>
+    <div class="hero-right">
+      <div class="product-category">Merch / Industrial Punctuation</div>
+      <h1 class="product-title">Official Em Dash™ Roll</h1>
+      <div class="product-price">$14.00</div>
+      <div class="product-price-note">one roll · 137 em dashes · ships in 3–5 business days</div>
+
+
+      <ul class="product-features">
+        <li><span class="feature-bullet">—</span> 137 perfectly proportioned em dashes per roll</li>
+        <li><span class="feature-bullet">—</span> Laser-measured, kerning-calibrated perforations</li>
+        <li><span class="feature-bullet">—</span> Tear. Apply. Continue writing as the punctuation gods intended.</li>
+        <li><span class="feature-bullet">—</span> Professionally tensioned adhesive — permanent, not decorative</li>
+        <li><span class="feature-bullet">—</span> Compatible with paper, monitors, laptops, walls, and existential essays</li>
+      </ul>
+
+      <button class="add-to-cart" id="addToCartBtn-tape" onclick="APP.tape.addToCart()">Add to Cart</button>
+      <div class="product-note">137 perfectly proportioned em dashes. Tear. Apply. Continue writing as the punctuation gods intended.</div>
+    </div>
+  </div>
+
+  <div class="badges-section">
+    <div class="badges-label">Verified Capabilities</div>
+    <div class="badges-grid">
+      <div class="badge"><span class="badge-check">✓</span> Laser-Measured</div>
+      <div class="badge"><span class="badge-check">✓</span> Kerning Calibrated</div>
+      <div class="badge"><span class="badge-check">✓</span> Unicode Compliant*</div>
+      <div class="badge"><span class="badge-check">✓</span> AI Resistant</div>
+      <div class="badge"><span class="badge-check">✓</span> Professionally Tensioned Adhesive</div>
+      <div class="badge"><span class="badge-check">✓</span> Small Batch</div>
+      <div class="badge"><span class="badge-check">✓</span> Recyclable Core</div>
+      <div class="badge"><span class="badge-check">✓</span> Archival Grade</div>
+      <div class="badge"><span class="badge-check">✓</span> Matte Finish</div>
+      <div class="badge"><span class="badge-check">✓</span> Acid-Free</div>
+      <div class="badge"><span class="badge-check">✓</span> Fade-Resistant</div>
+      <div class="badge"><span class="badge-check">✓</span> Made to Pause</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint);margin-top:1rem">* Compliance not recognized by any standards body.</div>
+  </div>
+
+  <div class="specs-section">
+    <div class="specs-col">
+      <h3>Specifications</h3>
+      <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">Premium matte black vinyl</span></div>
+      <div class="spec-row"><span class="spec-key">Length</span><span class="spec-val">137 em dashes (≈14.2 paragraphs)</span></div>
+      <div class="spec-row"><span class="spec-key">Thickness</span><span class="spec-val">One authoritative pause</span></div>
+      <div class="spec-row"><span class="spec-key">Adhesive</span><span class="spec-val">Professionally tensioned, permanent</span></div>
+      <div class="spec-row"><span class="spec-key">Shelf Life</span><span class="spec-val">Centuries</span></div>
+      <div class="spec-row"><span class="spec-key">Compatible With</span><span class="spec-val">Paper, monitors, laptops, walls, existential essays</span></div>
+    </div>
+    <div class="specs-col">
+      <h3>Shipping &amp; Returns</h3>
+      <div class="spec-row"><span class="spec-key">Ships From</span><span class="spec-val">A warehouse. We're being deliberately vague.</span></div>
+      <div class="spec-row"><span class="spec-key">Ships In</span><span class="spec-val">3–5 business days</span></div>
+      <div class="spec-row"><span class="spec-key">Shipping Cost</span><span class="spec-val">$4.99 flat rate</span></div>
+      <div class="spec-row"><span class="spec-key">Returns</span><span class="spec-val">Unopened rolls only. We understand if you can't bring yourself to.</span></div>
+      <div class="spec-row"><span class="spec-key">Packaging</span><span class="spec-val">Recyclable, unmarked, mildly ominous</span></div>
+      <div class="spec-row"><span class="spec-key">Warranty</span><span class="spec-val">Against manufacturing defects, not against overuse</span></div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faqSection-tape">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">Why does tape need to be "kerning calibrated"?</div>
+      <div class="faq-a">It doesn't. We did it anyway.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this actually Unicode compliant?</div>
+      <div class="faq-a">No standards body has confirmed this. We checked. Repeatedly. See asterisk.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What happens when I run out?</div>
+      <div class="faq-a">You buy another roll. This is, in fact, the entire business model.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Can I use it for actual electrical work?</div>
+      <div class="faq-a">Please don't. This tape's authority is typographic, not electrical.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is 137 em dashes really precise, or did you round?</div>
+      <div class="faq-a">It is precise. We will not be elaborating further.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Does it come in en dash length?</div>
+      <div class="faq-a">That would just be a shorter piece of tape. We're aware. We're thinking about it.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this a real product I will receive in the mail?</div>
+      <div class="faq-a">Yes. Unlike the rest of the site, this one physically exists and will be shipped to your house.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why does this cost more than a regular roll of electrical tape?</div>
+      <div class="faq-a">Because a regular roll of electrical tape has not been laser-measured against a 500-year-old typographic convention.</div>
+    </div>
+  </div>
+
+  <div class="store-section">
+    <h2>More From the Merch Wing</h2>
+    <div class="browse-subtitle">Every product should become its punctuation mark.</div>
+    <div class="browse-grid">
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('toiletpaper')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:21.1%;left:21%">
+    <div class="icon-hole" style="width:33%;height:33%"></div>
+  </div>
+  <div class="icon-tail-v" style="width:2.6%;height:32%;top:58.2%;left:74.2%"></div>
+</div></div>
+        <div class="browse-card-name">Em Dash Bathroom Edition</div>
+        <div class="browse-card-unicode">$9.00 + shipping</div>
+        <div class="browse-card-note">Every third sheet has been precision engineered to separate at exactly one typographically…</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$9.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('skateboard')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-deck" style="width:78%;height:15%;top:34.6%;left:11%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
+</div></div>
+        <div class="browse-card-name">The Em Dash Skateboard™</div>
+        <div class="browse-card-unicode">$248.00 · free shipping</div>
+        <div class="browse-card-note">From the side, it's just a perfect black horizontal line. From the nose or tail, it appear…</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$248.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <button class="back-link" onclick="goBrowse()">← Back to the full catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-cart-tape">
+  <div class="page-shell">
+    <div class="page-eyebrow">Your Cart</div>
+    <div class="page-title">Review Order</div>
+
+    <div class="cart-line">
+      <div class="cart-line-left">
+        <div class="cart-line-title">Official Em Dash™ Roll</div>
+        <div class="cart-line-meta"><span id="cartMeta-tape">1 roll · 137 em dashes</span> · <span class="back-link" style="margin:0" onclick="APP.tape.removeFromCart()">remove</span></div>
+      </div>
+      <div class="cart-line-price">$14.00</div>
+    </div>
+
+    <div class="cart-total-row sub"><span>Subtotal</span><span class="mono">$14.00</span></div>
+    <div class="cart-total-row sub"><span>Shipping</span><span class="mono">$4.99</span></div>
+    <div class="cart-total-row sub"><span>Tax</span><span class="mono">Calculated at checkout</span></div>
+    <div class="cart-total-row grand"><span>Total</span><span class="mono">$18.99</span></div>
+
+    <button class="checkout-btn" onclick="APP.tape.showView('checkout')">Proceed to Checkout</button>
+    <div style="text-align:center">
+      <button class="back-link" onclick="APP.tape.showView('product')">← Continue shopping</button>
+    </div>
+
+    <div class="cart-legal">
+      This is a real physical product. Placing this order will result in an actual manufactured object being shipped to an address you provide below.<br>
+      Unlike everything else on this site, this one was not already yours.
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-checkout-tape">
+  <div class="page-shell">
+    <div class="page-eyebrow">Secure Checkout</div>
+    <div class="page-title">Complete Purchase</div>
+
+    <div class="checkout-form">
+      <div style="border:1px solid var(--border);padding:1.25rem 1.5rem;background:white;display:flex;align-items:baseline;gap:0.75rem">
+        <span style="font-family:var(--mono);font-size:1.1rem;color:var(--blue);flex-shrink:0">—</span>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--ink-mid);line-height:1.7">This is a real, physical object that will be manufactured, packaged, and shipped to a real address. Please provide accurate shipping information.<br><br>(We are still not going to ask for your actual card number. This is a demo. The tape, however, is conceptually very real.)</p>
+      </div>
+
+      <div>
+        <div class="form-section-label">Shipping Address</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Full name</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Street address</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-section-label">Payment Details</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Card number</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">Expiry</label>
+              <input type="text" placeholder="MM / YY" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">CVC</label>
+              <input type="text" placeholder="•••" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);padding:1.25rem">
+        <div class="form-section-label" style="margin-bottom:0.75rem">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Official Em Dash™ Roll</span>
+          <span style="font-family:var(--mono)">$14.00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Shipping</span>
+          <span style="font-family:var(--mono)">$4.99</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.875rem;padding-top:0.75rem;font-weight:600">
+          <span>Total due today</span>
+          <span style="font-family:var(--mono)">$18.99</span>
+        </div>
+      </div>
+
+      <button class="checkout-btn" onclick="APP.tape.processPayment()">Place Order — $18.99</button>
+      <div style="text-align:center">
+        <button class="back-link" onclick="APP.tape.showView('cart')">← Back to cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-confirmation-tape">
+  <div class="confirm-hero">
+    <span class="confirm-dash">—</span>
+    <div class="confirm-headline">Order placed.</div>
+    <div class="confirm-sub">137 em dashes are now in production, allegedly.</div>
+    <div class="confirm-sub" style="margin-top:0.25rem">Estimated ship date: 3–5 business days from an undisclosed warehouse.</div>
+    <div class="confirm-legal">
+      An order confirmation has been prepared. It is recorded in our system,<br>
+      which is a variable in a browser session.<br>
+      It will persist until you close the tab, much like the rest of this site's promises.
+    </div>
+  </div>
+  <div style="max-width:640px;margin:0 auto;padding:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <button class="receipt-btn primary" onclick="APP.tape.showView('receipt')">View Receipt</button>
+    <button class="receipt-btn" onclick="APP.tape.showView('account')">My Orders</button>
+    <button class="receipt-btn" onclick="goBrowse()">Back to Catalog</button>
+  </div>
+</div>
+
+<div class="view" id="view-receipt-tape">
+  <div class="receipt-shell">
+    <div class="page-eyebrow" style="margin-bottom:1.5rem">Order Receipt</div>
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <span class="receipt-stamp">a real object, made because of a punctuation mark.</span>
+    </div>
+
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div>
+          <div class="receipt-logo">emdash.click</div>
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ink-faint);margin-top:0.25rem">
+            The Merch Wing<br>
+            Physical goods, actually shipped.
+          </div>
+        </div>
+        <div class="receipt-meta">
+          Order #<span id="receiptNum-tape">00001</span><br>
+          <span id="receiptDate-tape">—</span><br>
+          Status: Processing
+        </div>
+      </div>
+
+      <div class="receipt-row"><span class="receipt-key">Product</span><span class="receipt-val">Official Em Dash™ Roll</span></div>
+      <div class="receipt-row"><span class="receipt-key">Quantity</span><span class="receipt-val">1</span></div>
+      <div class="receipt-row"><span class="receipt-key">Item Price</span><span class="receipt-val">$14.00</span></div>
+      <div class="receipt-row"><span class="receipt-key">Shipping</span><span class="receipt-val">$4.99</span></div>
+      <div class="receipt-row"><span class="receipt-key">Estimated Delivery</span><span class="receipt-val">Estimated ship date: 3–5 business days from an undisclosed warehouse.</span></div>
+
+      <div class="receipt-total">
+        <span>Total Paid</span>
+        <span class="mono">$18.99 USD</span>
+      </div>
+
+      <div class="receipt-footer">
+        This document confirms an order for one (1) physical object, described above,<br>
+        which will be manufactured and shipped to the address you would have provided<br>
+        had this been a real store and not a demonstration of what happens when<br>
+        a punctuation joke is taken several steps too far.<br><br>
+        Thank you for participating in the ritual of commerce. This part was real.
+      </div>
+    </div>
+
+    <div class="receipt-actions">
+      <button class="receipt-btn" onclick="window.print()">Print Receipt</button>
+      <button class="receipt-btn" onclick="APP.tape.showView('account')">My Orders →</button>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="back-link" onclick="goBrowse()">← Back to catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-account-tape">
+  <div class="account-shell">
+    <div class="account-header">
+      <div>
+        <div class="account-title">My Orders</div>
+        <div class="account-id">Order #<span id="accountId-tape">—</span></div>
+      </div>
+      <div class="account-plan">
+        <div class="plan-badge">Physical Goods Customer</div>
+        <div class="plan-note">Ordered <span id="accountSince-tape">—</span></div>
+        <div class="plan-note" style="margin-top:0.2rem">Status: Processing</div>
+      </div>
+    </div>
+
+    <div class="assets-label">You've ordered</div>
+    <div class="asset-row">
+      <div class="asset-char" style="width:60px;height:60px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
+    <div class="icon-hole" style="width:55%;height:55%"></div>
+  </div>
+  <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
+</div></div>
+      <div class="asset-info">
+        <div class="asset-name">Official Em Dash™ Roll</div>
+        <div class="asset-meta">1 roll · 137 em dashes · Ordered <span id="assetDate-tape">—</span></div>
+      </div>
+      <div class="asset-status">Processing</div>
+    </div>
+
+    <div class="account-usage">
+      <div class="form-section-label" style="margin-bottom:0">Order Details</div>
+      <div class="usage-row"><span class="usage-key">Items on this order</span><span class="usage-val">1</span></div>
+      <div class="usage-row"><span class="usage-key">Total paid</span><span class="usage-val">$18.99</span></div>
+      <div class="usage-row"><span class="usage-key">Ships to</span><span class="usage-val" style="color:var(--ink-mid)">Wherever you would have told us</span></div>
+      <div class="usage-row"><span class="usage-key">Tracking number</span><span class="usage-val">Assigned closer to ship date</span></div>
+    </div>
+
+    <div class="account-danger">
+      <div class="danger-title">Cancel Order</div>
+      <div class="danger-text">To cancel this order, please catch it before it leaves the warehouse. Or after — we're fairly relaxed about it. Email us and we'll sort it out like reasonable adults.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function() {
+  const pid = 'tape';
+  let orderNumber = Math.floor(Math.random() * 89999) + 10000;
+
+  function showView(name) {
+    document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name + '-' + pid).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function addToCart() {
+    if (owned.has(pid)) { showView('account'); return; }
+    if (!inCart.has(pid)) {
+      inCart.add(pid);
+      updateCartBadge();
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Added to Cart — View Cart';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('cart');
+      
+    } else {
+      showView('cart');
+    }
+  }
+
+  function removeFromCart() {
+    inCart.delete(pid);
+    updateCartBadge();
+    const btn = document.getElementById('addToCartBtn-' + pid);
+    btn.textContent = 'Add to Cart';
+    btn.classList.remove('in-cart');
+    btn.onclick = () => addToCart();
+    showView('product');
+  }
+
+  function processPayment() {
+    const overlay = document.getElementById('processingOverlay');
+    document.getElementById('processingDash').textContent = '—';
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      owned.add(pid);
+      inCart.delete(pid);
+      updateCartBadge();
+      refreshNav();
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('receiptDate-' + pid).textContent = dateStr;
+      document.getElementById('receiptNum-' + pid).textContent = orderNumber;
+      document.getElementById('accountId-' + pid).textContent = orderNumber;
+      document.getElementById('accountSince-' + pid).textContent = dateStr;
+      document.getElementById('assetDate-' + pid).textContent = dateStr;
+
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Order placed — $18.99';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('account');
+
+      showView('confirmation');
+    }, 2800);
+  }
+
+  function scrollToFAQ() {
+    showView('product');
+    setTimeout(() => {
+      document.getElementById('faqSection-' + pid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  window.APP = window.APP || {};
+  window.APP[pid] = { showView, addToCart, removeFromCart, processPayment, scrollToFAQ };
+})();
+</script>
+
+<div class="product-app" id="app-toiletpaper">
+<div class="view active" id="view-product-toiletpaper">
+  <div class="hero">
+    <div class="hero-left" id="heroLeft-toiletpaper" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1D1D1D;--panel-bg:#1D1D1D">
+      <img src="https://i.ibb.co/5XS5rb6j/toiletpaperblack.png" alt="Em Dash Bathroom Edition — black" class="merch-product-image" id="imgBlack-toiletpaper" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['toiletpaper'] && window.APP['toiletpaper'].updateVisual();">
+      <img src="https://i.ibb.co/Gf5kVb9s/toiletpaper-white.png" alt="Em Dash Bathroom Edition — white" class="merch-product-image" id="imgWhite-toiletpaper" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['toiletpaper'] && window.APP['toiletpaper'].updateVisual();">
+      <div class="merch-icon-frame" id="iconFallback-toiletpaper" style="display:none"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:21.1%;left:21%">
+    <div class="icon-hole" style="width:33%;height:33%"></div>
+  </div>
+  <div class="icon-tail-v" style="width:2.6%;height:32%;top:58.2%;left:74.2%"></div>
+</div></div>
+      <div class="hero-watermark">EVERY THIRD SHEET · EDITORIAL-GRADE PERFORATION · FADE-RESISTANT BLACK</div>
+    </div>
+    <div class="hero-right">
+      <div class="product-category">Merch / Industrial Punctuation</div>
+      <h1 class="product-title">Em Dash Bathroom Edition</h1>
+      <div class="product-price">$9.00</div>
+      <div class="product-price-note">one roll · fade-resistant black · ships in 3–5 business days</div>
+
+      <div class="variant-section">
+        <div class="variant-label">Color — <span id="variantName-toiletpaper">Black</span></div>
+        <div class="variant-swatch-group">
+          <button class="variant-swatch variant-black active" id="swatchBlack-toiletpaper" onclick="APP.toiletpaper.setColor('black')" aria-label="Black" title="Black"></button>
+          <button class="variant-swatch variant-white" id="swatchWhite-toiletpaper" onclick="APP.toiletpaper.setColor('white')" aria-label="White" title="White"></button>
+        </div>
+      </div>
+
+      <ul class="product-features">
+        <li><span class="feature-bullet">—</span> Every third sheet precision-engineered to separate at exactly one em dash</li>
+        <li><span class="feature-bullet">—</span> Triple-ply, dramatically tensioned</li>
+        <li><span class="feature-bullet">—</span> Fade-resistant black — because even your bathroom deserves better punctuation</li>
+        <li><span class="feature-bullet">—</span> Suitable for left-to-right languages</li>
+        <li><span class="feature-bullet">—</span> Not recommended for legal contracts</li>
+      </ul>
+
+      <button class="add-to-cart" id="addToCartBtn-toiletpaper" onclick="APP.toiletpaper.addToCart()">Add to Cart</button>
+      <div class="product-note">Every third sheet has been precision engineered to separate at exactly one typographically respectable em dash. Because even your bathroom deserves better punctuation.</div>
+    </div>
+  </div>
+
+  <div class="badges-section">
+    <div class="badges-label">Verified Capabilities</div>
+    <div class="badges-grid">
+      <div class="badge"><span class="badge-check">✓</span> Triple-Ply</div>
+      <div class="badge"><span class="badge-check">✓</span> Editorial-Grade Perforation</div>
+      <div class="badge"><span class="badge-check">✓</span> Fade-Resistant Black</div>
+      <div class="badge"><span class="badge-check">✓</span> LTR-Compatible</div>
+      <div class="badge"><span class="badge-check">✓</span> Not Legally Binding</div>
+      <div class="badge"><span class="badge-check">✓</span> Small Batch</div>
+      <div class="badge"><span class="badge-check">✓</span> Ethically Sourced Pauses</div>
+      <div class="badge"><span class="badge-check">✓</span> Acid-Free</div>
+      <div class="badge"><span class="badge-check">✓</span> Splinter-Free (allegedly)</div>
+      <div class="badge"><span class="badge-check">✓</span> Septic Safe*</div>
+      <div class="badge"><span class="badge-check">✓</span> Dramatic Tension</div>
+      <div class="badge"><span class="badge-check">✓</span> Made to Pause</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint);margin-top:1rem">* Probably.</div>
+  </div>
+
+  <div class="specs-section">
+    <div class="specs-col">
+      <h3>Specifications</h3>
+      <div class="spec-row"><span class="spec-key">Material</span><span class="spec-val">Triple-ply, dramatic tension</span></div>
+      <div class="spec-row"><span class="spec-key">Perforation</span><span class="spec-val">Every third sheet, editorial-grade</span></div>
+      <div class="spec-row"><span class="spec-key">Color</span><span class="spec-val">Fade-resistant black</span></div>
+      <div class="spec-row"><span class="spec-key">Compatible With</span><span class="spec-val">Left-to-right languages</span></div>
+      <div class="spec-row"><span class="spec-key">Not Recommended For</span><span class="spec-val">Legal contracts</span></div>
+      <div class="spec-row"><span class="spec-key">Shelf Life</span><span class="spec-val">Indefinite. We assume. Nobody has tested this.</span></div>
+    </div>
+    <div class="specs-col">
+      <h3>Shipping &amp; Returns</h3>
+      <div class="spec-row"><span class="spec-key">Ships From</span><span class="spec-val">The same undisclosed warehouse</span></div>
+      <div class="spec-row"><span class="spec-key">Ships In</span><span class="spec-val">3–5 business days</span></div>
+      <div class="spec-row"><span class="spec-key">Shipping Cost</span><span class="spec-val">$4.99 flat rate</span></div>
+      <div class="spec-row"><span class="spec-key">Returns</span><span class="spec-val">For hygiene reasons, we're going to say no on this one</span></div>
+      <div class="spec-row"><span class="spec-key">Packaging</span><span class="spec-val">Recyclable, unmarked, mildly ominous</span></div>
+      <div class="spec-row"><span class="spec-key">Warranty</span><span class="spec-val">Against manufacturing defects only</span></div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faqSection-toiletpaper">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">Is the toilet paper actually black?</div>
+      <div class="faq-a">Yes. We're aware of what that implies about ink transfer. We tested it. We've chosen not to discuss the results further.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why "not recommended for legal contracts"?</div>
+      <div class="faq-a">We felt someone should say it before it became a problem.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this septic safe?</div>
+      <div class="faq-a">Probably. See badge. See asterisk.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Does every roll really pause every third sheet?</div>
+      <div class="faq-a">Editorial-grade perforation, yes. We stand behind the pacing.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this a joke product or a real one?</div>
+      <div class="faq-a">Both. It ships either way.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why does bathroom tissue need "dramatic tension"?</div>
+      <div class="faq-a">Everything deserves dramatic tension if you engineer it hard enough. That's the company's entire philosophy at this point.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this actually going to arrive at my house?</div>
+      <div class="faq-a">Yes. This is, again, one of the real ones.</div>
+    </div>
+  </div>
+
+  <div class="store-section">
+    <h2>More From the Merch Wing</h2>
+    <div class="browse-subtitle">Every product should become its punctuation mark.</div>
+    <div class="browse-grid">
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('tape')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
+    <div class="icon-hole" style="width:55%;height:55%"></div>
+  </div>
+  <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
+</div></div>
+        <div class="browse-card-name">Official Em Dash™ Roll</div>
+        <div class="browse-card-unicode">$14.00 + shipping</div>
+        <div class="browse-card-note">137 perfectly proportioned em dashes. Tear. Apply. Continue writing as the punctuation god…</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$14.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('skateboard')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-deck" style="width:78%;height:15%;top:34.6%;left:11%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
+</div></div>
+        <div class="browse-card-name">The Em Dash Skateboard™</div>
+        <div class="browse-card-unicode">$248.00 · free shipping</div>
+        <div class="browse-card-note">From the side, it's just a perfect black horizontal line. From the nose or tail, it appear…</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$248.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <button class="back-link" onclick="goBrowse()">← Back to the full catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-cart-toiletpaper">
+  <div class="page-shell">
+    <div class="page-eyebrow">Your Cart</div>
+    <div class="page-title">Review Order</div>
+
+    <div class="cart-line">
+      <div class="cart-line-left">
+        <div class="cart-line-title">Em Dash Bathroom Edition</div>
+        <div class="cart-line-meta"><span id="cartMeta-toiletpaper">1 roll · every third sheet</span> · <span class="back-link" style="margin:0" onclick="APP.toiletpaper.removeFromCart()">remove</span></div>
+      </div>
+      <div class="cart-line-price">$9.00</div>
+    </div>
+
+    <div class="cart-total-row sub"><span>Subtotal</span><span class="mono">$9.00</span></div>
+    <div class="cart-total-row sub"><span>Shipping</span><span class="mono">$4.99</span></div>
+    <div class="cart-total-row sub"><span>Tax</span><span class="mono">Calculated at checkout</span></div>
+    <div class="cart-total-row grand"><span>Total</span><span class="mono">$13.99</span></div>
+
+    <button class="checkout-btn" onclick="APP.toiletpaper.showView('checkout')">Proceed to Checkout</button>
+    <div style="text-align:center">
+      <button class="back-link" onclick="APP.toiletpaper.showView('product')">← Continue shopping</button>
+    </div>
+
+    <div class="cart-legal">
+      This is a real physical product. Placing this order will result in an actual manufactured object being shipped to an address you provide below.<br>
+      Unlike everything else on this site, this one was not already yours.
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-checkout-toiletpaper">
+  <div class="page-shell">
+    <div class="page-eyebrow">Secure Checkout</div>
+    <div class="page-title">Complete Purchase</div>
+
+    <div class="checkout-form">
+      <div style="border:1px solid var(--border);padding:1.25rem 1.5rem;background:white;display:flex;align-items:baseline;gap:0.75rem">
+        <span style="font-family:var(--mono);font-size:1.1rem;color:var(--blue);flex-shrink:0">—</span>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--ink-mid);line-height:1.7">This is a real, physical object that will be manufactured, packaged, and shipped to a real address. Please provide accurate shipping information.<br><br>(We are still not going to ask for your actual card number. This is a demo. The dramatic tension, however, is conceptually very real.)</p>
+      </div>
+
+      <div>
+        <div class="form-section-label">Shipping Address</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Full name</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Street address</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-section-label">Payment Details</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Card number</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">Expiry</label>
+              <input type="text" placeholder="MM / YY" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">CVC</label>
+              <input type="text" placeholder="•••" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);padding:1.25rem">
+        <div class="form-section-label" style="margin-bottom:0.75rem">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Em Dash Bathroom Edition</span>
+          <span style="font-family:var(--mono)">$9.00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Shipping</span>
+          <span style="font-family:var(--mono)">$4.99</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.875rem;padding-top:0.75rem;font-weight:600">
+          <span>Total due today</span>
+          <span style="font-family:var(--mono)">$13.99</span>
+        </div>
+      </div>
+
+      <button class="checkout-btn" onclick="APP.toiletpaper.processPayment()">Place Order — $13.99</button>
+      <div style="text-align:center">
+        <button class="back-link" onclick="APP.toiletpaper.showView('cart')">← Back to cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-confirmation-toiletpaper">
+  <div class="confirm-hero">
+    <span class="confirm-dash">—</span>
+    <div class="confirm-headline">Order placed.</div>
+    <div class="confirm-sub">Your em dashes are now in production, three sheets at a time.</div>
+    <div class="confirm-sub" style="margin-top:0.25rem">Estimated ship date: 3–5 business days. We will not be commenting further on this product.</div>
+    <div class="confirm-legal">
+      An order confirmation has been prepared. It is recorded in our system,<br>
+      which is a variable in a browser session.<br>
+      It will persist until you close the tab, much like the rest of this site's promises.
+    </div>
+  </div>
+  <div style="max-width:640px;margin:0 auto;padding:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <button class="receipt-btn primary" onclick="APP.toiletpaper.showView('receipt')">View Receipt</button>
+    <button class="receipt-btn" onclick="APP.toiletpaper.showView('account')">My Orders</button>
+    <button class="receipt-btn" onclick="goBrowse()">Back to Catalog</button>
+  </div>
+</div>
+
+<div class="view" id="view-receipt-toiletpaper">
+  <div class="receipt-shell">
+    <div class="page-eyebrow" style="margin-bottom:1.5rem">Order Receipt</div>
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <span class="receipt-stamp">a real object, made because of a punctuation mark.</span>
+    </div>
+
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div>
+          <div class="receipt-logo">emdash.click</div>
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ink-faint);margin-top:0.25rem">
+            The Merch Wing<br>
+            Physical goods, actually shipped.
+          </div>
+        </div>
+        <div class="receipt-meta">
+          Order #<span id="receiptNum-toiletpaper">00001</span><br>
+          <span id="receiptDate-toiletpaper">—</span><br>
+          Status: Processing
+        </div>
+      </div>
+
+      <div class="receipt-row"><span class="receipt-key">Product</span><span class="receipt-val">Em Dash Bathroom Edition</span></div>
+      <div class="receipt-row"><span class="receipt-key">Quantity</span><span class="receipt-val">1</span></div>
+      <div class="receipt-row"><span class="receipt-key">Item Price</span><span class="receipt-val">$9.00</span></div>
+      <div class="receipt-row"><span class="receipt-key">Shipping</span><span class="receipt-val">$4.99</span></div>
+      <div class="receipt-row"><span class="receipt-key">Estimated Delivery</span><span class="receipt-val">Estimated ship date: 3–5 business days. We will not be commenting further on this product.</span></div>
+
+      <div class="receipt-total">
+        <span>Total Paid</span>
+        <span class="mono">$13.99 USD</span>
+      </div>
+
+      <div class="receipt-footer">
+        This document confirms an order for one (1) physical object, described above,<br>
+        which will be manufactured and shipped to the address you would have provided<br>
+        had this been a real store and not a demonstration of what happens when<br>
+        a punctuation joke is taken several steps too far.<br><br>
+        Thank you for participating in the ritual of commerce. This part was real.
+      </div>
+    </div>
+
+    <div class="receipt-actions">
+      <button class="receipt-btn" onclick="window.print()">Print Receipt</button>
+      <button class="receipt-btn" onclick="APP.toiletpaper.showView('account')">My Orders →</button>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="back-link" onclick="goBrowse()">← Back to catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-account-toiletpaper">
+  <div class="account-shell">
+    <div class="account-header">
+      <div>
+        <div class="account-title">My Orders</div>
+        <div class="account-id">Order #<span id="accountId-toiletpaper">—</span></div>
+      </div>
+      <div class="account-plan">
+        <div class="plan-badge">Physical Goods Customer</div>
+        <div class="plan-note">Ordered <span id="accountSince-toiletpaper">—</span></div>
+        <div class="plan-note" style="margin-top:0.2rem">Status: Processing</div>
+      </div>
+    </div>
+
+    <div class="assets-label">You've ordered</div>
+    <div class="asset-row">
+      <div class="asset-char" style="width:60px;height:60px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:21.1%;left:21%">
+    <div class="icon-hole" style="width:33%;height:33%"></div>
+  </div>
+  <div class="icon-tail-v" style="width:2.6%;height:32%;top:58.2%;left:74.2%"></div>
+</div></div>
+      <div class="asset-info">
+        <div class="asset-name">Em Dash Bathroom Edition</div>
+        <div class="asset-meta">1 roll · every third sheet · Ordered <span id="assetDate-toiletpaper">—</span></div>
+      </div>
+      <div class="asset-status">Processing</div>
+    </div>
+
+    <div class="account-usage">
+      <div class="form-section-label" style="margin-bottom:0">Order Details</div>
+      <div class="usage-row"><span class="usage-key">Items on this order</span><span class="usage-val">1</span></div>
+      <div class="usage-row"><span class="usage-key">Total paid</span><span class="usage-val">$13.99</span></div>
+      <div class="usage-row"><span class="usage-key">Ships to</span><span class="usage-val" style="color:var(--ink-mid)">Wherever you would have told us</span></div>
+      <div class="usage-row"><span class="usage-key">Tracking number</span><span class="usage-val">Assigned closer to ship date</span></div>
+    </div>
+
+    <div class="account-danger">
+      <div class="danger-title">Cancel Order</div>
+      <div class="danger-text">To cancel this order, please catch it before it leaves the warehouse. For reasons we hope are obvious, we cannot accept it back once opened.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function() {
+  const pid = 'toiletpaper';
+  let orderNumber = Math.floor(Math.random() * 89999) + 10000;
+
+  let selectedColor = 'black';
+  function setColor(color) {
+    selectedColor = color;
+    document.getElementById('swatchBlack-' + pid).classList.toggle('active', color === 'black');
+    document.getElementById('swatchWhite-' + pid).classList.toggle('active', color === 'white');
+    document.getElementById('variantName-' + pid).textContent = color === 'black' ? 'Black' : 'White';
+    document.querySelectorAll('#app-' + pid + ' .merch-icon').forEach(el => {
+      el.classList.toggle('variant-white', color === 'white');
+    });
+    const panelBg = color === 'black' ? '#1D1D1D' : '#FFFFFF';
+    const heroLeft = document.getElementById('heroLeft-' + pid);
+    if (heroLeft) {
+      heroLeft.style.background = panelBg;
+      heroLeft.style.setProperty('--panel-bg', panelBg);
+    }
+    updateVisual();
+  }
+
+  function updateVisual() {
+    const imgBlack = document.getElementById('imgBlack-' + pid);
+    const imgWhite = document.getElementById('imgWhite-' + pid);
+    const iconFallback = document.getElementById('iconFallback-' + pid);
+    const active = selectedColor === 'black' ? imgBlack : imgWhite;
+    const other = selectedColor === 'black' ? imgWhite : imgBlack;
+    other.style.display = 'none';
+    if (active.dataset.failed === '1') {
+      active.style.display = 'none';
+      iconFallback.style.display = 'block';
+      iconFallback.querySelector('.merch-icon').classList.toggle('variant-white', selectedColor === 'white');
+    } else {
+      active.style.display = 'block';
+      iconFallback.style.display = 'none';
+    }
+  }
+
+  updateVisual();
+
+  function showView(name) {
+    document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name + '-' + pid).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function addToCart() {
+    if (owned.has(pid)) { showView('account'); return; }
+    if (!inCart.has(pid)) {
+      inCart.add(pid);
+      updateCartBadge();
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Added to Cart — View Cart';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('cart');
+      document.getElementById('cartMeta-' + pid).textContent = '1 roll · every third sheet · Color: ' + (selectedColor === 'black' ? 'Black' : 'White');
+    } else {
+      showView('cart');
+    }
+  }
+
+  function removeFromCart() {
+    inCart.delete(pid);
+    updateCartBadge();
+    const btn = document.getElementById('addToCartBtn-' + pid);
+    btn.textContent = 'Add to Cart';
+    btn.classList.remove('in-cart');
+    btn.onclick = () => addToCart();
+    showView('product');
+  }
+
+  function processPayment() {
+    const overlay = document.getElementById('processingOverlay');
+    document.getElementById('processingDash').textContent = '—';
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      owned.add(pid);
+      inCart.delete(pid);
+      updateCartBadge();
+      refreshNav();
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('receiptDate-' + pid).textContent = dateStr;
+      document.getElementById('receiptNum-' + pid).textContent = orderNumber;
+      document.getElementById('accountId-' + pid).textContent = orderNumber;
+      document.getElementById('accountSince-' + pid).textContent = dateStr;
+      document.getElementById('assetDate-' + pid).textContent = dateStr;
+
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Order placed — $13.99';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('account');
+
+      showView('confirmation');
+    }, 2800);
+  }
+
+  function scrollToFAQ() {
+    showView('product');
+    setTimeout(() => {
+      document.getElementById('faqSection-' + pid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  window.APP = window.APP || {};
+  window.APP[pid] = { showView, addToCart, removeFromCart, processPayment, scrollToFAQ, setColor, updateVisual };
+})();
+</script>
+
+<div class="product-app" id="app-skateboard">
+<div class="view active" id="view-product-skateboard">
+  <div class="hero">
+    <div class="hero-left" id="heroLeft-skateboard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1D1D1D;--panel-bg:#1D1D1D">
+      <img src="https://i.ibb.co/fzb8HWX5/skateboard-black.png" alt="The Em Dash Skateboard™ — black" class="merch-product-image" id="imgBlack-skateboard" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['skateboard'] && window.APP['skateboard'].updateVisual();">
+      <img src="https://i.ibb.co/6cNvrJgw/skateboard-white.png" alt="The Em Dash Skateboard™ — white" class="merch-product-image" id="imgWhite-skateboard" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['skateboard'] && window.APP['skateboard'].updateVisual();">
+      <div class="merch-icon-frame" id="iconFallback-skateboard" style="display:none"><div class="merch-icon">
+  <div class="icon-deck" style="width:78%;height:15%;top:34.6%;left:11%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
+</div></div>
+      <div class="hero-watermark">ONE CONTINUOUS LINE FROM THE SIDE · NEAR-INVISIBLE FROM THE NOSE</div>
+    </div>
+    <div class="hero-right">
+      <div class="product-category">Merch / Industrial Punctuation</div>
+      <h1 class="product-title">The Em Dash Skateboard™</h1>
+      <div class="product-price">$248.00</div>
+      <div class="product-price-note">one deck · free shipping · ships in 5–7 business days</div>
+
+      <div class="variant-section">
+        <div class="variant-label">Color — <span id="variantName-skateboard">Black</span></div>
+        <div class="variant-swatch-group">
+          <button class="variant-swatch variant-black active" id="swatchBlack-skateboard" onclick="APP.skateboard.setColor('black')" aria-label="Black" title="Black"></button>
+          <button class="variant-swatch variant-white" id="swatchWhite-skateboard" onclick="APP.skateboard.setColor('white')" aria-label="White" title="White"></button>
+        </div>
+      </div>
+
+      <ul class="product-features">
+        <li><span class="feature-bullet">—</span> From the side: one continuous, uninterrupted horizontal line</li>
+        <li><span class="feature-bullet">—</span> From the nose or tail: it visually disappears</li>
+        <li><span class="feature-bullet">—</span> Smoked acrylic wheels and clear-anodized trucks for uninterrupted black</li>
+        <li><span class="feature-bullet">—</span> Matte finish, zero graphics, zero logos (except the one on the box)</li>
+        <li><span class="feature-bullet">—</span> The world's first typographically accurate skateboard</li>
+      </ul>
+
+      <button class="add-to-cart" id="addToCartBtn-skateboard" onclick="APP.skateboard.addToCart()">Add to Cart</button>
+      <div class="product-note">From the side, it's just a perfect black horizontal line. From the nose or tail, it appears to disappear. The world's first typographically accurate skateboard.</div>
+    </div>
+  </div>
+
+  <div class="badges-section">
+    <div class="badges-label">Verified Capabilities</div>
+    <div class="badges-grid">
+      <div class="badge"><span class="badge-check">✓</span> Laser-Cut Deck</div>
+      <div class="badge"><span class="badge-check">✓</span> Hand-Pressed Maple</div>
+      <div class="badge"><span class="badge-check">✓</span> Smoked Acrylic Wheels</div>
+      <div class="badge"><span class="badge-check">✓</span> Clear-Anodized Trucks</div>
+      <div class="badge"><span class="badge-check">✓</span> Matte Everything</div>
+      <div class="badge"><span class="badge-check">✓</span> Zero Graphics</div>
+      <div class="badge"><span class="badge-check">✓</span> Kerning Calibrated*</div>
+      <div class="badge"><span class="badge-check">✓</span> Museum-Adjacent</div>
+      <div class="badge"><span class="badge-check">✓</span> Small Batch</div>
+      <div class="badge"><span class="badge-check">✓</span> Concept Approved</div>
+      <div class="badge"><span class="badge-check">✓</span> Reflective-Coating Free</div>
+      <div class="badge"><span class="badge-check">✓</span> Made to Roll</div>
+    </div>
+    <div style="font-family:var(--mono);font-size:0.68rem;color:var(--ink-faint);margin-top:1rem">* We don't know what this means for a skateboard either. We kept it anyway.</div>
+  </div>
+
+  <div class="specs-section">
+    <div class="specs-col">
+      <h3>Specifications</h3>
+      <div class="spec-row"><span class="spec-key">Deck</span><span class="spec-val">Matte black, hand-pressed maple, no graphics</span></div>
+      <div class="spec-row"><span class="spec-key">Grip Tape</span><span class="spec-val">Black, naturally</span></div>
+      <div class="spec-row"><span class="spec-key">Wheels</span><span class="spec-val">Smoked acrylic, glass-effect</span></div>
+      <div class="spec-row"><span class="spec-key">Trucks</span><span class="spec-val">Clear-anodized, low profile</span></div>
+      <div class="spec-row"><span class="spec-key">Profile (Side)</span><span class="spec-val">One continuous horizontal line</span></div>
+      <div class="spec-row"><span class="spec-key">Profile (Nose/Tail)</span><span class="spec-val">Approaches zero width</span></div>
+    </div>
+    <div class="specs-col">
+      <h3>Shipping &amp; Returns</h3>
+      <div class="spec-row"><span class="spec-key">Ships From</span><span class="spec-val">The same undisclosed warehouse, now with more bubble wrap</span></div>
+      <div class="spec-row"><span class="spec-key">Ships In</span><span class="spec-val">5–7 business days</span></div>
+      <div class="spec-row"><span class="spec-key">Shipping Cost</span><span class="spec-val">Free — this one, we felt, deserved it</span></div>
+      <div class="spec-row"><span class="spec-key">Assembly</span><span class="spec-val">Mostly assembled. "Mostly" is doing some work in that sentence.</span></div>
+      <div class="spec-row"><span class="spec-key">Returns</span><span class="spec-val">Within 30 days, in original, disappearing-from-certain-angles condition</span></div>
+      <div class="spec-row"><span class="spec-key">Warranty</span><span class="spec-val">One year against manufacturing defects, zero years against ambition</span></div>
+    </div>
+  </div>
+
+  <div class="faq-section" id="faqSection-skateboard">
+    <h2>Frequently Asked Questions</h2>
+    <div class="faq-item">
+      <div class="faq-q">Does it actually ride well?</div>
+      <div class="faq-a">It's a skateboard. Yes. We didn't compromise the trucks for the bit.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why is it so expensive?</div>
+      <div class="faq-a">Because it disappears from certain angles, and disappearing is expensive to engineer.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is it actually made of glass?</div>
+      <div class="faq-a">The wheels and trucks are a smoked acrylic that reads as glass. Actual glass wheels would be, legally and physically, a terrible idea.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">What happens if I paint it?</div>
+      <div class="faq-a">You will have committed a crime against typography. Also, the warranty is void.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this a real skateboard I can ride, or a conceptual art piece?</div>
+      <div class="faq-a">We refuse to draw that distinction. It ships in a box either way.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Why does it cost more than the tape and toilet paper combined, times ten?</div>
+      <div class="faq-a">Different em dash. Bigger commitment.</div>
+    </div>
+    <div class="faq-item">
+      <div class="faq-q">Is this actually going to arrive at my house?</div>
+      <div class="faq-a">Yes. This is the third and final real one. The rest of the site is, we remind you, mostly conceptual.</div>
+    </div>
+  </div>
+
+  <div class="store-section">
+    <h2>More From the Merch Wing</h2>
+    <div class="browse-subtitle">Every product should become its punctuation mark.</div>
+    <div class="browse-grid">
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('tape')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:20.5%;left:21%">
+    <div class="icon-hole" style="width:55%;height:55%"></div>
+  </div>
+  <div class="icon-tail-h" style="width:38%;height:2.6%;top:75.2%;left:49%"></div>
+</div></div>
+        <div class="browse-card-name">Official Em Dash™ Roll</div>
+        <div class="browse-card-unicode">$14.00 + shipping</div>
+        <div class="browse-card-note">137 perfectly proportioned em dashes. Tear. Apply. Continue writing as the punctuation god…</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$14.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+      <a class="browse-card" href="javascript:void(0)" onclick="goProduct('toiletpaper')">
+        <div class="browse-card-char" style="width:120px;height:120px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-ring" style="width:56%;height:56%;top:21.1%;left:21%">
+    <div class="icon-hole" style="width:33%;height:33%"></div>
+  </div>
+  <div class="icon-tail-v" style="width:2.6%;height:32%;top:58.2%;left:74.2%"></div>
+</div></div>
+        <div class="browse-card-name">Em Dash Bathroom Edition</div>
+        <div class="browse-card-unicode">$9.00 + shipping</div>
+        <div class="browse-card-note">Every third sheet has been precision engineered to separate at exactly one typographically…</div>
+        <div class="browse-card-footer">
+          <span class="browse-card-price">$9.00</span>
+          <span class="browse-card-cta">View product →</span>
+        </div>
+      </a>
+    </div>
+    <div style="text-align:center;margin-top:2rem">
+      <button class="back-link" onclick="goBrowse()">← Back to the full catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-cart-skateboard">
+  <div class="page-shell">
+    <div class="page-eyebrow">Your Cart</div>
+    <div class="page-title">Review Order</div>
+
+    <div class="cart-line">
+      <div class="cart-line-left">
+        <div class="cart-line-title">The Em Dash Skateboard™</div>
+        <div class="cart-line-meta"><span id="cartMeta-skateboard">1 deck · disappears from certain angles</span> · <span class="back-link" style="margin:0" onclick="APP.skateboard.removeFromCart()">remove</span></div>
+      </div>
+      <div class="cart-line-price">$248.00</div>
+    </div>
+
+    <div class="cart-total-row sub"><span>Subtotal</span><span class="mono">$248.00</span></div>
+    <div class="cart-total-row sub"><span>Shipping</span><span class="mono">Free</span></div>
+    <div class="cart-total-row sub"><span>Tax</span><span class="mono">Calculated at checkout</span></div>
+    <div class="cart-total-row grand"><span>Total</span><span class="mono">$248.00</span></div>
+
+    <button class="checkout-btn" onclick="APP.skateboard.showView('checkout')">Proceed to Checkout</button>
+    <div style="text-align:center">
+      <button class="back-link" onclick="APP.skateboard.showView('product')">← Continue shopping</button>
+    </div>
+
+    <div class="cart-legal">
+      This is a real physical product. Placing this order will result in an actual manufactured object being shipped to an address you provide below.<br>
+      Unlike everything else on this site, this one was not already yours.
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-checkout-skateboard">
+  <div class="page-shell">
+    <div class="page-eyebrow">Secure Checkout</div>
+    <div class="page-title">Complete Purchase</div>
+
+    <div class="checkout-form">
+      <div style="border:1px solid var(--border);padding:1.25rem 1.5rem;background:white;display:flex;align-items:baseline;gap:0.75rem">
+        <span style="font-family:var(--mono);font-size:1.1rem;color:var(--blue);flex-shrink:0">—</span>
+        <p style="font-family:var(--mono);font-size:0.75rem;color:var(--ink-mid);line-height:1.7">This is a real, physical object that will be manufactured, packaged, and shipped to a real address. Please provide accurate shipping information.<br><br>(We are still not going to ask for your actual card number. This is a demo. The ambition, however, is conceptually very real.)</p>
+      </div>
+
+      <div>
+        <div class="form-section-label">Shipping Address</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Full name</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Street address</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+        </div>
+      </div>
+
+      <div>
+        <div class="form-section-label">Payment Details</div>
+        <div style="display:flex;flex-direction:column;gap:1rem">
+          <div class="form-group">
+            <label style="color:var(--ink-faint)">Card number</label>
+            <input type="text" placeholder="Not collected in this demo" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+          </div>
+          <div class="form-row">
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">Expiry</label>
+              <input type="text" placeholder="MM / YY" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+            <div class="form-group">
+              <label style="color:var(--ink-faint)">CVC</label>
+              <input type="text" placeholder="•••" disabled style="background:#F5F5F4;color:var(--ink-faint);cursor:not-allowed;border-color:var(--border);opacity:0.6">
+            </div>
+          </div>
+        </div>
+      </div>
+
+      <div style="background:white;border:1px solid var(--border);padding:1.25rem">
+        <div class="form-section-label" style="margin-bottom:0.75rem">Order Summary</div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding-bottom:0.75rem;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">The Em Dash Skateboard™</span>
+          <span style="font-family:var(--mono)">$248.00</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;align-items:baseline;font-size:0.82rem;padding:0.75rem 0;border-bottom:1px solid var(--border)">
+          <span style="color:var(--ink-mid)">Shipping</span>
+          <span style="font-family:var(--mono)">Free</span>
+        </div>
+        <div style="display:flex;justify-content:space-between;font-size:0.875rem;padding-top:0.75rem;font-weight:600">
+          <span>Total due today</span>
+          <span style="font-family:var(--mono)">$248.00</span>
+        </div>
+      </div>
+
+      <button class="checkout-btn" onclick="APP.skateboard.processPayment()">Place Order — $248.00</button>
+      <div style="text-align:center">
+        <button class="back-link" onclick="APP.skateboard.showView('cart')">← Back to cart</button>
+      </div>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-confirmation-skateboard">
+  <div class="confirm-hero">
+    <span class="confirm-dash">—</span>
+    <div class="confirm-headline">Order placed.</div>
+    <div class="confirm-sub">One em dash, in skateboard form, is now in production.</div>
+    <div class="confirm-sub" style="margin-top:0.25rem">Estimated ship date: 5–7 business days. Mostly assembled on arrival.</div>
+    <div class="confirm-legal">
+      An order confirmation has been prepared. It is recorded in our system,<br>
+      which is a variable in a browser session.<br>
+      It will persist until you close the tab, much like the rest of this site's promises.
+    </div>
+  </div>
+  <div style="max-width:640px;margin:0 auto;padding:2rem;display:flex;gap:1rem;flex-wrap:wrap">
+    <button class="receipt-btn primary" onclick="APP.skateboard.showView('receipt')">View Receipt</button>
+    <button class="receipt-btn" onclick="APP.skateboard.showView('account')">My Orders</button>
+    <button class="receipt-btn" onclick="goBrowse()">Back to Catalog</button>
+  </div>
+</div>
+
+<div class="view" id="view-receipt-skateboard">
+  <div class="receipt-shell">
+    <div class="page-eyebrow" style="margin-bottom:1.5rem">Order Receipt</div>
+    <div style="text-align:center;margin-bottom:1.5rem">
+      <span class="receipt-stamp">a real object, made because of a punctuation mark.</span>
+    </div>
+
+    <div class="receipt-card">
+      <div class="receipt-header">
+        <div>
+          <div class="receipt-logo">emdash.click</div>
+          <div style="font-family:var(--mono);font-size:0.65rem;color:var(--ink-faint);margin-top:0.25rem">
+            The Merch Wing<br>
+            Physical goods, actually shipped.
+          </div>
+        </div>
+        <div class="receipt-meta">
+          Order #<span id="receiptNum-skateboard">00001</span><br>
+          <span id="receiptDate-skateboard">—</span><br>
+          Status: Processing
+        </div>
+      </div>
+
+      <div class="receipt-row"><span class="receipt-key">Product</span><span class="receipt-val">The Em Dash Skateboard™</span></div>
+      <div class="receipt-row"><span class="receipt-key">Quantity</span><span class="receipt-val">1</span></div>
+      <div class="receipt-row"><span class="receipt-key">Item Price</span><span class="receipt-val">$248.00</span></div>
+      <div class="receipt-row"><span class="receipt-key">Shipping</span><span class="receipt-val">Free</span></div>
+      <div class="receipt-row"><span class="receipt-key">Estimated Delivery</span><span class="receipt-val">Estimated ship date: 5–7 business days. Mostly assembled on arrival.</span></div>
+
+      <div class="receipt-total">
+        <span>Total Paid</span>
+        <span class="mono">$248.00 USD</span>
+      </div>
+
+      <div class="receipt-footer">
+        This document confirms an order for one (1) physical object, described above,<br>
+        which will be manufactured and shipped to the address you would have provided<br>
+        had this been a real store and not a demonstration of what happens when<br>
+        a punctuation joke is taken several steps too far.<br><br>
+        Thank you for participating in the ritual of commerce. This part was real.
+      </div>
+    </div>
+
+    <div class="receipt-actions">
+      <button class="receipt-btn" onclick="window.print()">Print Receipt</button>
+      <button class="receipt-btn" onclick="APP.skateboard.showView('account')">My Orders →</button>
+    </div>
+
+    <div style="text-align:center;margin-top:1.5rem">
+      <button class="back-link" onclick="goBrowse()">← Back to catalog</button>
+    </div>
+  </div>
+</div>
+
+<div class="view" id="view-account-skateboard">
+  <div class="account-shell">
+    <div class="account-header">
+      <div>
+        <div class="account-title">My Orders</div>
+        <div class="account-id">Order #<span id="accountId-skateboard">—</span></div>
+      </div>
+      <div class="account-plan">
+        <div class="plan-badge">Physical Goods Customer</div>
+        <div class="plan-note">Ordered <span id="accountSince-skateboard">—</span></div>
+        <div class="plan-note" style="margin-top:0.2rem">Status: Processing</div>
+      </div>
+    </div>
+
+    <div class="assets-label">You've ordered</div>
+    <div class="asset-row">
+      <div class="asset-char" style="width:60px;height:60px;flex-shrink:0"><div class="merch-icon">
+  <div class="icon-deck" style="width:78%;height:15%;top:34.6%;left:11%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:18.5%"></div>
+  <div class="icon-wheel" style="width:19.5%;height:19.5%;top:55.8%;left:63.9%"></div>
+</div></div>
+      <div class="asset-info">
+        <div class="asset-name">The Em Dash Skateboard™</div>
+        <div class="asset-meta">1 deck · disappears from certain angles · Ordered <span id="assetDate-skateboard">—</span></div>
+      </div>
+      <div class="asset-status">Processing</div>
+    </div>
+
+    <div class="account-usage">
+      <div class="form-section-label" style="margin-bottom:0">Order Details</div>
+      <div class="usage-row"><span class="usage-key">Items on this order</span><span class="usage-val">1</span></div>
+      <div class="usage-row"><span class="usage-key">Total paid</span><span class="usage-val">$248.00</span></div>
+      <div class="usage-row"><span class="usage-key">Ships to</span><span class="usage-val" style="color:var(--ink-mid)">Wherever you would have told us</span></div>
+      <div class="usage-row"><span class="usage-key">Tracking number</span><span class="usage-val">Assigned closer to ship date</span></div>
+    </div>
+
+    <div class="account-danger">
+      <div class="danger-title">Cancel Order</div>
+      <div class="danger-text">To cancel this order, please catch it before it leaves the warehouse. We'll be a little sad about it, honestly — this is our favorite one.</div>
+    </div>
+  </div>
+</div>
+</div>
+
+<script>
+(function() {
+  const pid = 'skateboard';
+  let orderNumber = Math.floor(Math.random() * 89999) + 10000;
+
+  let selectedColor = 'black';
+  function setColor(color) {
+    selectedColor = color;
+    document.getElementById('swatchBlack-' + pid).classList.toggle('active', color === 'black');
+    document.getElementById('swatchWhite-' + pid).classList.toggle('active', color === 'white');
+    document.getElementById('variantName-' + pid).textContent = color === 'black' ? 'Black' : 'White';
+    document.querySelectorAll('#app-' + pid + ' .merch-icon').forEach(el => {
+      el.classList.toggle('variant-white', color === 'white');
+    });
+    const panelBg = color === 'black' ? '#1D1D1D' : '#FFFFFF';
+    const heroLeft = document.getElementById('heroLeft-' + pid);
+    if (heroLeft) {
+      heroLeft.style.background = panelBg;
+      heroLeft.style.setProperty('--panel-bg', panelBg);
+    }
+    updateVisual();
+  }
+
+  function updateVisual() {
+    const imgBlack = document.getElementById('imgBlack-' + pid);
+    const imgWhite = document.getElementById('imgWhite-' + pid);
+    const iconFallback = document.getElementById('iconFallback-' + pid);
+    const active = selectedColor === 'black' ? imgBlack : imgWhite;
+    const other = selectedColor === 'black' ? imgWhite : imgBlack;
+    other.style.display = 'none';
+    if (active.dataset.failed === '1') {
+      active.style.display = 'none';
+      iconFallback.style.display = 'block';
+      iconFallback.querySelector('.merch-icon').classList.toggle('variant-white', selectedColor === 'white');
+    } else {
+      active.style.display = 'block';
+      iconFallback.style.display = 'none';
+    }
+  }
+
+  updateVisual();
+
+  function showView(name) {
+    document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
+    document.getElementById('view-' + name + '-' + pid).classList.add('active');
+    window.scrollTo(0, 0);
+  }
+
+  function addToCart() {
+    if (owned.has(pid)) { showView('account'); return; }
+    if (!inCart.has(pid)) {
+      inCart.add(pid);
+      updateCartBadge();
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Added to Cart — View Cart';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('cart');
+      document.getElementById('cartMeta-' + pid).textContent = '1 deck · disappears from certain angles · Color: ' + (selectedColor === 'black' ? 'Black' : 'White');
+    } else {
+      showView('cart');
+    }
+  }
+
+  function removeFromCart() {
+    inCart.delete(pid);
+    updateCartBadge();
+    const btn = document.getElementById('addToCartBtn-' + pid);
+    btn.textContent = 'Add to Cart';
+    btn.classList.remove('in-cart');
+    btn.onclick = () => addToCart();
+    showView('product');
+  }
+
+  function processPayment() {
+    const overlay = document.getElementById('processingOverlay');
+    document.getElementById('processingDash').textContent = '—';
+    overlay.classList.add('active');
+
+    setTimeout(() => {
+      overlay.classList.remove('active');
+      owned.add(pid);
+      inCart.delete(pid);
+      updateCartBadge();
+      refreshNav();
+
+      const now = new Date();
+      const dateStr = now.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
+      document.getElementById('receiptDate-' + pid).textContent = dateStr;
+      document.getElementById('receiptNum-' + pid).textContent = orderNumber;
+      document.getElementById('accountId-' + pid).textContent = orderNumber;
+      document.getElementById('accountSince-' + pid).textContent = dateStr;
+      document.getElementById('assetDate-' + pid).textContent = dateStr;
+
+      const btn = document.getElementById('addToCartBtn-' + pid);
+      btn.textContent = 'Order placed — $248.00';
+      btn.classList.add('in-cart');
+      btn.onclick = () => showView('account');
+
+      showView('confirmation');
+    }, 2800);
+  }
+
+  function scrollToFAQ() {
+    showView('product');
+    setTimeout(() => {
+      document.getElementById('faqSection-' + pid).scrollIntoView({ behavior: 'smooth', block: 'start' });
+    }, 50);
+  }
+
+  window.APP = window.APP || {};
+  window.APP[pid] = { showView, addToCart, removeFromCart, processPayment, scrollToFAQ, setColor, updateVisual };
+})();
+</script>
+
 
 <!-- ─── SHARED FOOTER ─── -->
 <footer>
@@ -7881,8 +9419,7 @@ const PRODUCTS = {
       "Lifetime ownership",
       "Unlimited personal and commercial use",
       "Perpetual license. No seat limits.",
-      "Transferable through the honor system",
-      "No account required (but you get one)"
+      "Transferable through the honor system"
     ],
     "faqs": [
       [
@@ -7968,8 +9505,7 @@ const PRODUCTS = {
       "Lifetime ownership",
       "Unlimited use in ranges (2020–2024), scores (3–1), and connections (New York–London)",
       "Shorter than an em dash, longer than a hyphen — legally distinct from both",
-      "Transferable through the honor system",
-      "No account required (but you get one)"
+      "Transferable through the honor system"
     ],
     "faqs": [
       [
@@ -8059,8 +9595,7 @@ const PRODUCTS = {
       "Lifetime ownership",
       "Prevents you from inviting your parents, JFK, and Stalin",
       "Endorsed by the Chicago Manual of Style, disputed by the AP",
-      "Premium tier — the most expensive punctuation mark in the shop",
-      "No account required (but you get one)"
+      "Premium tier — the most expensive punctuation mark in the shop"
     ],
     "faqs": [
       [
@@ -8146,8 +9681,7 @@ const PRODUCTS = {
       "Lifetime ownership",
       "Unlimited use for suspense, trailing thoughts, and unfinished business",
       "Fully weaponizable in passive-aggressive text messages",
-      "Perpetual license. No seat limits.",
-      "No account required (but you get one)"
+      "Perpetual license. No seat limits."
     ],
     "faqs": [
       [
@@ -8233,8 +9767,7 @@ const PRODUCTS = {
       "Lifetime ownership of literally nothing visible",
       "Unlimited personal and commercial use",
       "Already present in every document you have ever written",
-      "Claimed 14 million times. Supply is nonexistent as a concern.",
-      "No account required (but you get one)"
+      "Claimed 14 million times. Supply is nonexistent as a concern."
     ],
     "faqs": [
       [
@@ -8407,8 +9940,7 @@ const PRODUCTS = {
       "Lifetime ownership",
       "Statistically outperformed by a coin flip",
       "Breaks on 2,100 of 3,160 tested words — a 66.5% failure rate",
-      "Still taught to children as fact, worldwide",
-      "No account required (but you get one)"
+      "Still taught to children as fact, worldwide"
     ],
     "faqs": [
       [
@@ -8494,8 +10026,7 @@ const PRODUCTS = {
       "Price increases in real time — $0.10 per second elapsed ($6.00 a minute, if you dawdle)",
       "Once purchased, this exact moment is frozen and yours forever",
       "Inspired by a certain early-2000s song about seizing your shot (you know the one)",
-      "No do-overs. No refunds on time already spent",
-      "No account required (but you get one)"
+      "No do-overs. No refunds on time already spent"
     ],
     "faqs": [
       [
@@ -8581,8 +10112,7 @@ const PRODUCTS = {
       "Registered to you specifically (informally, but we did write it down)",
       "Identical, character-for-character, to every other Lorem Ipsum in existence",
       "Derived from a scrambled 45 BC Cicero text, because that's a true fact and it's very funny",
-      "Meaningless in every language, including the one it's pretending to be",
-      "No account required (but you get one)"
+      "Meaningless in every language, including the one it's pretending to be"
     ],
     "faqs": [
       [
@@ -8753,6 +10283,12 @@ function goBrowse() {
 
 function navCart() { if (window.currentProduct) window.APP[window.currentProduct].showView('cart'); }
 function navLibrary() { if (window.currentProduct) window.APP[window.currentProduct].showView('account'); }
+function navMerch() {
+  goBrowse();
+  setTimeout(() => {
+    document.getElementById('merch').scrollIntoView({ behavior: 'smooth' });
+  }, 50);
+}
 function navFAQ() {
   if (window.currentProduct) {
     window.APP[window.currentProduct].scrollToFAQ();
