@@ -2004,7 +2004,7 @@
     <h2>Why does this exist?</h2>
     <p>We live in a time when you buy licenses for software, rent access to your own files, and subscribe to things you used to own. Everything in this store — a punctuation mark, a spelling rule, a paragraph, a second of your own life — is a small refusal: a purchase with more honesty than most of what we call digital ownership.</p>
     <p>You already have all of it. You've had it since before you could read, before you could tell time, before you'd ever heard of Cicero. Buying it doesn't give you anything you didn't already have. That's the point. The receipt is real. The ownership is yours to believe in.</p>
-    <p>Also, it's funny.</p>
+
     <p>"Take it. It's yours!" — Brad Pitt</p>
   </div>
 </div>
@@ -8407,7 +8407,7 @@
 <div class="product-app" id="app-toiletpaper">
 <div class="view active" id="view-product-toiletpaper">
   <div class="hero">
-    <div class="hero-left" id="heroLeft-toiletpaper" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1D1D1D;--panel-bg:#1D1D1D">
+    <div class="hero-left" id="heroLeft-toiletpaper" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FFFFFF;--panel-bg:#FFFFFF">
       <img src="https://i.ibb.co/5XS5rb6j/toiletpaperblack.png" alt="Em Dash Bathroom Edition — black" class="merch-product-image" id="imgBlack-toiletpaper" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['toiletpaper'] && window.APP['toiletpaper'].updateVisual();">
       <img src="https://i.ibb.co/Gf5kVb9s/toiletpaper-white.png" alt="Em Dash Bathroom Edition — white" class="merch-product-image" id="imgWhite-toiletpaper" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['toiletpaper'] && window.APP['toiletpaper'].updateVisual();">
       <div class="merch-icon-frame" id="iconFallback-toiletpaper" style="display:none"><div class="merch-icon">
@@ -8425,10 +8425,10 @@
       <div class="product-price-note">one roll · fade-resistant black · ships in 3–5 business days</div>
 
       <div class="variant-section">
-        <div class="variant-label">Color — <span id="variantName-toiletpaper">Black</span></div>
+        <div class="variant-label">Color — <span id="variantName-toiletpaper">White</span></div>
         <div class="variant-swatch-group">
-          <button class="variant-swatch variant-black active" id="swatchBlack-toiletpaper" onclick="APP.toiletpaper.setColor('black')" aria-label="Black" title="Black"></button>
-          <button class="variant-swatch variant-white" id="swatchWhite-toiletpaper" onclick="APP.toiletpaper.setColor('white')" aria-label="White" title="White"></button>
+          <button class="variant-swatch variant-black" id="swatchBlack-toiletpaper" onclick="APP.toiletpaper.setColor('black')" aria-label="Black" title="Black"></button>
+          <button class="variant-swatch variant-white active" id="swatchWhite-toiletpaper" onclick="APP.toiletpaper.setColor('white')" aria-label="White" title="White"></button>
         </div>
       </div>
 
@@ -8779,7 +8779,7 @@
   const pid = 'toiletpaper';
   let orderNumber = Math.floor(Math.random() * 89999) + 10000;
 
-  let selectedColor = 'black';
+  let selectedColor = 'white';
   function setColor(color) {
     selectedColor = color;
     document.getElementById('swatchBlack-' + pid).classList.toggle('active', color === 'black');
@@ -8814,7 +8814,7 @@
     }
   }
 
-  updateVisual();
+  setColor('white');
 
   function showView(name) {
     document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
@@ -8891,7 +8891,7 @@
 <div class="product-app" id="app-skateboard">
 <div class="view active" id="view-product-skateboard">
   <div class="hero">
-    <div class="hero-left" id="heroLeft-skateboard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#1D1D1D;--panel-bg:#1D1D1D">
+    <div class="hero-left" id="heroLeft-skateboard" style="display:flex;flex-direction:column;align-items:center;justify-content:center;background:#FFFFFF;--panel-bg:#FFFFFF">
       <img src="https://i.ibb.co/fzb8HWX5/skateboard-black.png" alt="The Em Dash Skateboard™ — black" class="merch-product-image" id="imgBlack-skateboard" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['skateboard'] && window.APP['skateboard'].updateVisual();">
       <img src="https://i.ibb.co/6cNvrJgw/skateboard-white.png" alt="The Em Dash Skateboard™ — white" class="merch-product-image" id="imgWhite-skateboard" style="display:none" onerror="this.dataset.failed='1'; window.APP && window.APP['skateboard'] && window.APP['skateboard'].updateVisual();">
       <div class="merch-icon-frame" id="iconFallback-skateboard" style="display:none"><div class="merch-icon">
@@ -8908,10 +8908,10 @@
       <div class="product-price-note">one deck · free shipping · ships in 5–7 business days</div>
 
       <div class="variant-section">
-        <div class="variant-label">Color — <span id="variantName-skateboard">Black</span></div>
+        <div class="variant-label">Color — <span id="variantName-skateboard">White</span></div>
         <div class="variant-swatch-group">
-          <button class="variant-swatch variant-black active" id="swatchBlack-skateboard" onclick="APP.skateboard.setColor('black')" aria-label="Black" title="Black"></button>
-          <button class="variant-swatch variant-white" id="swatchWhite-skateboard" onclick="APP.skateboard.setColor('white')" aria-label="White" title="White"></button>
+          <button class="variant-swatch variant-black" id="swatchBlack-skateboard" onclick="APP.skateboard.setColor('black')" aria-label="Black" title="Black"></button>
+          <button class="variant-swatch variant-white active" id="swatchWhite-skateboard" onclick="APP.skateboard.setColor('white')" aria-label="White" title="White"></button>
         </div>
       </div>
 
@@ -9262,7 +9262,7 @@
   const pid = 'skateboard';
   let orderNumber = Math.floor(Math.random() * 89999) + 10000;
 
-  let selectedColor = 'black';
+  let selectedColor = 'white';
   function setColor(color) {
     selectedColor = color;
     document.getElementById('swatchBlack-' + pid).classList.toggle('active', color === 'black');
@@ -9297,7 +9297,7 @@
     }
   }
 
-  updateVisual();
+  setColor('white');
 
   function showView(name) {
     document.querySelectorAll('#app-' + pid + ' .view').forEach(v => v.classList.remove('active'));
