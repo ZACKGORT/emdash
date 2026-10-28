@@ -81,7 +81,7 @@
 <div id="say" aria-hidden="true"></div>
 <div id="hud" aria-hidden="true"></div>
 <button id="reset2" type="button" aria-label="Bring bar back to center" title="Bring back"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4v4.5H8"/></svg></button>
-<div id="hint">Pick up. Throw. Right-click to flick.</div>
+<div id="hint">Throw it. Right-click the bar to flick, anywhere else to call it back.</div>
 <div id="toast" role="status" aria-live="polite"><span id="t-label">Copied</span><code id="t-code"></code></div>
 <div id="dock" role="toolbar" aria-label="Controls">
   <span class="grip" title="Drag to move"><svg viewBox="0 0 10 16"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="7" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="7" cy="13" r="1.3"/></svg></span>
@@ -136,7 +136,8 @@ renderer.shadowMap.type = THREE.PCFSoftShadowMap;
 const scene = new THREE.Scene();               // no scene.background: the clear colour is used so BokehPass depth stays clean
 scene.fog = new THREE.FogExp2(0xffffff, 0.03);
 const camera = new THREE.PerspectiveCamera(32, 1, 0.1, 80);
-const camState = { zs: 1, zt: 1, dolly: 1, baseZ: 6.4, baseY: 2.1, ox: 0, oy: 0, tx: 0, ty: 0 };
+let fogBase = 0.03;                             // theme fog density; thinned as the camera pulls back so the scene doesn't wash out
+const camState = { az: 1, zs: 1, zt: 1, dolly: 1, baseZ: 6.4, baseY: 2.1, ox: 0, oy: 0, tx: 0, ty: 0 };
 
 /* ───────────── 3. LIGHTS (shadow casters follow the bar) ───────────── */
 const ambient = new THREE.AmbientLight(0xffffff, 0.9);
@@ -293,7 +294,7 @@ function applyTheme(t) {
   const L = TH.light, D = TH.dark;
   bgCol.lerpColors(L.bg, D.bg, t);
   renderer.setClearColor(bgCol, 1);
-  scene.fog.color.copy(bgCol); scene.fog.density = mix(L.dens, D.dens, t);
+  scene.fog.color.copy(bgCol); fogBase = mix(L.dens, D.dens, t); scene.fog.density = fogBase / camState.az;
   ambient.intensity = mix(L.amb, D.amb, t);
   key.intensity = mix(L.key, D.key, t); key.color.lerpColors(keyLight, keyDark, t);
   jit.intensity = mix(L.jit, D.jit, t);
@@ -346,6 +347,7 @@ canvas.addEventListener('pointerdown', e => {
   canvas.setPointerCapture(e.pointerId); setCursor();
 });
 function beginInteract() {
+  beck.until = 0;
   hudHide(); lastTouch = performance.now(); thrown = false;
   if (resetting) endReset();
   body.wakeUp();
@@ -547,7 +549,7 @@ function fkState() {                              // current power (0..1) and sc
 canvas.addEventListener('pointerdown', e => {
   if (e.button !== 2 || held || resetting || fk) return;
   setNdc(e);
-  const hit = hitBar(); if (!hit) return;
+  const hit = hitBar(); if (!hit) { beckon(); return; }   // empty space → call it home
   e.preventDefault(); beginInteract();
   const local = new CANNON.Vec3(); body.pointToLocalFrame(new CANNON.Vec3(hit.point.x, hit.point.y, hit.point.z), local);
   fk = { id: e.pointerId, t0: performance.now(), x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, local };
@@ -574,13 +576,39 @@ window.addEventListener('pointerup', e => {
   }
   flickCancel();
 });
-const SPIN = { knee: 4, k: 0.6, cap: 10, snap: 12 };   // rad/s: damping kicks in above knee, soft ceiling at cap
-function tameSpin(sdt) {                         // quadratic damping + soft cap; leaves deliberate spin-dragging alone
-  if (resetting || mode === 'spin') return;
-  const w = body.angularVelocity, n = w.norm();
-  if (n <= SPIN.knee) return;
-  w.scale(1 / (1 + SPIN.k * (n - SPIN.knee) * sdt), w);
-  const m = w.norm();
+/* ───────────── 9c-2. BECKON: right-click anywhere that is NOT the bar calls it back to centre ─────────────
+   A soft critically-damped pull (gravity cancelled while it travels), then it is let go to settle on its own. */
+const BECKON = { ms: 1600, k: 55, d: 13, vmax: 26 };
+const beck = { until: 0 };
+function beckon() {
+  if (resetting || held) return;
+  beck.until = performance.now() + BECKON.ms; lastTouch = performance.now(); thrown = false;
+  hudHide(); body.wakeUp(); beckonSound();
+}
+function beckonSound() {
+  if (!sndOK()) return;
+  const c = AUD.ctx, t = c.currentTime, o = c.createOscillator(), g = c.createGain();
+  o.type = 'sine'; o.frequency.setValueAtTime(320, t); o.frequency.exponentialRampToValueAtTime(760, t + 0.22);
+  g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.07, t + 0.02); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.3);
+  o.connect(g); g.connect(AUD.master); o.start(t); o.stop(t + 0.35);
+}
+function beckonTick(sdt) {
+  if (!beck.until) return;
+  if (held || resetting || mode || fk) { beck.until = 0; return; }
+  const p = body.position, v = body.velocity, ex = -p.x, ey = 0.6 - p.y, ez = -p.z;
+  if (performance.now() > beck.until || (Math.hypot(ex, ey, ez) < 0.25 && v.norm() < 1.2)) { beck.until = 0; return; }
+  body.wakeUp();
+  v.x += (ex * BECKON.k - v.x * BECKON.d) * sdt;
+  v.y += (ey * BECKON.k - v.y * BECKON.d - world.gravity.y) * sdt;       // -gravity.y: float it in instead of fighting the floor
+  v.z += (ez * BECKON.k - v.z * BECKON.d) * sdt;
+  const sp = v.norm(); if (sp > BECKON.vmax) v.scale(BECKON.vmax / sp, v);
+  body.angularVelocity.scale(1 / (1 + 4 * sdt), body.angularVelocity);   // calm any tumble on the way in
+}
+
+const SPIN = { cap: 12, snap: 12 };           // rad/s: only a soft ceiling against absurd spin; no damping below it
+function tameSpin(sdt) {
+  if (resetting || mode === 'spin') return;      // deliberate spin-dragging is left alone
+  const w = body.angularVelocity, m = w.norm();
   if (m > SPIN.cap) w.scale(mix(1, SPIN.cap / m, Math.min(1, SPIN.snap * sdt)), w);
 }
 function flickTick() {
@@ -724,7 +752,7 @@ function hudHide(auto) {
   hud.nextAt = performance.now() + (auto ? 700 : 0);
 }
 function hudTick(dt, et) {                      // cycle only while the bar is genuinely at rest
-  // Measure real motion (position/orientation change) instead of body.velocity: the leash nudges velocity
+  // Measure real motion (position/orientation change) instead of body.velocity: small external nudges keep velocity
   // every frame, which kept the bar from ever reading as "at rest".
   const q = body.quaternion, p = body.position, rm = hud.m || (hud.m = { x: p.x, y: p.y, z: p.z, qx: q.x, qy: q.y, qz: q.z, qw: q.w });
   const lin = Math.hypot(p.x - rm.x, p.y - rm.y, p.z - rm.z) / Math.max(dt, 1e-3);
@@ -811,6 +839,31 @@ function nudge(p, d) {
   R.nudgeAt = performance.now() + (grav.low ? 2600 : 1700);
 }
 
+/* ───────────── 10d. EDGE AUTO-ZOOM: the nearer the bar gets to the frame edge, the further the camera pulls back ─────────────
+   Open-loop: the bar is projected through a reference camera at the user's own zoom (no auto zoom), so the result can't feed back on itself. */
+const AZ = { margin: 0.7, gain: 0.9, max: 3.6, heldMax: 1.4 };
+const refCam = new THREE.PerspectiveCamera(), azV = new THREE.Vector3();
+function autoZoomTarget() {
+  let t = 1;
+  if (held) {                                    // dragging: the bar sits under the cursor, so key off the cursor instead (avoids runaway)
+    const e = Math.max(Math.abs(ndc.x), Math.abs(ndc.y));
+    t = 1 + AZ.heldMax * clamp((e - 0.55) / 0.45, 0, 1);
+  } else {
+    const b = body.position;
+    refCam.projectionMatrix.copy(camera.projectionMatrix);
+    refCam.position.set(camState.ox, (camState.baseY + camState.oy) * camState.zs + 0.9 * camState.dolly, camState.baseZ * camState.zs + 3 * camState.dolly);
+    refCam.lookAt(0, 0.28, 0); refCam.updateMatrixWorld(); refCam.matrixWorldInverse.copy(refCam.matrixWorld).invert();
+    azV.set(b.x, b.y, b.z).applyMatrix4(refCam.matrixWorldInverse);
+    if (azV.z > -0.3) t = AZ.max;                // at or behind the lens
+    else {
+      azV.set(b.x, b.y, b.z).project(refCam);
+      const r = Math.max(Math.abs(azV.x), Math.abs(azV.y)) / AZ.margin;
+      t = r > 1 ? 1 + AZ.gain * (r - 1) : 1;
+    }
+  }
+  return (autoZoomTarget.last = clamp(t, 1, AZ.max));
+}
+
 /* ───────────── 11. LOOP ───────────── */
 const clock = new THREE.Clock();
 const wp = new CANNON.Vec3(), vp = new CANNON.Vec3(), F = new CANNON.Vec3(), r = new CANNON.Vec3(), tq = new CANNON.Vec3();
@@ -829,33 +882,6 @@ function applyDrag() {
   wp.vsub(body.position, r); r.cross(F, tq); body.torque.vadd(tq, body.torque);
 }
 
-// Invisible magnetic leash: a faint constant pull toward centre that ramps up smoothly as the bar nears the screen edge
-const LEASH = { soft: 0.8, k: 170 };            // inside |ndc| < soft the bar is completely free; only the viewport edges push back
-const lp = new THREE.Vector3();
-function leash(dt) {
-  if (held || resetting || !started) return;
-  const p = body.position, v = body.velocity;
-  lp.set(p.x, p.y, p.z).project(camera);
-  const over = lp.z > 1 ? 1 : clamp((Math.max(Math.abs(lp.x), Math.abs(lp.y)) - LEASH.soft) / (1 - LEASH.soft), 0, 2);
-  if (over <= 0) return;
-  const len = Math.hypot(p.x, p.z) || 1, a = LEASH.k * over * over;
-  v.x -= (p.x / len) * a * dt; v.z -= (p.z / len) * a * dt;
-  v.y += (0.9 - p.y) * LEASH.k * over * over * 0.35 * dt;
-  const vr = (v.x * p.x + v.z * p.z) / len;                       // outward speed → soak it up
-  if (vr > 0) { const k = Math.min(1, 7 * over * dt) * vr; v.x -= (p.x / len) * k; v.z -= (p.z / len) * k; }
-  body.wakeUp();
-}
-// Rubberband: past ±6 in X/Z or y > 8 a spring pushes the bar back toward the viewport
-const RB = { lim: 11.5, ylim: 8, k: 90, damp: 5 };
-function rubberband(dt) {
-  if (held || resetting || !started) return;
-  const p = body.position, v = body.velocity;
-  const pull = (ax, over, dir) => { if (over > 0) { v[ax] -= dir * over * RB.k * dt; v[ax] *= Math.max(0, 1 - RB.damp * dt); body.wakeUp(); } };
-  pull('x', Math.abs(p.x) - RB.lim, Math.sign(p.x));
-  pull('z', Math.abs(p.z) - RB.lim, Math.sign(p.z));   // viewport edges are handled by leash(); this is only a backstop near the walls
-  pull('y', p.y - RB.ylim, 1);
-}
-
 function frame() {
   requestAnimationFrame(frame);
   const dt = Math.min(clock.getDelta(), 0.05), et = clock.elapsedTime;
@@ -871,7 +897,7 @@ function frame() {
   slow.ts += (slow.target - slow.ts) * (1 - Math.exp(-dt * 6));
   slow.eff = held ? Math.max(slow.ts, 0.5) : slow.ts;           // keep dragging responsive while slow-mo is on
   const sdt = dt * slow.eff;
-  tameSpin(sdt); leash(sdt); rubberband(sdt); hudTick(dt, et); reactTick(dt, et); awayTick(); flickTick();
+  tameSpin(sdt); beckonTick(sdt); hudTick(dt, et); reactTick(dt, et); awayTick(); flickTick();
   if (started && !resetting) {
     acc += sdt;
     while (acc >= FIXED) { if (held) applyDrag(); world.step(FIXED); acc -= FIXED; }
@@ -889,7 +915,10 @@ function frame() {
   // Camera: gentle parallax + intro dolly, always looking at the bar's home
   camState.ox += (camState.tx - camState.ox) * 0.05; camState.oy += (camState.ty - camState.oy) * 0.05;
   camState.zs += (camState.zt - camState.zs) * (1 - Math.exp(-dt * 8));     // scroll-zoom, eased
-  camera.position.set(camState.ox, (camState.baseY + camState.oy) * camState.zs + 0.9 * camState.dolly, camState.baseZ * camState.zs + 3 * camState.dolly);
+  camState.az += (autoZoomTarget() - camState.az) * (1 - Math.exp(-dt * (autoZoomTarget.last > camState.az ? 3.5 : 1.6)));   // out fast, back in slowly
+  scene.fog.density = fogBase / camState.az;
+  const zm = camState.zs * camState.az;                        // user scroll-zoom × edge auto zoom-out
+  camera.position.set(camState.ox, (camState.baseY + camState.oy) * zm + 0.9 * camState.dolly, camState.baseZ * zm + 3 * camState.dolly);
   camera.lookAt(0, 0.28, 0);
 
   // Depth of field follows the bar
