@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>em—dash.click</title>
+<title>em—dash</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -69,6 +69,18 @@
   #dock.drag .grip{cursor:grabbing}
   #dock svg{width:17px;height:17px;fill:none;stroke:currentColor;stroke-width:1.4;stroke-linecap:round;stroke-linejoin:round}
   #dock .grip svg{width:10px;fill:currentColor;stroke:none}
+  #shapes{position:fixed;left:0;top:0;display:flex;align-items:center;gap:2px;padding:4px 6px 4px 2px;border-radius:999px;
+    background:var(--pill);border:1px solid var(--pill-line);-webkit-backdrop-filter:blur(14px);backdrop-filter:blur(14px);
+    opacity:.3;transition:opacity .5s ease;z-index:7;touch-action:none}
+  #shapes:hover,#shapes:focus-within,#shapes.drag{opacity:1}
+  #shapes button{width:34px;height:34px;border:0;border-radius:50%;background:transparent;color:var(--ink);display:grid;place-items:center;cursor:pointer;transition:background .3s}
+  #shapes button:hover,#shapes button[aria-pressed="true"]{background:var(--pill-line)}
+  #shapes button:focus-visible{outline:1px solid var(--ink-soft)}
+  #shapes .grip{width:22px;height:34px;display:grid;place-items:center;cursor:grab;color:var(--ink-soft)}
+  #shapes.drag .grip{cursor:grabbing}
+  #shapes .grip svg{width:10px;fill:currentColor;stroke:none}
+  #shapes button svg{width:22px;height:22px;fill:none;stroke:currentColor;stroke-width:2.2;stroke-linecap:round}
+  #shapes button svg .d{fill:currentColor;stroke:none}
   #fallback[hidden]{display:none}
   #fallback{position:fixed;inset:0;display:grid;place-items:center;font-size:13px;letter-spacing:.1em;color:var(--ink-soft)}
 </style>
@@ -83,6 +95,12 @@
 <button id="reset2" type="button" aria-label="Bring bar back to center" title="Bring back"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4v4.5H8"/></svg></button>
 <div id="hint">Throw it. Right-click the bar to flick, anywhere else to call it back.</div>
 <div id="toast" role="status" aria-live="polite"><span id="t-label">Copied</span><code id="t-code"></code></div>
+<div id="shapes" role="toolbar" aria-label="Shape">
+  <span class="grip" title="Drag to move"><svg viewBox="0 0 10 16"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="7" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="7" cy="13" r="1.3"/></svg></span>
+  <button type="button" data-shape="em" aria-pressed="true" aria-label="Em dash (1)" title="Em dash (1)"><svg viewBox="0 0 24 24"><path d="M2.5 12h19"/></svg></button>
+  <button type="button" data-shape="en" aria-pressed="false" aria-label="En dash (2)" title="En dash (2)"><svg viewBox="0 0 24 24"><path d="M7.5 12h9"/></svg></button>
+  <button type="button" data-shape="dots" aria-pressed="false" aria-label="Ellipsis (3)" title="Ellipsis (3)"><svg viewBox="0 0 24 24"><circle class="d" cx="5" cy="12" r="2.2"/><circle class="d" cx="12" cy="12" r="2.2"/><circle class="d" cx="19" cy="12" r="2.2"/></svg></button>
+</div>
 <div id="dock" role="toolbar" aria-label="Controls">
   <span class="grip" title="Drag to move"><svg viewBox="0 0 10 16"><circle cx="3" cy="3" r="1.3"/><circle cx="7" cy="3" r="1.3"/><circle cx="3" cy="8" r="1.3"/><circle cx="7" cy="8" r="1.3"/><circle cx="3" cy="13" r="1.3"/><circle cx="7" cy="13" r="1.3"/></svg></span>
   <button id="reset" type="button" aria-label="Reset bar (R)" title="Reset (R)"><svg viewBox="0 0 24 24"><path d="M3.5 12a8.5 8.5 0 1 0 2.6-6.1"/><path d="M3.5 4v4.5H8"/></svg></button>
@@ -229,7 +247,7 @@ const barMat = new THREE.MeshPhysicalMaterial({
   color: 0x000000, roughness: 0.07, metalness: 0.1,
   clearcoat: 1, clearcoatRoughness: 0.03, envMap: envs.light, envMapIntensity: 1.0,
   emissive: 0xf2f6ff, emissiveIntensity: 0 });   // ramps up in dark theme: the bar becomes the light source
-const mesh = new THREE.Mesh(roundedBox(BAR.L, BAR.H, BAR.D, BAR.R, [8, 2, 2], 5), barMat);
+let mesh = new THREE.Mesh(roundedBox(BAR.L, BAR.H, BAR.D, BAR.R, [8, 2, 2], 5), barMat);
 mesh.castShadow = true;
 scene.add(mesh);
 
@@ -253,15 +271,63 @@ addPlane([13, 0, 0], [0, 1, 0], -P);
 addPlane([0, 0, -13], [0, 1, 0], 0);
 addPlane([0, 0, 4.6], [0, 1, 0], Math.PI);
 
-const body = new CANNON.Body({
+let body = new CANNON.Body({
   mass: BAR.MASS, material: mBar, linearDamping: 0.04, angularDamping: 0.1,
   allowSleep: true, sleepSpeedLimit: 0.12, sleepTimeLimit: 0.5 });
 body.addShape(new CANNON.Box(new CANNON.Vec3(BAR.L / 2, BAR.H / 2, BAR.D / 2)));
 world.addBody(body);
+body._mass0 = BAR.MASS; mesh.userData.body = body;
+
+/* ───────────── 6b. SHAPES: em dash (bar) · en dash (short bar) · ellipsis (three magnetic orbs) ───────────── */
+const ORB = { R: 0.2, MASS: 1.3 };
+const MAG = { rest: 0.66, k: 130, c: 9, amax: 70 };       // orb spacing (centre to centre), magnet stiffness, damping, accel cap
+function makeBar(L) {
+  const m = new THREE.Mesh(roundedBox(L, BAR.H, BAR.D, BAR.R, [8, 2, 2], 5), barMat); m.castShadow = true;
+  const b = new CANNON.Body({ mass: BAR.MASS * L / BAR.L, material: mBar, linearDamping: 0.04, angularDamping: 0.1, allowSleep: true, sleepSpeedLimit: 0.12, sleepTimeLimit: 0.5 });
+  b.addShape(new CANNON.Box(new CANNON.Vec3(L / 2, BAR.H / 2, BAR.D / 2)));
+  b._mass0 = b.mass; m.userData.body = b; return { m, b };
+}
+function makeOrb() {
+  const m = new THREE.Mesh(new THREE.SphereGeometry(ORB.R, 48, 32), barMat); m.castShadow = true;
+  const b = new CANNON.Body({ mass: ORB.MASS, material: mBar, linearDamping: 0.4, angularDamping: 0.8, allowSleep: false });
+  b.addShape(new CANNON.Sphere(ORB.R)); b.isOrb = true; b._mass0 = ORB.MASS; m.userData.body = b; return { m, b };
+}
+const enBar = makeBar(BAR.L / 2), orbs = [makeOrb(), makeOrb(), makeOrb()];
+const shapes = {
+  em:   { name: 'em',   kind: 'bar',  L: BAR.L,     meshes: [mesh],        bodies: [body] },
+  en:   { name: 'en',   kind: 'bar',  L: BAR.L / 2, meshes: [enBar.m],     bodies: [enBar.b] },
+  dots: { name: 'dots', kind: 'orbs', L: MAG.rest * 2, meshes: orbs.map(o => o.m), bodies: orbs.map(o => o.b) }
+};
+let cur = shapes.em;                             // the shape currently in the world
+const sleepPolicy = (b, allow) => { b.allowSleep = b.isOrb ? false : allow; };   // orbs never sleep (the magnets keep them busy)
+const cen = new THREE.Vector3();
+function centroid() {
+  cen.set(0, 0, 0); for (const b of cur.bodies) { cen.x += b.position.x; cen.y += b.position.y; cen.z += b.position.z; }
+  return cen.multiplyScalar(1 / cur.bodies.length);
+}
+const slotPos = (i, y) => ({ x: cur.kind === 'orbs' ? (i - 1) * MAG.rest : 0, y, z: 0 });   // where each piece sits when called home
+function activate(m) { mesh = m; body = m.userData.body; }                                  // the piece currently being handled
+function magnets(dt) {                           // soft magnetic chain: attract when stretched, repel when crowded, damped along the link
+  const bs = cur.bodies;
+  for (const [i, j, mult, str] of [[0, 1, 1, 1], [1, 2, 1, 1], [0, 2, 2, 0.5]]) {
+    const a = bs[i], b = bs[j];
+    let dx = b.position.x - a.position.x, dy = b.position.y - a.position.y, dz = b.position.z - a.position.z;
+    const d = Math.hypot(dx, dy, dz) || 1e-4; dx /= d; dy /= d; dz /= d;
+    const rv = (b.velocity.x - a.velocity.x) * dx + (b.velocity.y - a.velocity.y) * dy + (b.velocity.z - a.velocity.z) * dz;
+    const acc = clamp(((d - MAG.rest * mult) * MAG.k + rv * MAG.c) * str, -MAG.amax, MAG.amax) * 0.5 * dt;
+    a.velocity.x += dx * acc; a.velocity.y += dy * acc; a.velocity.z += dz * acc;
+    b.velocity.x -= dx * acc; b.velocity.y -= dy * acc; b.velocity.z -= dz * acc;
+  }
+}
 function spawn() {                              // drop in from just above centre with a slight tilt -> settling animation
-  body.position.set(0, 0.9, 0);
-  body.quaternion.setFromEuler(0.12, 0.35, 0.18, 'XYZ');
-  body.velocity.set(0, 0, 0); body.angularVelocity.set(0, 0, 0);
+  if (cur.kind === 'bar') {
+    const b = cur.bodies[0];
+    b.position.set(0, 0.9, 0); b.quaternion.setFromEuler(0.12, 0.35, 0.18, 'XYZ');
+    b.velocity.set(0, 0, 0); b.angularVelocity.set(0, 0, 0); b.aabbNeedsUpdate = true;
+  } else cur.bodies.forEach((b, i) => {         // start spread apart: the magnets pull them together
+    b.position.set((i - 1) * 1.7 + (Math.random() - 0.5) * 0.2, 0.9 + i * 0.1, (Math.random() - 0.5) * 0.5);
+    b.quaternion.set(0, 0, 0, 1); b.velocity.set(0, 0, 0); b.angularVelocity.set(0, 0, 0); b.aabbNeedsUpdate = true;
+  });
 }
 spawn();
 let started = false;
@@ -340,7 +406,7 @@ const lift = { y: 0 };
 let mode = null, held = false, resetting = false, resetTween = null, sKey = false, last = { x: 0, y: 0 }, hovering = false;
 
 const setNdc = e => { ndc.set((e.clientX / innerWidth) * 2 - 1, -(e.clientY / innerHeight) * 2 + 1); };
-const hitBar = () => { ray.setFromCamera(ndc, camera); return ray.intersectObject(mesh)[0] || null; };
+const hitBar = () => { ray.setFromCamera(ndc, camera); return ray.intersectObjects(cur.meshes)[0] || null; };
 const setCursor = () => { canvas.style.cursor = mode === 'drag' ? 'grabbing' : mode === 'spin' ? 'move' : sKey ? 'move' : hovering ? 'grab' : 'default'; };
 
 canvas.addEventListener('pointerdown', e => {
@@ -349,7 +415,7 @@ canvas.addEventListener('pointerdown', e => {
   if (e.button === 1 || (e.button === 0 && sKey)) { e.preventDefault(); beginInteract(); mode = 'spin'; }
   else if (e.button === 0) {
     const hit = hitBar(); if (!hit) return;
-    beginInteract(); mode = 'drag'; held = true;
+    activate(hit.object); beginInteract(); mode = 'drag'; held = true;
     body.pointToLocalFrame(new CANNON.Vec3(hit.point.x, hit.point.y, hit.point.z), grabLocal);
     camera.getWorldDirection(tmp);
     dragPlane.setFromNormalAndCoplanarPoint(tmp, hit.point);
@@ -363,7 +429,7 @@ function beginInteract() {
   beck.until = 0;
   hudHide(); lastTouch = performance.now(); thrown = false;
   if (resetting) endReset();
-  body.wakeUp();
+  cur.bodies.forEach(b => b.wakeUp());
   gsap.to(hintEl, { opacity: 0, duration: 0.4, overwrite: true });
 }
 window.addEventListener('pointermove', e => {
@@ -382,10 +448,11 @@ function release() {
     held = false;
     const v = throwV.clone().multiplyScalar(1.1 / Math.max(slow.eff, 0.2)); if (v.length() > 38) v.setLength(38);
     body.velocity.set(mix(body.velocity.x, v.x, 0.75), mix(body.velocity.y, v.y, 0.75), mix(body.velocity.z, v.z, 0.75));
-    body.allowSleep = !grav.low;
+    if (cur.kind === 'orbs') cur.bodies.forEach(b => { if (b !== body) b.velocity.set(mix(b.velocity.x, v.x, 0.45), mix(b.velocity.y, v.y, 0.45), mix(b.velocity.z, v.z, 0.45)); });
+    sleepPolicy(body, !grav.low);
     if (throwV.length() > 2.5) thrown = true;
   }
-  if (mode) { body.angularDamping = baseAng; body.linearDamping = baseLin; mode = null; body.wakeUp(); setCursor(); }
+  if (mode) { body.angularDamping = baseAng + (body.isOrb ? 0.8 : 0); body.linearDamping = baseLin + (body.isOrb ? 0.35 : 0); mode = null; body.wakeUp(); setCursor(); }
 }
 window.addEventListener('pointerup', () => { const wasDrag = mode === 'drag'; release(); if (wasDrag) copyEmDash(); });
 window.addEventListener('pointercancel', release);
@@ -424,16 +491,21 @@ canvas.addEventListener('wheel', e => {
 canvas.addEventListener('dblclick', e => { setNdc(e); if (!hitBar()) resetBar(); });
 function resetBar() {
   if (resetting) return;
-  release(); resetting = true; lastTouch = performance.now(); thrown = false;
-  body.type = CANNON.Body.KINEMATIC; body.mass = 0; body.updateMassProperties();
-  body.velocity.set(0, 0, 0); body.angularVelocity.set(0, 0, 0);
-  const p0 = body.position.clone(), q0 = new THREE.Quaternion(body.quaternion.x, body.quaternion.y, body.quaternion.z, body.quaternion.w), q1 = new THREE.Quaternion(), qt = new THREE.Quaternion();
-  const k = { t: 0 };
+  release(); resetting = true; lastTouch = performance.now(); thrown = false; beck.until = 0;
+  const bs = cur.bodies, y = cur.kind === 'orbs' ? 0.45 : 0.42;
+  const from = bs.map(b => {
+    b.type = CANNON.Body.KINEMATIC; b.mass = 0; b.updateMassProperties(); b.velocity.set(0, 0, 0); b.angularVelocity.set(0, 0, 0);
+    return { p: b.position.clone(), q: new THREE.Quaternion(b.quaternion.x, b.quaternion.y, b.quaternion.z, b.quaternion.w) };
+  });
+  const q1 = new THREE.Quaternion(), qt = new THREE.Quaternion(), k = { t: 0 };
   resetTween = gsap.to(k, {
     t: 1, duration: 1.15, ease: 'power3.inOut',
     onUpdate() {
-      body.position.set(mix(p0.x, 0, k.t), mix(p0.y, 0.42, k.t) + Math.sin(Math.PI * k.t) * 0.9, mix(p0.z, 0, k.t));
-      qt.copy(q0).slerp(q1, k.t); body.quaternion.set(qt.x, qt.y, qt.z, qt.w); body.aabbNeedsUpdate = true;
+      bs.forEach((b, i) => {
+        const sl = slotPos(i, y), f = from[i];
+        b.position.set(mix(f.p.x, sl.x, k.t), mix(f.p.y, sl.y, k.t) + Math.sin(Math.PI * k.t) * 0.9, mix(f.p.z, sl.z, k.t));
+        qt.copy(f.q).slerp(q1, k.t); b.quaternion.set(qt.x, qt.y, qt.z, qt.w); b.aabbNeedsUpdate = true;
+      });
     },
     onComplete: endReset });
 }
@@ -441,8 +513,7 @@ function endReset() {
   if (!resetting) return;
   if (resetTween) resetTween.kill();
   resetting = false;
-  body.type = CANNON.Body.DYNAMIC; body.mass = BAR.MASS; body.updateMassProperties();
-  body.velocity.set(0, 0, 0); body.angularVelocity.set(0, 0, 0); body.wakeUp();
+  cur.bodies.forEach(b => { b.type = CANNON.Body.DYNAMIC; b.mass = b._mass0; b.updateMassProperties(); b.velocity.set(0, 0, 0); b.angularVelocity.set(0, 0, 0); b.wakeUp(); });
 }
 
 const resetBtn = document.getElementById('reset');
@@ -451,7 +522,7 @@ const reset2 = document.getElementById('reset2');
 reset2.addEventListener('click', () => { resetBar(); reset2.blur(); });
 let away = false;
 function awayTick() {                           // softly offer a dead-centre reset once the bar has wandered off
-  const d = Math.hypot(body.position.x, body.position.y - 0.42, body.position.z);
+  const c = centroid(), d = Math.hypot(c.x, c.y - 0.42, c.z);
   away = d > (away ? 1.0 : 1.5);
   reset2.classList.toggle('on', away && !held && !resetting && !mode);
 }
@@ -463,6 +534,7 @@ window.addEventListener('keydown', e => {
   if (k === 't') toggleTheme();
   if (k === 'r') resetBar();
   if (k === 'g') toggleGravity();
+  if (k === '1') setShape('em'); if (k === '2') setShape('en'); if (k === '3') setShape('dots');
   if (k === 'm' && grav.low) { setSlow(!slow.on); toast('slow-mo', slow.on ? 'on' : 'off'); }
 });
 window.addEventListener('keyup', e => { if (e.key.toLowerCase() === 's') { sKey = false; setCursor(); } });
@@ -476,14 +548,16 @@ function setGravity(low) {
   grav.low = low; baseLin = low ? 0.1 : 0.04; baseAng = low ? 0.03 : 0.1;
   gsap.to(grav, { g: low ? -3.2 : -24, duration: 0.9, ease: 'power2.inOut', overwrite: true, onUpdate: () => world.gravity.set(0, grav.g, 0) });
   world.contactmaterials[0].restitution = low ? 0.6 : 0.3;
-  if (!held) { body.linearDamping = baseLin; body.angularDamping = baseAng; body.allowSleep = !low; }
-  if (!resetting) {
-    body.wakeUp();
-    if (low) {                                  // a gentle lift-off and slow tumble
-      body.velocity.y += 2.4;
-      body.angularVelocity.set(body.angularVelocity.x + (Math.random() - 0.5), body.angularVelocity.y + (Math.random() - 0.5) * 1.2, body.angularVelocity.z + (Math.random() - 0.5));
+  cur.bodies.forEach(b => {
+    if (!(held && b === body)) { b.linearDamping = baseLin + (b.isOrb ? 0.35 : 0); b.angularDamping = baseAng + (b.isOrb ? 0.8 : 0); sleepPolicy(b, !low); }
+    if (!resetting) {
+      b.wakeUp();
+      if (low) {                                // a gentle lift-off and slow tumble
+        b.velocity.y += 2.4;
+        b.angularVelocity.set(b.angularVelocity.x + (Math.random() - 0.5), b.angularVelocity.y + (Math.random() - 0.5) * 1.2, b.angularVelocity.z + (Math.random() - 0.5));
+      }
     }
-  }
+  });
   syncSlowAvailability(low);
   gravBtn.setAttribute('aria-pressed', String(low)); gravBtn.title = low ? 'Gravity: low (G)' : 'Gravity: normal (G)';
   toast('gravity', low ? 'low' : 'normal');
@@ -528,13 +602,38 @@ const endDockDrag = () => {
 dock.addEventListener('pointerup', endDockDrag); dock.addEventListener('pointercancel', endDockDrag);
 dockLayout();
 
+// Shape widget: a second draggable pill (position remembered), same behaviour as the dock
+function makeMovable(el, key, def) {
+  let pos = null, moved = false, drag = null;
+  try { pos = JSON.parse(localStorage.getItem(key)); moved = !!(pos && isFinite(pos.x) && isFinite(pos.y)); } catch (_) {}
+  const layout = () => {
+    const r = el.getBoundingClientRect(), m = 8, d = def(r);
+    let x = moved ? pos.x : d.x, y = moved ? pos.y : d.y;
+    x = clamp(x, m, Math.max(m, innerWidth - r.width - m)); y = clamp(y, m, Math.max(m, innerHeight - r.height - m));
+    el.style.transform = `translate(${x}px,${y}px)`; if (moved) pos = { x, y };
+    return { x, y };
+  };
+  el.addEventListener('pointerdown', e => {
+    if (e.target.closest('button')) return;
+    const p = layout(); drag = { dx: e.clientX - p.x, dy: e.clientY - p.y };
+    el.classList.add('drag'); el.setPointerCapture(e.pointerId); e.preventDefault();
+  });
+  el.addEventListener('pointermove', e => { if (drag) { moved = true; pos = { x: e.clientX - drag.dx, y: e.clientY - drag.dy }; layout(); } });
+  const end = () => { if (!drag) return; drag = null; el.classList.remove('drag'); try { localStorage.setItem(key, JSON.stringify(pos)); } catch (_) {} };
+  el.addEventListener('pointerup', end); el.addEventListener('pointercancel', end);
+  layout(); return layout;
+}
+const shapesEl = document.getElementById('shapes');
+const shapesLayout = makeMovable(shapesEl, 'obsidian-shapes', r => ({ x: 18, y: innerHeight - r.height - 18 }));
+shapesEl.querySelectorAll('button[data-shape]').forEach(b => b.addEventListener('click', () => { setShape(b.dataset.shape); b.blur(); }));
+
 /* ───────────── 10. RESIZE ───────────── */
 function resize() {
   const w = innerWidth, h = innerHeight, a = w / h;
   renderer.setSize(w, h, false); composer.setSize(w, h);
   camera.aspect = a; camera.updateProjectionMatrix();
   camState.baseZ = Math.max(6.2, 5.6 / a); camState.baseY = camState.baseZ * 0.32;
-  dockLayout();
+  dockLayout(); shapesLayout();
 }
 window.addEventListener('resize', resize);
 resize();
@@ -563,9 +662,9 @@ canvas.addEventListener('pointerdown', e => {
   if (e.button !== 2 || held || resetting || fk) return;
   setNdc(e);
   const hit = hitBar(); if (!hit) { beckon(); return; }   // empty space → call it home
-  e.preventDefault(); beginInteract();
+  activate(hit.object); e.preventDefault(); beginInteract();
   const local = new CANNON.Vec3(); body.pointToLocalFrame(new CANNON.Vec3(hit.point.x, hit.point.y, hit.point.z), local);
-  fk = { id: e.pointerId, t0: performance.now(), x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, local };
+  fk = { id: e.pointerId, t0: performance.now(), x0: e.clientX, y0: e.clientY, x: e.clientX, y: e.clientY, local, body };
   canvas.setPointerCapture(e.pointerId);
 });
 window.addEventListener('pointermove', e => { if (fk && e.pointerId === fk.id) { fk.x = e.clientX; fk.y = e.clientY; } });
@@ -580,11 +679,11 @@ window.addEventListener('pointerup', e => {
     fkRt.crossVectors(fkF, fkUp);                                              // flat "to your right"
     const dir = new THREE.Vector3().addScaledVector(fkRt, st.sx).addScaledVector(fkF, -st.sy);   // pointer-up on screen = away
     dir.y = 0.1 + 0.22 * st.p; dir.normalize();
-    const J = BAR.MASS * (FLICK.minDv + (FLICK.maxDv - FLICK.minDv) * st.p);
-    body.wakeUp(); body.allowSleep = !grav.low;
-    body.pointToWorldFrame(fk.local, fkW);
-    const rel = fkW.vsub(body.position).scale(0.55);                                        // strike point relative to centre of mass
-    body.applyImpulse(new CANNON.Vec3(dir.x * J, dir.y * J, dir.z * J), rel);
+    const J = fk.body.mass * (FLICK.minDv + (FLICK.maxDv - FLICK.minDv) * st.p);
+    fk.body.wakeUp(); sleepPolicy(fk.body, !grav.low);
+    fk.body.pointToWorldFrame(fk.local, fkW);
+    const rel = fkW.vsub(fk.body.position).scale(0.55);                                        // strike point relative to centre of mass
+    fk.body.applyImpulse(new CANNON.Vec3(dir.x * J, dir.y * J, dir.z * J), rel);
     thrown = true;
   }
   flickCancel();
@@ -596,7 +695,7 @@ const beck = { until: 0 };
 function beckon() {
   if (resetting || held) return;
   beck.until = performance.now() + BECKON.ms; lastTouch = performance.now(); thrown = false;
-  hudHide(); body.wakeUp(); beckonSound();
+  hudHide(); cur.bodies.forEach(b => b.wakeUp()); beckonSound();
 }
 function beckonSound() {
   if (!sndOK()) return;
@@ -608,25 +707,33 @@ function beckonSound() {
 function beckonTick(sdt) {
   if (!beck.until) return;
   if (held || resetting || mode || fk) { beck.until = 0; return; }
-  const p = body.position, v = body.velocity, ex = -p.x, ey = 0.6 - p.y, ez = -p.z;
-  if (performance.now() > beck.until || (Math.hypot(ex, ey, ez) < 0.25 && v.norm() < 1.2)) { beck.until = 0; return; }
-  body.wakeUp();
-  v.x += (ex * BECKON.k - v.x * BECKON.d) * sdt;
-  v.y += (ey * BECKON.k - v.y * BECKON.d - world.gravity.y) * sdt;       // -gravity.y: float it in instead of fighting the floor
-  v.z += (ez * BECKON.k - v.z * BECKON.d) * sdt;
-  const sp = v.norm(); if (sp > BECKON.vmax) v.scale(BECKON.vmax / sp, v);
-  body.angularVelocity.scale(1 / (1 + 4 * sdt), body.angularVelocity);   // calm any tumble on the way in
+  const y = cur.kind === 'orbs' ? 0.5 : 0.6;
+  let far = 0, sp = 0;
+  cur.bodies.forEach((b, i) => {
+    const sl = slotPos(i, y), p = b.position, v = b.velocity, ex = sl.x - p.x, ey = sl.y - p.y, ez = sl.z - p.z;
+    far = Math.max(far, Math.hypot(ex, ey, ez)); sp = Math.max(sp, v.norm());
+    b.wakeUp();
+    v.x += (ex * BECKON.k - v.x * BECKON.d) * sdt;
+    v.y += (ey * BECKON.k - v.y * BECKON.d - world.gravity.y) * sdt;       // -gravity.y: float it in instead of fighting the floor
+    v.z += (ez * BECKON.k - v.z * BECKON.d) * sdt;
+    const n = v.norm(); if (n > BECKON.vmax) v.scale(BECKON.vmax / n, v);
+    if (!b.isOrb) b.angularVelocity.scale(1 / (1 + 4 * sdt), b.angularVelocity);   // calm any tumble on the way in
+  });
+  if (performance.now() > beck.until || (far < 0.25 && sp < 1.2)) beck.until = 0;
 }
 
 const SPIN = { cap: 12, snap: 12 };           // rad/s: only a soft ceiling against absurd spin; no damping below it
 function tameSpin(sdt) {
   if (resetting || mode === 'spin') return;      // deliberate spin-dragging is left alone
-  const w = body.angularVelocity, m = w.norm();
-  if (m > SPIN.cap) w.scale(mix(1, SPIN.cap / m, Math.min(1, SPIN.snap * sdt)), w);
+  for (const b of cur.bodies) {
+    if (b.isOrb) continue;
+    const w = b.angularVelocity, m = w.norm();
+    if (m > SPIN.cap) w.scale(mix(1, SPIN.cap / m, Math.min(1, SPIN.snap * sdt)), w);
+  }
 }
 function flickTick() {
   if (!fk) return;
-  body.pointToWorldFrame(fk.local, fkW); fkP.set(fkW.x, fkW.y, fkW.z).project(camera);
+  fk.body.pointToWorldFrame(fk.local, fkW); fkP.set(fkW.x, fkW.y, fkW.z).project(camera);
   const cx = (fkP.x * 0.5 + 0.5) * innerWidth, cy = (-fkP.y * 0.5 + 0.5) * innerHeight, st = fkState();
   fkD.setAttribute('cx', cx); fkD.setAttribute('cy', cy); fkD.setAttribute('opacity', 1);
   fkR.setAttribute('cx', cx); fkR.setAttribute('cy', cy); fkR.setAttribute('r', 8 + 28 * st.p); fkR.setAttribute('opacity', 0.35 + 0.65 * st.p);
@@ -693,16 +800,18 @@ function whoa() {                                 // wobbly descending bwoop
   g.gain.setValueAtTime(0.0001, t); g.gain.linearRampToValueAtTime(0.14, t + 0.03); g.gain.exponentialRampToValueAtTime(0.0001, t + 0.75);
   o.connect(g); g.connect(AUD.master); o.start(t); o.stop(t + 0.8);
 }
-body.addEventListener('collide', e => {
+const onCollide = e => {
   if (!sndOK() || resetting) return;
   const v = Math.abs(e.contact.getImpactVelocityAlongNormal()), now = performance.now();
   if (v < 0.7 || now - AUD.last < 45) return;
   AUD.last = now; tok(v);
-});
+};
+Object.values(shapes).forEach(sh => sh.bodies.forEach(b => b.addEventListener('collide', onCollide)));
 
 /* ───────────── 10b. HUD: object-tracking call-outs (while the bar rests) ───────────── */
 const hudEl = document.getElementById('hud');
-const FACTS = [
+const FACTS_BY = {
+  em: [
   { k: 'box',  f: -0.85, t: 'Interruption in dialogue', s: 'Scripts use it to mark a character abruptly cut off.' },
   { k: 'dots', f: 0,     t: 'Staccato poetic flow', s: '“Because I could not stop for Death—<br>He kindly stopped for me—”<br><i>Emily Dickinson</i>' },
   { k: 'row',  f: -1,    t: 'Named for the letter M', s: 'An em is the width of a capital M.' },
@@ -711,11 +820,32 @@ const FACTS = [
   { k: 'dots', f: 0.2,   t: 'Typewriter stand-in', s: 'Typists faked it with two hyphens (--).' },
   { k: 'lead', f: -0.85, t: 'Does the work of three', s: 'Commas, colons and parentheses.' },
   { k: 'row',  f: 1,     t: 'Unicode U+2014', s: 'In HTML: &amp;mdash;' }
-];
+],
+  en: [
+    { k: 'box',  f: -0.5, t: 'Half an em', s: 'Traditionally the width of a capital N.' },
+    { k: 'lead', f: 0.6,  t: 'For ranges', s: 'Pages 10–20, the years 1914–1918.' },
+    { k: 'dots', f: 0,    t: 'Scores and scrapes', s: 'A 3–2 win. The Paris–Berlin flight.' },
+    { k: 'row',  f: -1,   t: 'Not a minus sign', s: 'Typographers use a true minus (−, U+2212).' },
+    { k: 'box',  f: 0.6,  t: 'Hard to type', s: 'Mac: ⌥ –  ·  Windows: Alt + 0150' },
+    { k: 'lead', f: -0.5, t: 'Between the other two', s: 'Longer than a hyphen, shorter than an em dash.' },
+    { k: 'row',  f: 1,    t: 'Unicode U+2013', s: 'In HTML: &amp;ndash;' }
+  ],
+  dots: [
+    { k: 'box',  o: 0, f: -1, t: 'Trailing off', s: 'Marks a pause, or a thought left unfinished.' },
+    { k: 'lead', o: 2, f: 1,  t: 'Three dots, one character', s: 'Unicode U+2026. In HTML: &amp;hellip;' },
+    { k: 'dots', o: 1, f: 0,  t: 'From the Greek', s: 'élleipsis: a falling short, an omission.' },
+    { k: 'row',  o: 0, f: -1, t: 'Words left out', s: 'Marks an omission inside a quotation.' },
+    { k: 'box',  o: 2, f: 1,  t: 'Easy on a Mac', s: 'Mac: ⌥ ;  ·  Windows: Alt + 0133' },
+    { k: 'lead', o: 1, f: 0,  t: 'The typing bubble', s: 'Messaging apps animate it while someone writes.' }
+  ]
+};
+let FACTS = FACTS_BY.em;
 const hud = { i: 0, cur: null, tl: null, restT: 0, nextAt: 0 };
 const aPt = new THREE.Vector3();
 function screenOf(F) {                          // bar-local anchor → screen px (follows position, rotation, camera)
-  aPt.set(F.f * BAR.L / 2, BAR.H / 2, 0); mesh.localToWorld(aPt); aPt.project(camera);
+  if (cur.kind === 'orbs') { const m = cur.meshes[F.o === undefined ? 1 : F.o]; aPt.copy(m.position); aPt.y += ORB.R; }
+  else { aPt.set(F.f * cur.L / 2, BAR.H / 2, 0); cur.meshes[0].localToWorld(aPt); }
+  aPt.project(camera);
   return { x: (aPt.x * 0.5 + 0.5) * innerWidth, y: (-aPt.y * 0.5 + 0.5) * innerHeight, ok: aPt.z < 1 };
 }
 function layout(k, s, T, S) {
@@ -767,11 +897,15 @@ function hudHide(auto) {
 function hudTick(dt, et) {                      // cycle only while the bar is genuinely at rest
   // Measure real motion (position/orientation change) instead of body.velocity: small external nudges keep velocity
   // every frame, which kept the bar from ever reading as "at rest".
-  const q = body.quaternion, p = body.position, rm = hud.m || (hud.m = { x: p.x, y: p.y, z: p.z, qx: q.x, qy: q.y, qz: q.z, qw: q.w });
-  const lin = Math.hypot(p.x - rm.x, p.y - rm.y, p.z - rm.z) / Math.max(dt, 1e-3);
-  const ang = 2 * Math.acos(Math.min(1, Math.abs(q.x * rm.qx + q.y * rm.qy + q.z * rm.qz + q.w * rm.qw))) / Math.max(dt, 1e-3);
-  rm.x = p.x; rm.y = p.y; rm.z = p.z; rm.qx = q.x; rm.qy = q.y; rm.qz = q.z; rm.qw = q.w;
-  const rest = started && et > 3.2 && !held && !resetting && !mode && p.y < 0.45 && lin < 0.15 && ang < 0.3;
+  let lin = 0, ang = 0, maxY = 0;
+  for (const b of cur.bodies) {
+    const p = b.position, q = b.quaternion, rm = b._m || (b._m = { x: p.x, y: p.y, z: p.z, qx: q.x, qy: q.y, qz: q.z, qw: q.w });
+    lin = Math.max(lin, Math.hypot(p.x - rm.x, p.y - rm.y, p.z - rm.z) / Math.max(dt, 1e-3));
+    if (!b.isOrb) ang = Math.max(ang, 2 * Math.acos(Math.min(1, Math.abs(q.x * rm.qx + q.y * rm.qy + q.z * rm.qz + q.w * rm.qw))) / Math.max(dt, 1e-3));
+    rm.x = p.x; rm.y = p.y; rm.z = p.z; rm.qx = q.x; rm.qy = q.y; rm.qz = q.z; rm.qw = q.w;
+    maxY = Math.max(maxY, p.y);
+  }
+  const rest = started && et > 3.2 && !held && !resetting && !mode && maxY < 0.45 && lin < 0.15 && ang < 0.3;
   hud.restT = rest ? hud.restT + dt : 0;
   if (!rest) hudHide();
   else if (hud.restT > 0.9 && !hud.cur && performance.now() > hud.nextAt) hudShow();
@@ -786,9 +920,15 @@ function hudTrack() {
 }
 
 /* ───────────── 10c. FACTS COUNTER + REACTIONS ───────────── */
-const factsEl = document.getElementById('facts'), found = new Set();
-factsEl.innerHTML = `facts found <b id="fc-n">0/${FACTS.length}</b><div class="fd">${FACTS.map(() => '<i></i>').join('')}</div>`;
-const fcN = document.getElementById('fc-n'), fcDash = factsEl.querySelectorAll('.fd i');
+const factsEl = document.getElementById('facts'), foundBy = { em: new Set(), en: new Set(), dots: new Set() };
+let found = foundBy.em, fcN, fcDash;
+function buildCounter() {                         // one counter per shape; progress is kept when you switch back
+  factsEl.innerHTML = `factoids <b id="fc-n"></b><div class="fd">${FACTS.map(() => '<i></i>').join('')}</div>`;
+  fcN = document.getElementById('fc-n'); fcDash = factsEl.querySelectorAll('.fd i');
+  const n = found.size; fcN.textContent = n === FACTS.length ? 'all ' + n + ' —' : n + '/' + FACTS.length;
+  fcDash.forEach((d, i) => d.classList.toggle('on', i < n));
+}
+buildCounter();
 function noteFact(idx) {                          // each new call-out that appears fills one dash
   if (found.has(idx)) return;
   found.add(idx); const n = found.size;
@@ -807,10 +947,10 @@ function say(t) {                                 // little speech bubble that r
   R.sayTl = gsap.timeline().fromTo(sayEl, { opacity: 0 }, { opacity: 1, duration: 0.25 })
     .to(sayEl, { opacity: 0, duration: 0.5, onComplete: () => { R.sayOn = false; } }, '+=1.3');
 }
-const wob = { t: 1 };
+const wob = { t: 1 }, pop = { t: 1 };
 const wobble = () => { wob.t = 0; gsap.to(wob, { t: 1, duration: 1, ease: 'none', overwrite: true }); };   // squash-and-stretch jiggle
 function reactTick(dt, et) {
-  const now = performance.now(), p = body.position, d = Math.hypot(p.x, p.z), resting = hud.restT > 0.4;
+  const now = performance.now(), p = centroid(), d = Math.hypot(p.x, p.z), resting = hud.restT > 0.4;
 
   // landed after a throw: happy wobble if lying flat, a small "oof" if not; otherwise just a soft tink
   if (!resting) R.dinged = false;
@@ -818,18 +958,18 @@ function reactTick(dt, et) {
     R.dinged = true;
     if (thrown) {
       thrown = false;
-      const ax = body.quaternion.vmult(new CANNON.Vec3(1, 0, 0));
-      if (Math.abs(ax.y) < 0.25) { say('woo—'); wobble(); happy(); } else { say('oof—'); tink(); }
+      if (landedWell()) { say('woo—'); wobble(); happy(); } else { say('oof—'); tink(); }
     } else tink();
   }
 
   // dizzy if it keeps spinning fast for too long: say so, then bleed the spin off
-  if (!held && mode !== 'spin' && !resetting && body.angularVelocity.norm() > 5.5) R.dizzy += dt; else R.dizzy = Math.max(0, R.dizzy - dt * 2);
+  const hb = cur.bodies[0];
+  if (cur.kind === 'bar' && !held && mode !== 'spin' && !resetting && hb.angularVelocity.norm() > 5.5) R.dizzy += dt; else R.dizzy = Math.max(0, R.dizzy - dt * 2);
   R.cool -= dt;
   if (R.dizzy > 2.2 && R.cool <= 0) {
     R.dizzy = 0; R.cool = 9; say('whoa—'); whoa();
-    body.angularDamping = 0.85;
-    gsap.delayedCall(1.6, () => { if (!held && !mode) body.angularDamping = baseAng; });
+    hb.angularDamping = 0.85;
+    gsap.delayedCall(1.6, () => { if (!held && !mode) hb.angularDamping = baseAng; });
   }
 
   // sheepish: ignored for a while and parked far from home → shuffles back toward the middle in little hops
@@ -840,17 +980,26 @@ function reactTick(dt, et) {
   } else if (idle > 16000 && resting && d > 1.3 && !busy) { R.nudging = true; say('sorry—'); nudge(p, d); }
 
   // wobble + speech bubble follow the bar
-  if (wob.t < 1) { const w = (1 - wob.t) * (1 - wob.t) * Math.sin(wob.t * Math.PI * 6); mesh.scale.set(1 + 0.07 * w, 1 - 0.14 * w, 1 + 0.07 * w); }
-  else if (mesh.scale.y !== 1) mesh.scale.set(1, 1, 1);
+  const w = wob.t < 1 ? (1 - wob.t) * (1 - wob.t) * Math.sin(wob.t * Math.PI * 6) : 0;
+  const ps = pop.t < 1 ? Math.max(0.001, 1 + 2.70158 * Math.pow(pop.t - 1, 3) + 1.70158 * Math.pow(pop.t - 1, 2)) : 1;   // pop-in (ease-out-back) when the shape changes
+  for (const m of cur.meshes) m.scale.set(ps * (1 + 0.07 * w), ps * (1 - 0.14 * w), ps * (1 + 0.07 * w));
   if (R.sayOn) { const s = screenOf(sayA); sayEl.style.display = s.ok ? '' : 'none'; sayEl.style.transform = `translate(${s.x}px,${s.y - 46}px) translate(-50%,-100%)`; }
 }
 function nudge(p, d) {
-  const v = body.velocity, k = grav.low ? 1.1 : 1.7;
-  body.wakeUp();
-  v.x -= (p.x / (d || 1)) * k; v.z -= (p.z / (d || 1)) * k; v.y += grav.low ? 1.4 : 2.4;
-  body.angularVelocity.set(body.angularVelocity.x + (Math.random() - 0.5) * 0.8, body.angularVelocity.y + (Math.random() - 0.5) * 0.8, body.angularVelocity.z + (Math.random() - 0.5) * 0.8);
+  const k = grav.low ? 1.1 : 1.7;
+  cur.bodies.forEach(b => {
+    const v = b.velocity; b.wakeUp();
+    v.x -= (p.x / (d || 1)) * k; v.z -= (p.z / (d || 1)) * k; v.y += grav.low ? 1.4 : 2.4;
+    if (!b.isOrb) b.angularVelocity.set(b.angularVelocity.x + (Math.random() - 0.5) * 0.8, b.angularVelocity.y + (Math.random() - 0.5) * 0.8, b.angularVelocity.z + (Math.random() - 0.5) * 0.8);
+  });
   R.nudgeAt = performance.now() + (grav.low ? 2600 : 1700);
 }
+function landedWell() {                          // bar: lying flat · orbs: strung out in a line
+  if (cur.kind === 'bar') { const ax = cur.bodies[0].quaternion.vmult(new CANNON.Vec3(1, 0, 0)); return Math.abs(ax.y) < 0.25; }
+  const [a, m, c] = cur.bodies.map(b => b.position), ax = c.x - a.x, az = c.z - a.z, len = Math.hypot(ax, az);
+  return len > 0.9 && Math.abs(ax * (m.z - a.z) - az * (m.x - a.x)) / (len || 1) < 0.14 && Math.max(a.y, m.y, c.y) < 0.45;
+}
+
 
 /* ───────────── 10d. EDGE AUTO-ZOOM: the nearer the bar gets to the frame edge, the further the camera pulls back ─────────────
    Open-loop: the bar is projected through a reference camera at the user's own zoom (no auto zoom), so the result can't feed back on itself. */
@@ -862,19 +1011,45 @@ function autoZoomTarget() {
     const e = Math.max(Math.abs(ndc.x), Math.abs(ndc.y));
     t = 1 + AZ.heldMax * clamp((e - 0.55) / 0.45, 0, 1);
   } else {
-    const b = body.position;
     refCam.projectionMatrix.copy(camera.projectionMatrix);
     refCam.position.set(camState.ox, (camState.baseY + camState.oy) * camState.zs + 0.9 * camState.dolly, camState.baseZ * camState.zs + 3 * camState.dolly);
     refCam.lookAt(0, 0.28, 0); refCam.updateMatrixWorld(); refCam.matrixWorldInverse.copy(refCam.matrixWorld).invert();
-    azV.set(b.x, b.y, b.z).applyMatrix4(refCam.matrixWorldInverse);
-    if (azV.z > -0.3) t = AZ.max;                // at or behind the lens
-    else {
-      azV.set(b.x, b.y, b.z).project(refCam);
-      const r = Math.max(Math.abs(azV.x), Math.abs(azV.y)) / AZ.margin;
-      t = r > 1 ? 1 + AZ.gain * (r - 1) : 1;
+    for (const bd of cur.bodies) {                // the piece nearest the edge decides
+      const b = bd.position; let tt;
+      azV.set(b.x, b.y, b.z).applyMatrix4(refCam.matrixWorldInverse);
+      if (azV.z > -0.3) tt = AZ.max;              // at or behind the lens
+      else {
+        azV.set(b.x, b.y, b.z).project(refCam);
+        const r = Math.max(Math.abs(azV.x), Math.abs(azV.y)) / AZ.margin;
+        tt = r > 1 ? 1 + AZ.gain * (r - 1) : 1;
+      }
+      t = Math.max(t, tt);
     }
   }
   return (autoZoomTarget.last = clamp(t, 1, AZ.max));
+}
+
+/* ───────────── 10e. SHAPE SWITCH ───────────── */
+const SHAPE_NAMES = { em: 'em dash', en: 'en dash', dots: 'ellipsis' };
+function setShape(name) {
+  if (!shapes[name] || name === cur.name) return;
+  if (resetting) endReset();
+  release(); flickCancel(); beck.until = 0; hudHide(); R.nudging = false; thrown = false;
+  cur.meshes.forEach(m => scene.remove(m)); cur.bodies.forEach(b => world.removeBody(b));
+  cur = shapes[name];
+  cur.bodies.forEach(b => {
+    b.type = CANNON.Body.DYNAMIC; b.mass = b._mass0; b.updateMassProperties();
+    b.linearDamping = baseLin + (b.isOrb ? 0.35 : 0); b.angularDamping = baseAng + (b.isOrb ? 0.8 : 0); sleepPolicy(b, !grav.low);
+    world.addBody(b); b.wakeUp();
+  });
+  cur.meshes.forEach(m => { m.scale.setScalar(0.001); scene.add(m); });
+  activate(cur.meshes[cur.kind === 'orbs' ? 1 : 0]);
+  spawn();
+  FACTS = FACTS_BY[name]; found = foundBy[name]; hud.i = 0; hud.restT = 0; buildCounter();
+  pop.t = 0; gsap.to(pop, { t: 1, duration: 0.7, ease: 'none', overwrite: true });
+  bell(587, 0.06, 0.25); bell(880, 0.06, 0.3, 0.07);
+  shapesEl.querySelectorAll('button[data-shape]').forEach(b => b.setAttribute('aria-pressed', String(b.dataset.shape === name)));
+  toast('shape', SHAPE_NAMES[name]);
 }
 
 /* ───────────── 11. LOOP ───────────── */
@@ -913,13 +1088,14 @@ function frame() {
   tameSpin(sdt); beckonTick(sdt); hudTick(dt, et); reactTick(dt, et); awayTick(); flickTick();
   if (started && !resetting) {
     acc += sdt;
-    while (acc >= FIXED) { if (held) applyDrag(); world.step(FIXED); acc -= FIXED; }
+    while (acc >= FIXED) { if (held) applyDrag(); if (cur.kind === 'orbs') magnets(FIXED); world.step(FIXED); acc -= FIXED; }
   }
-  if (!isFinite(body.position.x + body.position.y + body.position.z)) { spawn(); }
-  mesh.position.copy(body.position); mesh.quaternion.copy(body.quaternion); glow.position.copy(mesh.position);
+  if (cur.bodies.some(b => !isFinite(b.position.x + b.position.y + b.position.z))) spawn();
+  cur.bodies.forEach((b, i) => { cur.meshes[i].position.copy(b.position); cur.meshes[i].quaternion.copy(b.quaternion); });
+  const cc = centroid(); glow.position.copy(cc);
 
   // Shadow casters follow the bar so the soft shadow always has resolution
-  plan.set(mesh.position.x, 0, mesh.position.z); follow.lerp(plan, 0.12);
+  plan.set(cc.x, 0, cc.z); follow.lerp(plan, 0.12);
   const fx = follow.x, fz = follow.z;
   key.position.set(fx - 3.4, 6.5, fz - 1.2); key.target.position.set(fx, 0, fz);
   jit.position.set(fx - 2.0, 7.0, fz - 3.0); jit.target.position.set(fx, 0, fz);
@@ -935,7 +1111,7 @@ function frame() {
   camera.lookAt(0, 0.28, 0);
 
   // Depth of field follows the bar
-  focus += (camera.position.distanceTo(mesh.position) - focus) * (1 - Math.exp(-dt * 8));
+  focus += (camera.position.distanceTo(cc) - focus) * (1 - Math.exp(-dt * 8));
   bokeh.uniforms.focus.value = focus;
   finalPass.uniforms.uTime.value = et * 60 % 1000;
 
