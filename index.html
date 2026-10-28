@@ -3,7 +3,7 @@
 <head>
 <meta charset="utf-8">
 <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover">
-<title>Obsidian</title>
+<title>em—dash.click</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
 <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
 <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;600;800&display=swap" rel="stylesheet">
@@ -160,6 +160,19 @@ const shadowFloor = new THREE.Mesh(
   new THREE.PlaneGeometry(300, 300),
   new THREE.ShadowMaterial({ color: 0x000000, opacity: 0.3, transparent: true, depthWrite: false }));
 shadowFloor.rotation.x = -Math.PI / 2; shadowFloor.position.y = 0.001; shadowFloor.receiveShadow = true;
+// ShadowMaterial multiplies every caster's shadow at full strength regardless of light intensity -> three equally dark shadows.
+// Weight them instead: key = full, the other two ghosts. (weights: directional [key, jit], spot [spot])
+shadowFloor.material.onBeforeCompile = sh => {
+  sh.uniforms.uDirW = { value: [1, 0.2] }; sh.uniforms.uSpotW = { value: [0.1] };
+  const chunk = THREE.ShaderChunk.shadowmask_pars_fragment;
+  const patched = chunk
+    .replace(/shadow \*= receiveShadow \? (getShadow\( directionalShadowMap[^;]*?\)) : 1\.0;/g, 'shadow *= 1.0 - uDirW[ i ] * ( 1.0 - ( receiveShadow ? $1 : 1.0 ) );')
+    .replace(/shadow \*= receiveShadow \? (getShadow\( spotShadowMap[^;]*?\)) : 1\.0;/g, 'shadow *= 1.0 - uSpotW[ i ] * ( 1.0 - ( receiveShadow ? $1 : 1.0 ) );');
+  if (patched === chunk) { console.warn('shadow weighting unavailable; keeping only the key shadow'); setTimeout(() => { jit.castShadow = false; spot.castShadow = false; }, 0); return; }
+  const decl = '#if NUM_DIR_LIGHT_SHADOWS > 0\nuniform float uDirW[ NUM_DIR_LIGHT_SHADOWS ];\n#endif\n#if NUM_SPOT_LIGHT_SHADOWS > 0\nuniform float uSpotW[ NUM_SPOT_LIGHT_SHADOWS ];\n#endif\n';
+  sh.fragmentShader = sh.fragmentShader.replace('#include <shadowmask_pars_fragment>', decl + patched);
+};
+shadowFloor.material.customProgramCacheKey = () => 'weighted-shadows';
 const darkFloor = new THREE.Mesh(
   new THREE.PlaneGeometry(300, 300),
   new THREE.MeshStandardMaterial({ color: 0x202020, roughness: 0.9, metalness: 0, transparent: true, opacity: 0 }));
