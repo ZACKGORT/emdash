@@ -13,12 +13,6 @@
     --pill:rgba(255,255,255,.78); --pill-line:rgba(11,11,12,.08);
     color-scheme:light;
   }
-  @media (prefers-color-scheme: dark){
-    :root:not([data-theme="light"]){
-      --bg:#050506; --ink:#f2f2f3; --ink-soft:rgba(242,242,243,.5);
-      --pill:rgba(20,20,22,.7); --pill-line:rgba(255,255,255,.1); color-scheme:dark;
-    }
-  }
   :root[data-theme="dark"]{
     --bg:#050506; --ink:#f2f2f3; --ink-soft:rgba(242,242,243,.5);
     --pill:rgba(20,20,22,.7); --pill-line:rgba(255,255,255,.1); color-scheme:dark;
@@ -322,7 +316,7 @@ function setTheme(name, animate = true) {
 }
 const toggleTheme = () => setTheme(root.dataset.theme === 'dark' ? 'light' : 'dark');
 document.getElementById('theme').addEventListener('click', toggleTheme);
-setTheme(matchMedia('(prefers-color-scheme: dark)').matches ? 'dark' : 'light', false);
+setTheme('light', false);   // always start light; T or the dock button switches
 
 /* ───────────── 9. INTERACTION ───────────── */
 const ray = new THREE.Raycaster(), ndc = new THREE.Vector2(), dragPlane = new THREE.Plane();
